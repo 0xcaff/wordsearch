@@ -1,0 +1,10 @@
+.EntryContainer {
+	padding: 0 1em;
+}
+
+.EntryContainer > textarea {
+	max-width: 100%;
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+

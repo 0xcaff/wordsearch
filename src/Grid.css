@@ -1,0 +1,6 @@
+.Grid {
+	display: grid;
+	justify-content: center;
+	cursor: default;
+}
+

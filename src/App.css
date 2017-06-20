@@ -1,0 +1,48 @@
+* {
+	box-sizing: border-box;
+}
+
+.App {
+	text-align: center;
+	font-family: monospace;
+}
+
+.App-header {
+	background-color: #222;
+	padding: 20px;
+	color: white;
+}
+
+.grid {
+	width: 100vmin;
+	margin: 1em auto;
+
+	break-before: page;
+	display: grid;
+	justify-content: center;
+	cursor: default;
+}
+
+.container {
+	margin: 1em;
+}
+
+.List {
+	text-align: start;
+}
+
+.List li {
+	padding: 0.5em;
+	margin: 0.5em;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.List li:hover {
+	background-color: #ddd;
+}
+
+.List li > input {
+	width: 100%;
+}
+
