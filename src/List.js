@@ -13,6 +13,7 @@ export default class List extends Component {
     this.state.items = this.props.items || this.state.items;
 
     this.handleEntryKeyPress = this.handleEntryKeyPress.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -31,10 +32,32 @@ export default class List extends Component {
     }
 
     evt.target.value = "";
+    this.addItems(value);
+  }
 
-    const items = this.state.items.concat(value);
-    this.setState({items: items});
-    this.props.onChange(items);
+  // A paste handler for bulk input.
+  handlePaste(event) {
+    event.preventDefault();
+
+    const lines = event.clipboardData
+      .getData('text/plain')
+      .split(/\r?\n/);
+
+    this.addItems(...lines);
+  }
+
+  // A helper method to add items and notify everyone. Returns the added
+  // elements.
+  addItems(...items) {
+    const oldItems = this.state.items;
+
+    // collect only new items
+    const filteredItems = items
+      .filter(item => !oldItems.includes(item));
+
+    const newItems = oldItems.concat(filteredItems);
+    this.setState({items: newItems});
+    this.props.onChange(newItems);
   }
 
   render() {
@@ -52,10 +75,14 @@ export default class List extends Component {
             </li>
           ) }
 
-          <li key="">
+          <li
+            key=""
+            title='Enter Word or Paste Newline Separated Words'>
             <input
+              onPaste={this.handlePaste}
               onKeyPress={this.handleEntryKeyPress}
-              type='text' />
+              type='text'
+              placeholder='Enter Word or Paste Newline Separated Words' />
           </li>
         </ul>
       </div>

@@ -9,6 +9,9 @@ import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
   Directions } from './wordsearch/search';
 import { words, rows } from './wordsearch/data/states';
 
+// TODO: Update Overlay:
+// * Requesting a highlight shouldn't redraw the entire screen.
+
 class App extends Component {
   state = {
     // The value of the stuff in the textbox used for inputting a wordsearch.
@@ -105,7 +108,7 @@ class App extends Component {
             className='words-list'
             style={{
               // TODO: When this element breaks onto a new row, we should set
-              // flex-grow 1
+              // flex-grow 1 so it looks nice on smaller screens
               height: '100vh',
               overflowY: 'scroll',
               padding: '1em',
@@ -159,7 +162,6 @@ class App extends Component {
 
     // TODO: Highlight word in list.
     // TODO: Allowed Directions
-    // TODO: Two Pane Layout, height: 100% in pane? Grid with auto-fit
   }
 }
 
