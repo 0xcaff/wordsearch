@@ -100,6 +100,7 @@ class App extends Component {
               flexBasis: `${this.state.grid.columns()}em`,
               flexGrow: 1,
             }}>
+
             <Grid
               grid={this.state.grid} />
           </div>

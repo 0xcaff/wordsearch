@@ -28,36 +28,6 @@ export default class Node extends Component {
       this.state.partOf !== nextState.partOf;
   }
 
-  // Changes the state of nodes of matches this node is part of and updates the
-  // parent.
-  markMatches(to) {
-    if (this.state.partOf.length <= 0) {
-      return;
-    }
-
-    console.log("Marking to", to);
-
-    let somethingChanged;
-    for (const match of this.state.partOf) {
-      for (const node of match) {
-        if (node.marked === to) {
-          // nop
-          continue
-        }
-
-        // update
-        node.marked = to;
-        if (!somethingChanged) {
-          somethingChanged = true;
-        }
-      }
-    }
-
-    if (somethingChanged) {
-      this.props.updateNodes();
-    }
-  }
-
   render() {
     console.log("Node.render");
 
@@ -66,11 +36,10 @@ export default class Node extends Component {
         className={[
           "Node",
           this.state.partOf.length && 'partOf',
-          this.state.isMarked && 'marked'
         ].filter(t => !!t).join(' ')}
 
-        onMouseEnter={_ => this.markMatches(true)}
-        onMouseLeave={_ => this.markMatches(false)}
+        onMouseEnter={_ => this.props.addMatches(...this.props.node.partOf)}
+        onMouseLeave={_ => this.props.removeMatches(...this.props.node.partOf)}
 
         style={{
           gridColumnStart: this.props.x + 1,

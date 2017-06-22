@@ -27,6 +27,11 @@ describe('ArrayGrid', () => {
     expect(grid.get(32, 0).khar).toBe('S');
     expect(grid.get(32, 32).khar).toBe('Z');
   });
+
+  it('should allow fast lookups', () => {
+    const node = grid.get(10, 10);
+    expect(grid.positionOf(node)).toMatchObject({x: 10, y: 10});
+  });
 });
 
 it('should find all the words in the puzzle', () => {

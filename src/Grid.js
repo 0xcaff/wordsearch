@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import Node from './Node';
+import GridMatches from './GridMatches';
 
 import './Grid.css';
+import './GridMatches.css';
 
 export default class Grid extends Component {
+  state = {
+    matches: [],
+  }
+
   render() {
     console.log("Grid.render");
 
@@ -31,53 +37,47 @@ export default class Grid extends Component {
             x={x}
             y={y}
             node={node}
-            updateNodes={_ => this.setState({grid: grid})} />
+            addMatches={matches => {
+              if (!matches) {
+                return;
+              }
+
+              const newMatches = this.state.matches.slice();
+              newMatches.push(matches);
+              this.setState({matches: newMatches});
+            } }
+            removeMatches={matches => console.log(matches) } />
         );
+
+        // TODO: Proper Remove Matches
+        // TODO: Is this really faster?
       }
     }
+
+    let id = 0;
+    const matches = this.state.matches.map(nodes => {
+      const startPosition = grid.positionOf(nodes[0]);
+      const endPosition = grid.positionOf(nodes[nodes.length - 1]);
+
+      return (
+        <GridMatches
+          key={`match${id++}`}
+          fromX={startPosition.x}
+          fromY={startPosition.y}
+          toX={endPosition.x}
+          toY={endPosition.y} />
+      );
+    });
 
     return (
       <div
         className='Grid'
         style={{gridTemplateColumns: `repeat(${cols}, minmax(1em, 2em))`}}>
-        {nodes}
+
+        { nodes }
+        { matches }
       </div>
     );
   }
 }
 
-const MarkOverlay = (props) => {
-  let { x1, y1, x2, y2 } = props;
-  if (x1 === x2) {
-    x1 = x2 = 0.5;
-  } else {
-    // TODO: Contineu
-  }
-
-  if (y1 === y2) {
-    y1 = y2 = 0.5;
-  }
-
-  return (
-    <svg
-      className='MarkOverlay'
-      width="100%"
-      height="100%"
-      viewBox="0 0 1 1"
-      preserveAspectRatio='none'
-      style={{overflow: 'visible'}}>
-
-      <line
-        style={{
-          strokeWidth: '1.1em',
-          strokeLinecap: 'round',
-          stroke: 'red',
-        }}
-        vectorEffect="non-scaling-stroke"
-        x1="0"
-        y1="0"
-        x2="1"
-        y2="1" />
-    </svg>
-  );
-}

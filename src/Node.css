@@ -32,10 +32,6 @@
 	background: #ffeb3b;
 }
 
-.Node.marked {
-	background: #F57F17;
-}
-
 .Node:hover {
 	background: #ddd;
 }

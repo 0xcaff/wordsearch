@@ -31,6 +31,8 @@ export class ArrayGrid {
     ];
 
     this.maxCols = 0;
+
+    this.positions = new Map();
   }
 
   // Create an instance from a 2D, row major, uniform column sized array.
@@ -45,6 +47,11 @@ export class ArrayGrid {
 
         return acc;
       }, 0);
+
+    grid.data.forEach((row, rowIndex) =>
+      row.forEach((item, colIndex) =>
+        grid.positions.set(item, {x: colIndex, y: rowIndex}))
+    );
 
     return grid;
   }
@@ -89,6 +96,7 @@ export class ArrayGrid {
       }
     }
 
+    this.positions.set(thing, {x: x, y: y});
     row[y] = thing;
   }
 
@@ -100,6 +108,10 @@ export class ArrayGrid {
   // The number of columns this grid has.
   columns() {
     return this.maxCols;
+  }
+
+  positionOf(item) {
+    return this.positions.get(item);
   }
 }
 

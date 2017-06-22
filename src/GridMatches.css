@@ -1,0 +1,9 @@
+.GridMatches {
+	display: contents;
+}
+
+.GridMatches .Match {
+	border: 1px solid #F57F17;
+	z-index: 1;
+}
+
