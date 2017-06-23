@@ -113,6 +113,17 @@ export class ArrayGrid {
   positionOf(item) {
     return this.positions.get(item);
   }
+
+  shallowCopy() {
+    // copy data
+    const newThing = {...this};
+
+    // copy behavior
+    const proto = Object.getPrototypeOf(this);
+    Object.setPrototypeOf(newThing, proto);
+
+    return newThing;
+  }
 }
 
 export const Directions = {

@@ -1,28 +1,30 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import './GridMatches.css';
 
 // A component which highlights nodes between two points.
-const GridMatches = (props) => {
-  console.log("GridMatches.render");
+export default class GridMatches extends PureComponent {
+  render() {
+    console.log("GridMatches.render");
 
-  let { fromX, fromY, toX, toY } = props;
+    let { fromX, fromY, toX, toY } = this.props;
 
-  return (
-    <div
-      className='GridMatches'>
-      { Array.from(tweenPosition(fromX, fromY, toX, toY))
-        .map(({x, y}) =>
-          <div
-            key={`${x},${y}`}
-            className='Match'
-            style={{
-              gridColumnStart: x + 1,
-              gridRowStart: y + 1,
-            }} />
-      ) }
-    </div>
-  );
-};
+    return (
+      <div
+        className='GridMatches'>
+        { Array.from(tweenPosition(fromX, fromY, toX, toY))
+          .map(({x, y}) =>
+            <div
+              key={`${x},${y}`}
+              className='Match'
+              style={{
+                gridColumnStart: x + 1,
+                gridRowStart: y + 1,
+              }} />
+        ) }
+      </div>
+    );
+  }
+}
 
 // Yields values from {x: fromX, y: fromY} to {x: toX, y: toY} inclusive.
 export function *tweenPosition(fromX, fromY, toX, toY) {
@@ -53,4 +55,3 @@ function moveTowards(number, towards) {
   return number;
 }
 
-export default GridMatches;

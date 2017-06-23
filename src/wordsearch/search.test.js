@@ -32,6 +32,14 @@ describe('ArrayGrid', () => {
     const node = grid.get(10, 10);
     expect(grid.positionOf(node)).toMatchObject({x: 10, y: 10});
   });
+
+  it('should shallow copy', () => {
+    const copiedGrid = grid.shallowCopy();
+
+    expect(copiedGrid).not.toBe(grid);
+    expect(copiedGrid.data).toBe(grid.data);
+    expect(copiedGrid.columns()).toBe(grid.columns());
+  });
 });
 
 it('should find all the words in the puzzle', () => {

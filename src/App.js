@@ -54,7 +54,7 @@ class App extends Component {
     this.matches = findMatchesGraph(this.state.words, this.nodes,
       new Set(Object.keys(Directions)));
 
-    this.setState({grid: this.state.grid});
+    this.setState({grid: this.state.grid.shallowCopy()});
   }
 
   doOnMatches(word, thing) {
@@ -82,8 +82,10 @@ class App extends Component {
   render() {
     console.log("App.render")
 
+    const { grid, words, textEntry } = this.state;
+
     let results = null;
-    if (this.state.grid) {
+    if (grid) {
       results = (
         <div
           style={{
@@ -97,12 +99,12 @@ class App extends Component {
               maxWidth: '100vmin', // TODO: using vmin here makes long grids to break
               padding: '1em',
               alignSelf: 'center',
-              flexBasis: `${this.state.grid.columns()}em`,
+              flexBasis: `${grid.columns()}em`,
               flexGrow: 1,
             }}>
 
             <Grid
-              grid={this.state.grid} />
+              grid={grid} />
           </div>
 
           <div
@@ -117,7 +119,7 @@ class App extends Component {
             <h3>Words</h3>
 
             <List
-              items={this.state.words}
+              items={words}
               onChange={newItems => this.setState({words: newItems})}
               itemProps={(item) => ({
                 onMouseEnter: _ => this.doOnMatches(item, node => node.marked = true),
@@ -151,7 +153,7 @@ class App extends Component {
           <TextEntry
             minimumRows={5}
             minimumColumns={20}
-            value={this.state.textEntry}
+            value={textEntry}
             onChange={newValue => this.setState({textEntry: newValue})} />
 
           <button>Build Graph!</button>
