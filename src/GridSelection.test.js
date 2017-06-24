@@ -1,4 +1,4 @@
-import { tweenPosition } from './GridMatches';
+import { tweenPosition } from './GridSelection';
 
 it('should tween in an x line', () => {
   const expected = [

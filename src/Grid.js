@@ -1,56 +1,31 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-import GridMatches from './GridMatches';
+import GridSelection from './GridSelection';
 import GridNodes from './GridNodes';
 
 import './Grid.css';
 
 // TODO: Potentially scu grid
 
-export default class Grid extends Component {
-  state = {
-    matches: [],
-  }
-
-  extras = {
-    // TODO: Proper Remove Matches
-    addMatches: matches => {
-      if (!matches) {
-        return;
-      }
-
-      const newMatches = this.state.matches.slice();
-      newMatches.push(matches);
-      this.setState({matches: newMatches});
-    },
-    removeMatches: matches => console.log(matches),
-  }
-
+export default class Grid extends PureComponent {
   render() {
     console.log("Grid.render");
 
-    const { grid } = this.props;
-    const { matches } = this.state;
+    const { grid, selected, nodeExtras, onSelect, onUnselect } = this.props;
 
     if (!grid) {
       return null;
     }
 
-    // collect matches
+    // collect selctions
     let id = 0;
-    const gridMatchesNodes = matches.map(nodes => {
-      const startPosition = grid.positionOf(nodes[0]);
-      const endPosition = grid.positionOf(nodes[nodes.length - 1]);
-
-      return (
-        <GridMatches
-          key={`match${id++}`}
-          fromX={startPosition.x}
-          fromY={startPosition.y}
-          toX={endPosition.x}
-          toY={endPosition.y} />
-      );
-    });
+    const gridSelectedNodes = selected.map(selection =>
+      <GridSelection
+        key={`match${id++}`}
+        grid={grid}
+        selection={selection}
+        onUnselect={onUnselect} />
+    );
 
     return (
       <div
@@ -59,9 +34,10 @@ export default class Grid extends Component {
 
         <GridNodes
           grid={grid}
-          extras={this.extras} />
+          extras={nodeExtras}
+          onSelect={onSelect} />
 
-        { gridMatchesNodes }
+        { gridSelectedNodes }
       </div>
     );
   }

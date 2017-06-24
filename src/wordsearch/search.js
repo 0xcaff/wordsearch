@@ -225,11 +225,12 @@ export function findMatches(words, nodes, allowedEdges) {
           matches[word] = [];
         }
   
-        matches[word] = matches[word].concat([discoveredWord]);
+        const discoveredWordArray = [discoveredWord];
+        matches[word] = matches[word].concat(discoveredWordArray);
   
         // add to every node in the word for easy access
         for (const node of discoveredWord) {
-          node.partOf = node.partOf.concat([discoveredWord]);
+          node.partOf = node.partOf.concat(discoveredWordArray);
         }
       }
     }

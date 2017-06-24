@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-// TODO: Bulk input
 export default class List extends Component {
   state = {
     items: [],
@@ -63,13 +62,15 @@ export default class List extends Component {
   render() {
     console.log("List.render")
 
+    const { itemProps } = this.props;
+
     return (
       <div
         className="List">
         <ul>
-          {this.state.items.map(item =>
+          { this.state.items.map(item =>
             <li
-              {...this.props.itemProps(item)}
+              {...itemProps(item)}
               key={item}>
                 {item}
             </li>

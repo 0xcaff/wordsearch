@@ -7,7 +7,7 @@ export default class GridNodes extends PureComponent {
   render() {
     console.log("GridNodes.render");
 
-    const { grid, extras } = this.props;
+    const { grid, onSelect } = this.props;
 
     // walk over grid and render nodes
     const nodes = [];
@@ -27,7 +27,7 @@ export default class GridNodes extends PureComponent {
             x={x}
             y={y}
             node={node}
-            { ...extras } />
+            mouseEnterNode={node => onSelect(...node.partOf)} />
         );
       }
     }
