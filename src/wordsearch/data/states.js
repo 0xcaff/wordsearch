@@ -85,5 +85,5 @@ export const words = [
   "West Virginia",
   "Wisconsin",
   "Wyoming",
-].map(e => e.replace(' ', ''));
+].map(e => e.toLocaleUpperCase().replace(' ', ''));
 

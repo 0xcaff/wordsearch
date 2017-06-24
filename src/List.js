@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import './List.css';
 
 export default class List extends Component {
   state = {
+    // The items held and displayed.
     items: [],
   };
 
@@ -16,7 +18,7 @@ export default class List extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.state.items !== nextState.items;
+    return this.state.items !== nextState.items || this.props.focused !== nextProps.focused;
   }
 
   handleEntryKeyPress(evt) {
@@ -62,7 +64,7 @@ export default class List extends Component {
   render() {
     console.log("List.render")
 
-    const { itemProps } = this.props;
+    const { itemProps, focused } = this.props;
 
     return (
       <div
@@ -71,6 +73,8 @@ export default class List extends Component {
           { this.state.items.map(item =>
             <li
               {...itemProps(item)}
+              ref={focused[0] === item ? (elem => elem && elem.scrollIntoView({behavior: 'smooth'})) : undefined }
+              className={[focused.includes(item) && 'focused'].filter(e => !!e).join(' ')}
               key={item}>
                 {item}
             </li>

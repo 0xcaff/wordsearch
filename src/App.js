@@ -23,6 +23,9 @@ class App extends Component {
     // An array of words (array of nodes) which are currently selected.
     selected: [],
 
+    // Words in the wordlist which should be brought into focus.
+    focused: [],
+
     grid: null,
   };
 
@@ -43,6 +46,12 @@ class App extends Component {
     console.log("Selecting", selection.map(selection =>
       selection.map(node => node.khar).join('')
     ).join());
+
+    const focused = selection.map(nodes =>
+      nodes.map(node => node.khar).join('')
+    );
+    this.setState({focused: focused});
+
     this.addSelected(...selection);
   }
 
@@ -50,6 +59,8 @@ class App extends Component {
     console.log("Unselecting", selection.map(selection =>
       selection.map(node => node.khar).join('')
     ).join());
+
+    this.setState({focused: []});
     this.removeSelected(...selection);
   }
 
@@ -132,7 +143,7 @@ class App extends Component {
   render() {
     console.log("App.render")
 
-    const { grid, words, textEntry } = this.state;
+    const { grid, words, textEntry, focused } = this.state;
 
     let results = null;
     if (grid) {
@@ -170,6 +181,7 @@ class App extends Component {
 
             <List
               items={words}
+              focused={focused}
               onChange={newItems => this.setState({words: newItems})}
               itemProps={(item) => ({
                 onMouseEnter: _ => this.selectMatches(item),
@@ -213,7 +225,6 @@ class App extends Component {
       </div>
     );
 
-    // TODO: Highlight word in list.
     // TODO: Allowed Directions
   }
 }

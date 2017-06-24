@@ -15,7 +15,7 @@ export class CharNode extends Node {
 
   // A simple case insensitive between this and the other node's khar.
   matches(otherKhar) {
-    return this.khar.toUpperCase() === otherKhar.toUpperCase();
+    return this.khar === otherKhar;
   }
 }
 

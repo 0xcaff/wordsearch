@@ -28,10 +28,6 @@
 	white-space: nowrap;
 }
 
-.List li:hover {
-	background-color: #ddd;
-}
-
 .List li > input {
 	width: 100%;
 }

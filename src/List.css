@@ -1,0 +1,12 @@
+.List li.focused {
+	animation: 0.7s ease-out in-focus forwards;
+}
+
+.List li:hover {
+	background: #ddd;
+}
+
+@keyframes in-focus {
+	from { background: #F57F17; }
+	to { background: #ddd; }
+}
