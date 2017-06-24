@@ -77,6 +77,7 @@ export default class List extends Component {
           ) }
 
           <li
+            className="Input"
             key=""
             title='Enter Word or Paste Newline Separated Words'>
             <input

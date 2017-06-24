@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import './Node.css';
 
-// TODO: Implement scu
-
-// TODO: onMouseLeave from selection can trigger an onMouseEnter here causing
-// the mouse to not be over but the selection to stay selected.
 export default class Node extends Component {
   render() {
     console.log("Node.render");

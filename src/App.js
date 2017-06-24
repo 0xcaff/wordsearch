@@ -9,6 +9,9 @@ import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
   Directions } from './wordsearch/search';
 import { words, rows } from './wordsearch/data/states';
 
+// TODO: onMouseLeave isn't run sometimes when exiting a node. This causes the
+// highlight to remain until another selection is made.
+
 class App extends Component {
   state = {
     // The value of the stuff in the textbox used for inputting a wordsearch.
@@ -31,32 +34,42 @@ class App extends Component {
 
     this.addSelected = this.addSelected.bind(this);
     this.removeSelected = this.removeSelected.bind(this);
+
+    this.onSelect = this.onSelect.bind(this);
+    this.onUnselect = this.onUnselect.bind(this);
   }
 
-  // [ [a, b, c], [d, e, f] ]
+  onSelect(...selection) {
+    console.log("Selecting", selection.map(selection =>
+      selection.map(node => node.khar).join('')
+    ).join());
+    this.addSelected(...selection);
+  }
+
+  onUnselect(...selection) {
+    console.log("Unselecting", selection.map(selection =>
+      selection.map(node => node.khar).join('')
+    ).join());
+    this.removeSelected(...selection);
+  }
+
+  // [a, b, c], [d, e, f]
   addSelected(...selection) {
-    console.log("Adding Selection");
-    if (!selection) {
+    if (!selection || !selection.length) {
       return;
     }
 
-    const newSelected = this.state.selected.slice();
-    newSelected.push(...selection);
-
-    this.setState({selected: newSelected});
+    // replace with new selection
+    this.setState({selected: selection});
   }
 
   removeSelected(...selection) {
-    console.log("Removing Selection");
-    if (!selection) {
+    if (!selection || !selection.length) {
       return;
     }
 
-    const removing = new Set(selection);
-    const newSelected = this.state.selected.filter(
-      selected => !removing.has(selected));
-
-    this.setState({selected: newSelected});
+    // always clear all selected items
+    this.setState({selected: []});
   }
 
   buildGraph(evt) {
@@ -83,7 +96,7 @@ class App extends Component {
     this.matches = findMatchesGraph(this.state.words, this.nodes,
       new Set(Object.keys(Directions)));
 
-    this.setState({grid: this.state.grid.shallowCopy()});
+    this.setState(prevState => ({grid: prevState.grid.shallowCopy()}));
   }
 
   selectMatches(word) {
@@ -143,18 +156,15 @@ class App extends Component {
             <Grid
               grid={grid}
               selected={this.state.selected}
-              onSelect={this.addSelected}
-              onUnselect={this.removeSelected} />
+              onSelect={this.onSelect}
+              onUnselect={this.onUnselect} />
           </div>
 
           <div
-            className='words-list'
+            className='WordList'
             style={{
               // TODO: When this element breaks onto a new row, we should set
               // flex-grow 1 so it looks nice on smaller screens
-              height: '100vh',
-              overflowY: 'scroll',
-              padding: '1em',
             }}>
             <h3>Words</h3>
 

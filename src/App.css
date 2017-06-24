@@ -13,16 +13,6 @@
 	color: white;
 }
 
-.grid {
-	width: 100vmin;
-	margin: 1em auto;
-
-	break-before: page;
-	display: grid;
-	justify-content: center;
-	cursor: default;
-}
-
 .container {
 	margin: 1em;
 }
@@ -46,3 +36,20 @@
 	width: 100%;
 }
 
+.WordList {
+	height: 100vh;
+	overflow-y: scroll;
+	padding: 1em;
+}
+
+@media print {
+	.WordList {
+		width: 100%;
+		height: auto;
+		overflow-y: visible;
+	}
+
+	.List li.Input {
+		display: none;
+	}
+}

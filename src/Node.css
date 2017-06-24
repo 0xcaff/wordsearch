@@ -26,6 +26,9 @@
 .Node > div > span {
 	align-self: center;
 	justify-self: center;
+
+	/* Needs to be above the the selection and partOf background */
+	z-index: 10;
 }
 
 .Node.partOf {

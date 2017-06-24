@@ -1,5 +1,5 @@
 import { connectGrid, findMatches, Directions, CharNode, ArrayGrid } from './search';
-import { rows, words } from './data/states';
+import { rows } from './data/states';
 
 describe('ArrayGrid', () => {
   let grid;
@@ -43,17 +43,31 @@ describe('ArrayGrid', () => {
 });
 
 it('should find all the words in the puzzle', () => {
+});
+
+describe('solver', () => {
+  ['states', 'dog', 'artists', 'valentine'].forEach(name => {
+    const puzzle = require(`./data/${name}`);
+
+    it(`should solve the ${name} puzzle`, () => {
+      solve(puzzle);
+    });
+  });
+});
+
+function solve({words, rows}) {
+  // build graph
   const nodeRows = rows.map(row =>
     row
       .split("")
       .map(khar => new CharNode(khar))
   );
 
+  // build overlay grid
   const grid = ArrayGrid.fromArray(nodeRows);
   const nodes = connectGrid(grid);
-  expect(nodes).toHaveLength(grid.rows() * grid.columns());
 
+  // solve
   const matches = findMatches(words, nodes, new Set(Object.keys(Directions)));
   expect(Object.keys(matches)).toHaveLength(words.length);
-});
-
+}

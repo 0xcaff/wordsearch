@@ -5,8 +5,6 @@ import GridNodes from './GridNodes';
 
 import './Grid.css';
 
-// TODO: Potentially scu grid
-
 export default class Grid extends PureComponent {
   render() {
     console.log("Grid.render");

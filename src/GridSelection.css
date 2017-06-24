@@ -3,7 +3,7 @@
 }
 
 .GridMatches .Match {
-	border: 1px solid #F57F17;
+	background: #F57F17;
 	z-index: 1;
 }
 

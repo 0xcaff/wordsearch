@@ -36,6 +36,13 @@ it('should tween in a y line', () => {
     Array.from(tweenPosition(0, 3, 0, 0)),
     expected.slice().reverse(),
   );
+
+  expectArrayToMatch(
+    Array.from(tweenPosition(13, 32, 13, 20)),
+
+    // from {x: 13, y: 20} -> {x: 13, y: 20}
+    [...Array(32 - 20 + 1)].map((_, index) => ({x: 13, y: 32 - index})),
+  );
 });
 
 it('should tween diagonally down right and up left', () => {

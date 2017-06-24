@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import './GridSelection.css';
 
-// TODO: leaving this should make things happen
-
 // A component which highlights nodes between two points.
 export default class GridSelection extends PureComponent {
   render() {
@@ -35,8 +33,6 @@ export default class GridSelection extends PureComponent {
   }
 }
 
-// TODO: tweenPosition has a bug
-
 // Yields values from {x: fromX, y: fromY} to {x: toX, y: toY} inclusive.
 export function *tweenPosition(fromX, fromY, toX, toY) {
   const dy = toY - fromY;
@@ -53,7 +49,7 @@ export function *tweenPosition(fromX, fromY, toX, toY) {
     y = moveTowards(y, toY);
   }
 
-  yield {x: dx ? x++ : 0, y: dy ? y++ : 0};
+  yield {x: dx ? x++ : x, y: dy ? y++ : y};
 }
 
 function moveTowards(number, towards) {
