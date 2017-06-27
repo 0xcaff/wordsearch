@@ -7,7 +7,8 @@ import './App.css';
 
 import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
   Directions } from './wordsearch/search';
-import { words, rows } from './wordsearch/data/states';
+
+import puzzles from './wordsearch/data/index';
 
 // TODO: onMouseLeave isn't run sometimes when exiting a node. This causes the
 // highlight to remain until another selection is made.
@@ -15,10 +16,10 @@ import { words, rows } from './wordsearch/data/states';
 class App extends Component {
   state = {
     // The value of the stuff in the textbox used for inputting a wordsearch.
-    textEntry: rows.join('\n'),
+    textEntry: '',
 
     // The requested words to find matches for.
-    words: words,
+    words: [],
 
     // An array of words (array of nodes) which are currently selected.
     selected: [],
@@ -203,10 +204,9 @@ class App extends Component {
           <h1>Wordsearch Solver</h1>
         </div>
 
-        <p className="App-intro">
-          Never solve a word search by hand again, start by entering your puzzle
-          in the text box below.
-        </p>
+        <AppIntro
+          puzzles={puzzles}
+          onClickPuzzle={puzzle => this.setState({textEntry: puzzle.rows.join('\n'), words: puzzle.words})} />
 
         <form
           onSubmit={this.buildGraph}
@@ -224,9 +224,43 @@ class App extends Component {
         { results }
       </div>
     );
-
-    // TODO: Allowed Directions
   }
 }
 
 export default App;
+
+const AppIntro = (props) => {
+  const { puzzles, onClickPuzzle } = props;
+
+  const formatted = Object.entries(puzzles)
+    .reduce((acc, [name, puzzle], idx, arr) => {
+      const element = <span
+        key={name}
+        className='clickable'
+        onClick={_ => onClickPuzzle(puzzle)}>
+          {name}
+      </span>
+
+      acc.push(element);
+
+      if (idx < arr.length - 1) {
+        // add after all elements but last
+        acc.push(<span key={`${name}-${idx}`}>, </span>);
+      }
+
+      return acc;
+    }, []);
+
+  return (
+    <p
+      className='App-intro'>
+
+      Never solve a word search by hand again. Enter your puzzle in the text
+      box below or select one of the sample puzzles to get started ({formatted}).
+    </p>
+  );
+}
+
+// TODO: Handle Changing Words + Graph
+// TODO: That text looks a little wide.
+

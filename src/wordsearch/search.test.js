@@ -1,5 +1,6 @@
 import { connectGrid, findMatches, Directions, CharNode, ArrayGrid } from './search';
 import { rows } from './data/states';
+import puzzles from './data/index';
 
 describe('ArrayGrid', () => {
   let grid;
@@ -46,13 +47,10 @@ it('should find all the words in the puzzle', () => {
 });
 
 describe('solver', () => {
-  ['states', 'dog', 'artists', 'valentine'].forEach(name => {
-    const puzzle = require(`./data/${name}`);
-
-    it(`should solve the ${name} puzzle`, () => {
-      solve(puzzle);
-    });
-  });
+  Object.entries(puzzles)
+    .forEach(([name, puzzle]) =>
+      it(`should solve the ${name} puzzle`, () => solve(puzzle))
+    );
 });
 
 function solve({words, rows}) {
