@@ -10,9 +10,28 @@ import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
 
 import puzzles from './wordsearch/data/index';
 
+// TODO: Add a new flow which allows uploading an image instead of entering the
+// puzzle and words manually.
+//
+// * First we need a dropzone / input type=file / url input to obtain the file.
+// * Next, pass the file to google cloud vision
+//   * This may require authentication.
+//   * Files will be base64 read into memory and posted to GCV
+//
+// * Display the information from GCV
+//   * Put boxes around the text.
+//
+// * Select parts of the image and put then into the grid textbox. Somehow, we
+// need to detect which elements are where on the grid.
+//
+// * Select parts of the images which are words and put them into a textbox so
+// the inference can be cleaned and used.
+
 // TODO: onMouseLeave isn't run sometimes when exiting a node. This causes the
 // highlight to remain until another selection is made.
 
+// An app with a single view. It's only a single view because having multiple
+// routes wouldn't make sense unless the puzzle is persisted.
 class App extends Component {
   state = {
     // The value of the stuff in the textbox used for inputting a wordsearch.
@@ -29,6 +48,9 @@ class App extends Component {
 
     grid: null,
   };
+
+  // This value isn't reflected in the view, that's why it's not state.
+  matches = null;
 
   constructor(props) {
     super(props);
@@ -141,6 +163,11 @@ class App extends Component {
     this.removeSelected(...matches);
   }
 
+  invalidateGrid() {
+    this.setState({grid: null});
+    this.matches = null;
+  }
+
   render() {
     console.log("App.render")
 
@@ -206,7 +233,14 @@ class App extends Component {
 
         <AppIntro
           puzzles={puzzles}
-          onClickPuzzle={puzzle => this.setState({textEntry: puzzle.rows.join('\n'), words: puzzle.words})} />
+          onClickPuzzle={puzzle => {
+            this.invalidateGrid();
+
+            this.setState({
+              textEntry: puzzle.rows.join('\n'),
+              words: puzzle.words,
+            });
+          }} />
 
         <form
           onSubmit={this.buildGraph}
@@ -216,7 +250,10 @@ class App extends Component {
             minimumRows={5}
             minimumColumns={20}
             value={textEntry}
-            onChange={newValue => this.setState({textEntry: newValue})} />
+            onChange={newValue => {
+              this.invalidateGrid();
+              this.setState({textEntry: newValue});
+            }} />
 
           <button>Build Graph!</button>
         </form>
@@ -261,6 +298,4 @@ const AppIntro = (props) => {
   );
 }
 
-// TODO: Handle Changing Words + Graph
-// TODO: That text looks a little wide.
 
