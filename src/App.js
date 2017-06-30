@@ -10,6 +10,8 @@ import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
 
 import puzzles from './wordsearch/data/index';
 
+const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
+
 // TODO: Add a new flow which allows uploading an image instead of entering the
 // puzzle and words manually.
 //
@@ -26,6 +28,8 @@ import puzzles from './wordsearch/data/index';
 //
 // * Select parts of the images which are words and put them into a textbox so
 // the inference can be cleaned and used.
+
+// TODO: Two pane setup to choose between text and image entry.
 
 // TODO: onMouseLeave isn't run sometimes when exiting a node. This causes the
 // highlight to remain until another selection is made.
@@ -168,6 +172,26 @@ class App extends Component {
     this.matches = null;
   }
 
+  async onInput(event) {
+    const file = event.target.files[0];
+    const encoded = btoa(await read(file));
+
+    const resp = await fetch(
+      `https://vision.googleapis.com/v1/images:annotate?key=${KEY}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          requests: [{
+            image: {content: encoded},
+            features: [{type: "TEXT_DETECTION"}],
+          }]
+        }),
+    });
+
+    const json = await resp.json();
+
+    console.log(json);
+  }
+
   render() {
     console.log("App.render")
 
@@ -255,6 +279,12 @@ class App extends Component {
               this.setState({textEntry: newValue});
             }} />
 
+          <hr />
+
+          <input
+            type='file'
+            onInput={event => this.onInput(event)} />
+
           <button>Build Graph!</button>
         </form>
 
@@ -298,3 +328,16 @@ const AppIntro = (props) => {
   );
 }
 
+function read(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = function() {
+      resolve(reader.result);
+    };
+
+    reader.onerror = function(error) {
+      reject(error);
+    };
+  });
+}
