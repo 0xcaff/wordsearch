@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import Grid from './Grid';
 import TextEntry from './TextEntry';
 import List from './List';
+import Button from './Button';
+import Annotations from './Annotations';
 
 import './App.css';
+import './Button.css';
 
 import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
   Directions } from './wordsearch/search';
@@ -34,6 +37,8 @@ const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 // TODO: onMouseLeave isn't run sometimes when exiting a node. This causes the
 // highlight to remain until another selection is made.
 
+// TODO: arrow key focus words list
+
 // An app with a single view. It's only a single view because having multiple
 // routes wouldn't make sense unless the puzzle is persisted.
 class App extends Component {
@@ -51,6 +56,8 @@ class App extends Component {
     focused: [],
 
     grid: null,
+
+    annotations: null,
   };
 
   // This value isn't reflected in the view, that's why it's not state.
@@ -172,7 +179,11 @@ class App extends Component {
     this.matches = null;
   }
 
-  async onInput(event) {
+  async onImageChanged(event) {
+    if (!event || !event.target || !event.target.files || !event.target.files.length) {
+      return;
+    }
+
     const file = event.target.files[0];
     const encoded = btoa(await read(file));
 
@@ -182,20 +193,29 @@ class App extends Component {
         body: JSON.stringify({
           requests: [{
             image: {content: encoded},
-            features: [{type: "TEXT_DETECTION"}],
+            features: [{type: "DOCUMENT_TEXT_DETECTION"}],
           }]
         }),
     });
 
     const json = await resp.json();
+    // TODO: Handle reror
+    // TODO: Handle failed response
+    if (json.error) {
 
-    console.log(json);
+    }
+
+    this.image = await imageFromFile(file);
+
+    // TODO: check length
+    // TODO: there are two fields, check textAnnotations
+    this.setState({annotations: json.responses[0]});
   }
 
   render() {
     console.log("App.render")
 
-    const { grid, words, textEntry, focused } = this.state;
+    const { grid, words, textEntry, focused, annotations } = this.state;
 
     let results = null;
     if (grid) {
@@ -242,7 +262,10 @@ class App extends Component {
 
             <div
               style={{margin: '2em'}}>
-              <button onClick={this.findMatches}>Find Matches!</button>
+              <Button
+                onClick={this.findMatches}>
+                  Find Matches!
+              </Button>
             </div>
           </div>
         </div>
@@ -266,10 +289,7 @@ class App extends Component {
             });
           }} />
 
-        <form
-          onSubmit={this.buildGraph}
-          className='container'>
-
+        <div className='container'>
           <TextEntry
             minimumRows={5}
             minimumColumns={20}
@@ -278,21 +298,39 @@ class App extends Component {
               this.invalidateGrid();
               this.setState({textEntry: newValue});
             }} />
+        </div>
 
-          <hr />
+        <div>
+          <label
+            htmlFor='image'
+            className='Button'>
+            Extract from Image
+          </label>
 
           <input
             type='file'
-            onInput={event => this.onInput(event)} />
+            id='image'
+            style={{display: 'none'}}
+            onChange={event => this.onImageChanged(event)} />
 
-          <button>Build Graph!</button>
-        </form>
+          <Button
+            onClick={this.buildGraph}>
+            Build Graph!
+          </Button>
+        </div>
+
+        { annotations &&
+          <Annotations
+            annotations={annotations}
+            image={this.image} /> }
 
         { results }
       </div>
     );
   }
 }
+
+// TODO: Editable WordList
 
 export default App;
 
@@ -321,7 +359,6 @@ const AppIntro = (props) => {
   return (
     <p
       className='App-intro'>
-
       Never solve a word search by hand again. Enter your puzzle in the text
       box below or select one of the sample puzzles to get started ({formatted}).
     </p>
@@ -332,12 +369,17 @@ function read(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsBinaryString(file);
-    reader.onload = function() {
-      resolve(reader.result);
-    };
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (err) => reject(err);
+  });
+}
 
-    reader.onerror = function(error) {
-      reject(error);
-    };
+function imageFromFile(file) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = (err) => reject(err);
+
+    image.src = URL.createObjectURL(file);
   });
 }
