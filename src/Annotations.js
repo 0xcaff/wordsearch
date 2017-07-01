@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layer, Stage, Image, Line, Rect } from 'react-konva';
+import { FastLayer, Layer, Stage, Image, Line, Rect } from 'react-konva';
 
 import './Annotations.css';
 
@@ -25,30 +25,38 @@ export default class Annotations extends Component {
     const flatAnnotations = flattenAnnotations(fullTextAnnotation);
 
     // TODO: Select Grid Region
+    // TODO: Highlight Intersected (using Rbush)
+
     // TODO: Guess Grid
-    // TODO: Put box around stuff
+    // TODO: Make the UI Look Nice:
+    // * Put the area selector in a box
+    // * Loading indicator.
+
+    // Events need to be on the topmost layer.
+    // Events should still propogate to bounding boxes .
 
     return (
       <Stage
         className='Annotations'
         width={width}
-        height={height}>
+        height={height}
+        onContentMouseDown={ pos(({x, y}) =>
+          this.setState({x0: x, y0: y, x1: x, y1: y})
+        ) }
+        onContentMouseMove={ pos(({x, y}, {evt}) =>
+          evt.buttons === 1 && this.setState({x1: x, y1: y})
+        ) }
+        onContentMouseUp={ pos(({x, y}) => this.setState({x1: x, y1: y}) )}>
 
-        <Layer
+        <FastLayer
           scaleX={width / imageWidth}
-          scaleY={height / imageHeight}
-          onMouseDown={({evt}) =>
-            this.setState({
-              x0: evt.layerX, y0: evt.layerY,
-              x1: evt.layerX, y1: evt.layerY,
-          }) }
-          onMouseMove={({evt}) =>
-            evt.buttons === 1 && this.setState({x1: evt.layerX, y1: evt.layerY}) }
-          onMouseUp={({evt}) => this.setState({x1: evt.layerX, y1: evt.layerY})}>
+          scaleY={height / imageHeight}>
 
           <Image
             image={image} />
+        </FastLayer>
 
+        <FastLayer>
           <Rect
             x={x0}
             y={y0}
@@ -56,7 +64,11 @@ export default class Annotations extends Component {
             height={y1 - y0}
             stroke='black'
             dash={[10, 10]} />
+        </FastLayer>
 
+        <Layer
+          scaleX={width / imageWidth}
+          scaleY={height / imageHeight}>
           { flatAnnotations.map(
               ({ property, boundingBox, text }, index) =>
                 <Line
@@ -66,11 +78,11 @@ export default class Annotations extends Component {
                   stroke={property.color ? property.color : 'black'}
                   onMouseEnter={_ => {
                     property.color = "red";
-                    this.forceUpdate();
+                    // this.forceUpdate();
                   }}
                   onMouseLeave={_ => {
                     property.color = "black"
-                    this.forceUpdate()
+                    // this.forceUpdate()
                   }} />
           ) }
         </Layer>
@@ -101,3 +113,5 @@ export function flattenAnnotations(parent, innerPropName = 'pages') {
 
 const innerPropNames = ['pages', 'blocks', 'paragraphs', 'words', 'symbols']; // , 'text'];
 
+const pos = (inner) => evt => inner(getPosition(evt), evt);
+const getPosition = (evt) => (evt.target || evt.currentTarget).getStage().getPointerPosition();
