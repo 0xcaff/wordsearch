@@ -1,4 +1,4 @@
-.Annotations {
+.Annotations .canvases {
 	max-width: 800px;
 	margin: 0 auto;
 	border: 1px solid black;
@@ -8,5 +8,4 @@
 .Annotations .konvajs-content {
 	margin: 0 auto;
 }
-
 

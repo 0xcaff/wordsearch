@@ -4832,6 +4832,12 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
+rbush-knn@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rbush-knn/-/rbush-knn-2.0.0.tgz#4b6978c7563a2d95dd8b18871a53cb9179de1c54"
+  dependencies:
+    tinyqueue "^1.1.0"
+
 rbush@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/rbush/-/rbush-2.0.1.tgz#4cfaca28c3064bc0ee75431a1b79990e875eefa9"
@@ -5698,6 +5704,10 @@ timers-browserify@^2.0.2:
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.2.tgz#ab4883cf597dcd50af211349a00fbca56ac86b86"
   dependencies:
     setimmediate "^1.0.4"
+
+tinyqueue@^1.1.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/tinyqueue/-/tinyqueue-1.2.2.tgz#947229e5e4197aba988acd27751dcc582e6728ff"
 
 tmp@^0.0.31:
   version "0.0.31"

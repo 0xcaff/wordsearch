@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 import rbush from 'rbush';
+import knn from 'rbush-knn';
+
+import Button from './Button';
 
 import './Annotations.css';
 
@@ -11,11 +14,13 @@ const COLORS = {
   SELECTION: '#222',
 };
 
+// TODO: Preview highlighted character.
+
+// TODO: The selection doesn't work for some puzzles. Investigate.
+
 // TODO: Updating the graph puts it in an inconsistent state
 
 // TODO: Devise an algorithm to put the puzzle on a grid.
-
-// TODO: Devise an algoritm to find words given a list of nodes.
 
 // TODO: Make the UI Look Nice:
 // * Put the area selector in a box
@@ -56,6 +61,10 @@ export default class Annotations extends Component {
   // This is the processed data returned from GCV of each character and it's
   // bounding box.
   data = null;
+
+  // An rbush R-Tree for finding things which are inside or intersect a box.
+  // Also used for fast nearest neighbor lookups.
+  tree = null;
 
   // We rarely update this component because drawing is handled by konva.
   shouldComponentUpdate(nextProps) {
@@ -114,7 +123,7 @@ export default class Annotations extends Component {
   }
 
   initSelectionLayer(layer, scaleX, scaleY) {
-    const tree = Annotations.buildRTree(this.data);
+    const tree = this.tree = Annotations.buildRTree(this.data);
     const selected = this.selected;
 
     const area = new Konva.Rect({
@@ -143,6 +152,8 @@ export default class Annotations extends Component {
     stage.on('contentMouseup', pos(({x, y}, {evt}) => {
       select(area, {x1: x, y1: y});
 
+      // TODO: the selection doesn't work with images much larger than the frame
+
       // add contained nodes to selection
       const contained = tree.search(boundsRect(area, 1 / scaleX, 1 / scaleY));
 
@@ -159,10 +170,7 @@ export default class Annotations extends Component {
         toggle(selected, node);
       });
 
-      // update all nodes
-      this.data.map(node => this.updateNode(node));
-
-      this.annotations.batchDraw();
+      this.updateAllNodes();
     }));
   }
 
@@ -176,6 +184,10 @@ export default class Annotations extends Component {
       // the bounding box may not be aligned along the xy plane, so convert it
       // ot be sure.
       const bbox = bounds(boundingBox.vertices);
+
+      // This is nice to have, so let's hold on to it for using during
+      // extraction time.
+      node.boundingRect = bbox;
 
       const leaf = { node: node };
       Object.assign(leaf, bbox);
@@ -235,6 +247,122 @@ export default class Annotations extends Component {
     }
   }
 
+  selectWord() {
+    // get the selected nodes
+    const selected = Array.from(this.selected.values());
+
+    // sort from left to right, top to bottom
+    const sorted = selected.slice().sort((a, b) =>
+      compareBounds(a.boundingRect, b.boundingRect));
+
+    const word = sorted.map(node => node.text).join('');
+    this.selected.clear();
+
+    // update all nodes
+    this.updateAllNodes();
+
+    // TODO: Do something with result.
+    console.log(word);
+  }
+
+  // update all nodes
+  updateAllNodes() {
+    this.data.forEach(node => this.updateNode(node));
+    this.annotations.batchDraw();
+  }
+
+  selectPuzzle() {
+    const { data, tree, selected } = this;
+    let bounds = getUnboundedBounds();
+
+    // spacing between grid elements
+    var dx = Infinity;
+    var dy = Infinity;
+
+    // find the minimum node seperation between nodes in graph
+    data.forEach(node => {
+      // calculate center of node bbox
+      const { boundingRect } = node;
+      const { minX, minY, maxX, maxY } = boundingRect;
+      const width = maxX - minX;
+      const height = maxY - minY;
+
+      const {x, y} = center(boundingRect);
+
+      // grow bounds
+      bounds = updateBounds(bounds, {x, y});
+
+      // get 9 nearest selected neighbors
+      const limit = 9;
+      const neighbors = knn(tree, x, y, limit, ({node}) => selected.has(node));
+
+      // update distances
+      neighbors.forEach(({node: neighbor}) => {
+        if (neighbor === node) {
+          // ignore the node we started from
+          return;
+        }
+
+        const ncenter = center(neighbor.boundingRect);
+        const ndx = Math.abs(ncenter.x - x);
+        const ndy = Math.abs(ncenter.y - y);
+
+        // only update minimums if they are significant
+        if (ndx > width) {
+          dx = Math.min(ndx, dx);
+        }
+
+        if (ndy > height) {
+          dy = Math.min(ndy, dy);
+        }
+      });
+    });
+
+    // build the graph from left to right, top to bottom
+    let x = bounds.minX;
+    let y = bounds.minY;
+
+    const output = [];
+    const visited = new Set();
+
+    while (x < bounds.maxX) {
+      // get nearest selected point
+      const limit = 1;
+      const neighbors = knn(tree, x, y, limit, ({node}) => selected.has(node) && !visited.has(node));
+      if (!neighbors.length) {
+        // there are no more selected neighbors available
+        break;
+      }
+
+      const [{node}] = neighbors;
+
+      const {x: cx, y: cy} = center(node.boundingRect);
+
+      // check if point is within tolerance
+      const error = Math.abs(cx - x);
+
+      // TODO: Dynamic tolerance
+      if (error > dx * 1.5) {
+        // don't consider this a neighbor, skip this spot
+        output.push(' ');
+      } else {
+        // found a point near this point
+        output.push(node.text);
+        visited.add(node);
+
+        x = cx;
+      }
+
+      // move to next position
+      x += dx;
+    }
+
+    // TODO: Build Graph
+
+    console.log(output.join(''));
+    console.log(output);
+  }
+
   componentWillReceiveProps(nextProps) {
     this.handleProps(nextProps);
   }
@@ -245,9 +373,16 @@ export default class Annotations extends Component {
 
   render() {
     return (
-      <div
-        ref={elem => this.domNode = elem}
-        className='Annotations' />
+      <div className='Annotations'>
+        <div
+          ref={elem => this.domNode = elem}
+          className='canvases' />
+
+        <Button
+          onClick={_ => this.selectPuzzle()}>Select Puzzle</Button>
+        <Button
+          onClick={_ => this.selectWord()}>Select Word</Button>
+      </div>
     );
   }
 }
@@ -274,32 +409,16 @@ export function flatten(parent, innerPropName = 'pages') {
 
 const innerPropNames = ['pages', 'blocks', 'paragraphs', 'words', 'symbols']; // , 'text'];
 
-// Given a Rect, expands sets the given coordinates if supplied.
+// Given a Rect, expands sets the given coordinates if supplied and redraws the
+// layer it is on.
 function select(sel, {x0, y0, x1, y1}) {
   let changed = false;
-  if (x0 !== undefined) {
-    sel.x(x0);
-    changed = true;
-  } else {
-    x0 = sel.x();
-  }
 
-  if (y0 !== undefined) {
-    sel.y(y0);
-    changed = true;
-  } else {
-    y0 = sel.y();
-  }
+  if (x0 === undefined) { x0 = sel.x() } else { sel.x(x0); changed = true };
+  if (y0 === undefined) { y0 = sel.y() } else { sel.y(y0); changed = true };
 
-  if (x1 !== undefined && x0 !== undefined) {
-    sel.width(x1 - x0);
-    changed = true;
-  }
-
-  if (y1 !== undefined && y0 !== undefined) {
-    sel.height(y1 - y0);
-    changed = true;
-  }
+  if (x0 !== undefined && x1 !== undefined) { sel.width(x1 - x0); changed = true };
+  if (y0 !== undefined && y1 !== undefined) { sel.height(y1 - y0); changed = true };
 
   if (changed) {
     const layer = sel.getLayer();
@@ -310,37 +429,93 @@ function select(sel, {x0, y0, x1, y1}) {
 const pos = (inner) => evt => inner(getPosition(evt), evt);
 const getPosition = (evt) => (evt.target || evt.currentTarget).getStage().getPointerPosition();
 
-export const bounds = (vertices) =>
-  vertices.reduce(({ minX, minY, maxX, maxY }, {x, y}) => ({
-    minX: Math.min(minX, x),
-    minY: Math.min(minY, y),
-    maxX: Math.max(maxX, x),
-    maxY: Math.max(maxY, y),
-  }), {
-    minX: Infinity,
-    minY: Infinity,
-    maxX: -Infinity,
-    maxY: -Infinity,
-  });
+const updateBounds = ({ minX, minY, maxX, maxY }, {x, y}) => ({
+  minX: Math.min(minX, x),
+  minY: Math.min(minY, y),
+  maxX: Math.max(maxX, x),
+  maxY: Math.max(maxY, y),
+});
 
-// Converts a konva Rect into an rbrush bounds object with scaling factors.
-function boundsRect(rect, scaleX, scaleY) {
-  const x0 = rect.x() * scaleX;
-  const y0 = rect.y() * scaleY;
+const getUnboundedBounds = _ => ({
+  minX: Infinity,
+  minY: Infinity,
+  maxX: -Infinity,
+  maxY: -Infinity,
+});
 
-  const width = rect.width() * scaleX;
-  const height = rect.height() * scaleY;
+export const bounds = (vertices) => vertices.reduce(
+    (oldBounds, vert) => updateBounds(oldBounds, vert),
+    getUnboundedBounds()
+  );
 
-  const x1 = x0 + width;
-  const y1 = y0 + height;
+function dims(rect) {
+  const x0 = rect.x();
+  const y0 = rect.y();
 
+  const x1 = x0 + rect.width();
+  const y1 = y0 + rect.height();
+
+  return {x0, x1, y0, y1};
+}
+
+function scale({x0, y0, x1, y1}, scaleX, scaleY) {
   return {
-    minX: Math.min(x0, x1),
-    minY: Math.min(y0, y1),
-    maxX: Math.max(x0, x1),
-    maxY: Math.max(y0, y1),
+    x0: x0 * scaleX,
+    y0: y0 * scaleY,
+    x1: x1 * scaleX,
+    y1: y1 * scaleY,
   };
-};
+}
+
+// Converts dims to a bounding box.
+const dimsToBounds = ({x0, y0, x1, y1}) => ({
+  minX: Math.min(x0, x1),
+  minY: Math.min(y0, y1),
+  maxX: Math.max(x0, x1),
+  maxY: Math.max(y0, y1),
+});
+
+// Converts a konva rect into rbush bounds.
+function boundsRect(area, scaleX, scaleY) {
+  const dim = dims(area);
+  const scaled = scale(dim, scaleX, scaleY);
+  const bounds = dimsToBounds(scaled);
+
+  return bounds;
+}
+
+// Comparse the bounds of two bounding rects returning:
+// * < 1 if a is less than b
+// * 0 if a is equal to b
+// * > 1 if a is greater than b
+//
+// a is greater than b if a is further down or more to the right than b
+function compareBounds(a, b) {
+  // condense bounds into point
+  const {x: ax, y: ay} = center(a);
+  const {x: bx, y: by} = center(b);
+
+  const dx = ax - bx;
+  const dy = ay - by;
+
+  const adx = Math.abs(dx);
+  const ady = Math.abs(dy);
+
+  if (adx > ady) {
+    return dx;
+  } else if (ady > adx) {
+    return dy;
+  } else {
+    return 0;
+  }
+}
+
+function center({minX, minY, maxX, maxY}) {
+  return {
+    x: (maxX - minX) / 2 + minX,
+    y: (maxY - minY) / 2 + minY,
+  };
+}
 
 // If thing is not in set, adds it otherwise removes it.
 function toggle(set, thing) {
