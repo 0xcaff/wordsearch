@@ -46,7 +46,7 @@
 
 .WordList {
 	height: 100vh;
-	overflow-y: scroll;
+	overflow-y: auto;
 	padding: 1em;
 }
 

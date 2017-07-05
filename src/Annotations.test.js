@@ -1,4 +1,4 @@
-import { flatten, bounds } from './Annotations';
+import { stddev, flatten, bounds, mean } from './Annotations';
 
 const example = {
   pages: [{
@@ -69,5 +69,15 @@ it('calculates the bbox of a triangle', () => {
 
   const bbox = bounds(verts);
   expect(bbox).toMatchObject({minX: 0, minY: 0, maxX: 10, maxY: 5});
+});
+
+it('calculates the mean', () => {
+  const m = mean(2, 4, 4, 4, 5, 5, 7, 9);
+  expect(m).toBe(5);
+});
+
+it('calculates the standard deviation', () => {
+  const { dev } = stddev(2, 4, 4, 4, 5, 5, 7, 9);
+  expect(dev).toBe(2);
 });
 

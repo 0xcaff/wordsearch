@@ -16,7 +16,7 @@ export default class TextEntry extends Component {
   render() {
     console.log("TextEntry.render");
 
-    const { minimumRows, minimumColumns, value } = this.props;
+    const { minimumRows, minimumColumns, value, placeholder } = this.props;
     const rows = value.split(/\r?\n/);
 
     let mostCols = rows.reduce((acc, val) => {
@@ -43,6 +43,7 @@ export default class TextEntry extends Component {
           cols={mostCols}
           rows={rowsCount}
           onChange={this.handleText}
+          placeholder={placeholder}
           spellCheck={false} />
       </div>
     );

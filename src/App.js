@@ -32,12 +32,20 @@ const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 // * Select parts of the images which are words and put them into a textbox so
 // the inference can be cleaned and used.
 
-// TODO: Two pane setup to choose between text and image entry.
-
 // TODO: onMouseLeave isn't run sometimes when exiting a node. This causes the
 // highlight to remain until another selection is made.
 
-// TODO: arrow key focus words list
+// TODO: WordList
+// * Arrow Keys / Tab Selection
+// * Edit + Remove
+// * Automatically call findMatches
+// * Use one when inputting to simplify the two flows.
+
+// TODO: Save last entered puzzle into localStorage
+// TODO: The navbar is big and ugly.
+// TODO: The text in the text area is a little small.
+// TODO: The TextEntry is too small in chrome (doesn't seem to account for
+// letter-spacing).
 
 // An app with a single view. It's only a single view because having multiple
 // routes wouldn't make sense unless the puzzle is persisted.
@@ -294,6 +302,7 @@ class App extends Component {
             minimumRows={5}
             minimumColumns={20}
             value={textEntry}
+            placeholder="Enter puzzle"
             onChange={newValue => {
               this.invalidateGrid();
               this.setState({textEntry: newValue});
@@ -329,8 +338,6 @@ class App extends Component {
     );
   }
 }
-
-// TODO: Editable WordList
 
 export default App;
 

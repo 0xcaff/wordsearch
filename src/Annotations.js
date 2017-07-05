@@ -14,17 +14,18 @@ const COLORS = {
   SELECTION: '#222',
 };
 
-// TODO: Preview highlighted character.
+// TODO: Show tooltip with highlighted character.
 
 // TODO: The selection doesn't work for some puzzles. Investigate.
-
 // TODO: Updating the graph puts it in an inconsistent state
 
-// TODO: Devise an algorithm to put the puzzle on a grid.
-
 // TODO: Make the UI Look Nice:
+// * hide bounding boxes
+// * put the stuff here in a pop up dialog
 // * Put the area selector in a box
 // * Loading indicator.
+
+// TODO: Hookup grid finder
 
 // Renders results from a Google Cloud Vision text annotation query. We are
 // using konva to render this view because React was choking on reconciliation
@@ -273,50 +274,13 @@ export default class Annotations extends Component {
 
   selectPuzzle() {
     const { data, tree, selected } = this;
-    let bounds = getUnboundedBounds();
 
-    // spacing between grid elements
-    var dx = Infinity;
-    var dy = Infinity;
-
-    // find the minimum node seperation between nodes in graph
-    data.forEach(node => {
-      // calculate center of node bbox
-      const { boundingRect } = node;
-      const { minX, minY, maxX, maxY } = boundingRect;
-      const width = maxX - minX;
-      const height = maxY - minY;
-
-      const {x, y} = center(boundingRect);
-
-      // grow bounds
-      bounds = updateBounds(bounds, {x, y});
-
-      // get 9 nearest selected neighbors
-      const limit = 9;
-      const neighbors = knn(tree, x, y, limit, ({node}) => selected.has(node));
-
-      // update distances
-      neighbors.forEach(({node: neighbor}) => {
-        if (neighbor === node) {
-          // ignore the node we started from
-          return;
-        }
-
-        const ncenter = center(neighbor.boundingRect);
-        const ndx = Math.abs(ncenter.x - x);
-        const ndy = Math.abs(ncenter.y - y);
-
-        // only update minimums if they are significant
-        if (ndx > width) {
-          dx = Math.min(ndx, dx);
-        }
-
-        if (ndy > height) {
-          dy = Math.min(ndy, dy);
-        }
-      });
-    });
+    // find minimum significant variance in each direction
+    const {
+      x: { dev: xDev, mean: xMean },
+      y: { dev: yDev, mean: yMean },
+      bounds,
+    } = findVariances(data, tree, selected);
 
     // build the graph from left to right, top to bottom
     let x = bounds.minX;
@@ -328,34 +292,78 @@ export default class Annotations extends Component {
     while (x < bounds.maxX) {
       // get nearest selected point
       const limit = 1;
-      const neighbors = knn(tree, x, y, limit, ({node}) => selected.has(node) && !visited.has(node));
+      const neighbors = knn(tree, x, y, limit, ({node}) => {
+        const { y: cy } = center(node.boundingRect);
+        const yError = Math.abs(y - cy);
+
+        return selected.has(node) && !visited.has(node) && yError < yMean;
+      });
+
       if (!neighbors.length) {
         // there are no more selected neighbors available
         break;
       }
 
-      const [{node}] = neighbors;
+      // nearest node to grid intersection
+      const [{ node }] = neighbors;
 
-      const {x: cx, y: cy} = center(node.boundingRect);
+      const { x: cx, y: cy } = center(node.boundingRect);
+      const { width, height } = size(node.boundingRect);
 
-      // check if point is within tolerance
-      const error = Math.abs(cx - x);
-
-      // TODO: Dynamic tolerance
-      if (error > dx * 1.5) {
-        // don't consider this a neighbor, skip this spot
-        output.push(' ');
-      } else {
-        // found a point near this point
+      // TODO: There is still alot of drift over long empty spaces
+      const xError = Math.abs(cx - x);
+      if (xError <= xMean) {
+        // found a point near grid intersection
         output.push(node.text);
         visited.add(node);
-
-        x = cx;
+      } else {
+        // The nearest neighor is too far.
+        output.push(' ');
       }
 
-      // move to next position
-      x += dx;
+      // move to next grid intersection
+      x += xMean;
     }
+
+    // while (y < bounds.maxX) {
+    //   // get nearest selected point
+    //   const limit = 1;
+    //   const neighbors = knn(tree, x, y, limit,
+    //     ({node}) => selected.has(node) && !visited.has(node));
+
+    //   if (!neighbors.length) {
+    //     // there are no more selected neighbors available
+    //     break;
+    //   }
+
+    //   const [{node}] = neighbors;
+
+    //   const { x: cx, y: cy } = center(node.boundingRect);
+    //   const { width, height } = size(node.boundingRect);
+
+    //   // check if point is within tolerance
+    //   const xError = Math.abs(cx - x);
+    //   const yError = Math.abs(cy - y);
+
+    //   if (yError > yDev * 2) {
+    //     visited.add(node);
+    //     continue;
+    //   }
+
+    //   if (xError > xDev * 2) {
+    //     // don't consider this a neighbor, skip this spot
+    //     output.push(' ');
+    //   } else {
+    //     // found a point near this point
+    //     output.push(node.text);
+    //     visited.add(node);
+
+    //     x = cx;
+    //   }
+
+    //   // move to next position
+    //   x += xMean;
+    // }
 
     // TODO: Build Graph
 
@@ -426,10 +434,116 @@ function select(sel, {x0, y0, x1, y1}) {
   }
 }
 
-const pos = (inner) => evt => inner(getPosition(evt), evt);
-const getPosition = (evt) => (evt.target || evt.currentTarget).getStage().getPointerPosition();
+// Finds grid seperation in the x and y directions.
+function findVariances(nodes, tree, selected) {
+  let bounds = getUnboundedBounds();
 
-const updateBounds = ({ minX, minY, maxX, maxY }, {x, y}) => ({
+  // spacing between grid elements
+  const dxs = [];
+  const dys = [];
+
+  nodes.forEach(node => {
+    if (!selected.has(node)) {
+      // ignore non-selected nodes
+      return;
+    }
+
+    const { boundingRect } = node;
+    const { width, height } = size(boundingRect);
+    const { x, y } = center(boundingRect);
+    bounds = concatBounds(bounds, { x, y });
+
+    const limit = 8;
+    const neighbors = knn(tree, x, y, limit, leaf =>
+      leaf.node !== node && selected.has(leaf.node))
+
+    const spacing = {T: Infinity, L: Infinity, R: Infinity, B: Infinity};
+    // take the minimum change in each direction ignoring corners
+    //  i | x | i
+    // ---|---|---
+    //  x | c | x
+    // ---|---|---
+    //  i | x | i
+    neighbors.forEach(neighbor => {
+      const { node: nnode } = neighbor;
+      const { x: nx, y: ny } = center(nnode.boundingRect);
+      const { width: nWidth, height: nHeight } = size(nnode.boundingRect);
+
+      // It doesn't really matter which order we do this in as long as it is
+      // consistent.
+      const dx = x - nx;
+      const dy = y - ny;
+
+      const adx = Math.abs(dx);
+      const ady = Math.abs(dy);
+
+      // TODO: This doesn't handle the sparse case. The node in the center would
+      // cause the grid spacing to be too large.
+      //
+      // xxxxxxx
+      // x     x
+      // x  x  x
+      // x     x
+      // xxxxxxx
+
+      const updateHorizontal = () => {
+        if (dx > 0) {
+          spacing.R = Math.min(spacing.R, adx);
+        } else {
+          spacing.L = Math.min(spacing.L, adx);
+        }
+      };
+
+      const updateVertical = () => {
+        if (dy > 0) {
+          spacing.T = Math.min(spacing.T, ady);
+        } else {
+          spacing.B = Math.min(spacing.B, ady);
+        }
+      };
+
+      if (adx < (nWidth + width) / 2) {
+        // dx is less than the average width of the boxes, the change should
+        // be bigger in dy.
+
+        updateVertical();
+      } else if (ady < (nHeight + height) / 2) {
+        // dy is less than the average width of the boxes, the change should
+        // be bigger in dx.
+
+        updateHorizontal();
+      } else {
+        // the change is significant in both directions, this neighboring node
+        // is not directly left, right, up or down
+
+        updateVertical();
+        updateHorizontal();
+      }
+    });
+
+    // update deviations
+    const mdxs = [spacing.L, spacing.R].filter(d => d !== Infinity);
+    const mdys = [spacing.T, spacing.B].filter(d => d !== Infinity);
+
+    dxs.push(...mdxs);
+    dys.push(...mdys);
+  });
+
+  const { dev: xDev, mean: xMean } = stddev(...dxs);
+  const { dev: yDev, mean: yMean } = stddev(...dys);
+
+  return {
+    x: {dev: xDev, mean: xMean},
+    y: {dev: yDev, mean: yMean},
+    bounds,
+  };
+}
+
+const pos = (inner) => evt => inner(getPosition(evt), evt);
+const getPosition = (evt) =>
+  (evt.target || evt.currentTarget).getStage().getPointerPosition();
+
+const concatBounds = ({ minX, minY, maxX, maxY }, {x, y}) => ({
   minX: Math.min(minX, x),
   minY: Math.min(minY, y),
   maxX: Math.max(maxX, x),
@@ -444,7 +558,7 @@ const getUnboundedBounds = _ => ({
 });
 
 export const bounds = (vertices) => vertices.reduce(
-    (oldBounds, vert) => updateBounds(oldBounds, vert),
+    (oldBounds, vert) => concatBounds(oldBounds, vert),
     getUnboundedBounds()
   );
 
@@ -525,3 +639,19 @@ function toggle(set, thing) {
     set.add(thing);
   }
 }
+
+function size(bounds) {
+  const { minX, minY, maxX, maxY } = bounds;
+  return {width: maxX - minX, height: maxY - minY};
+}
+
+export function stddev(...values) {
+  const m = mean(...values);
+  const deviations = values.map(val => (val - m) * (val - m));
+  const variance = mean(...deviations);
+  const dev = Math.sqrt(variance);
+
+  return { dev, mean: m };
+}
+
+export const mean = (...values) => values.reduce((acc, val) => acc + (val/values.length), 0);
