@@ -262,6 +262,8 @@ export default class Annotations extends Component {
     // update all nodes
     this.updateAllNodes();
 
+    // TODO: Test this
+
     // TODO: Do something with result.
     console.log(word);
   }
@@ -284,88 +286,45 @@ export default class Annotations extends Component {
 
     // build the graph from left to right, top to bottom
     let x = bounds.minX;
+
+    // TODO: We are starting our search the minimum center instead of starting
+    // from the average center.
     let y = bounds.minY;
 
     const output = [];
     const visited = new Set();
 
     while (x < bounds.maxX) {
+      // TODO: How do we account for cumulative errors across large empty
+      // spaces? We don't do it here and the error grows falling out of the
+      // grid.
+
       // get nearest selected point
       const limit = 1;
       const neighbors = knn(tree, x, y, limit, ({node}) => {
-        const { y: cy } = center(node.boundingRect);
+        const { x: cx, y: cy } = center(node.boundingRect);
         const yError = Math.abs(y - cy);
+        const xError = Math.abs(x - cx);
 
-        return selected.has(node) && !visited.has(node) && yError < yMean;
+        // TODO: fixme (use deviations instead of means)
+        return selected.has(node) && !visited.has(node) &&
+          yError < yDev * 3 && xError < xMean;
       });
 
       if (!neighbors.length) {
-        // there are no more selected neighbors available
-        break;
-      }
+        // there is no node within tolerance of this intersection
+        output.push(' ');
+      } else {
+        // nearest node to grid intersection
+        const [{ node }] = neighbors;
 
-      // nearest node to grid intersection
-      const [{ node }] = neighbors;
-
-      const { x: cx, y: cy } = center(node.boundingRect);
-      const { width, height } = size(node.boundingRect);
-
-      // TODO: There is still alot of drift over long empty spaces
-      const xError = Math.abs(cx - x);
-      if (xError <= xMean) {
-        // found a point near grid intersection
         output.push(node.text);
         visited.add(node);
-      } else {
-        // The nearest neighor is too far.
-        output.push(' ');
       }
 
-      // move to next grid intersection
+      // go to next column
       x += xMean;
     }
-
-    // while (y < bounds.maxX) {
-    //   // get nearest selected point
-    //   const limit = 1;
-    //   const neighbors = knn(tree, x, y, limit,
-    //     ({node}) => selected.has(node) && !visited.has(node));
-
-    //   if (!neighbors.length) {
-    //     // there are no more selected neighbors available
-    //     break;
-    //   }
-
-    //   const [{node}] = neighbors;
-
-    //   const { x: cx, y: cy } = center(node.boundingRect);
-    //   const { width, height } = size(node.boundingRect);
-
-    //   // check if point is within tolerance
-    //   const xError = Math.abs(cx - x);
-    //   const yError = Math.abs(cy - y);
-
-    //   if (yError > yDev * 2) {
-    //     visited.add(node);
-    //     continue;
-    //   }
-
-    //   if (xError > xDev * 2) {
-    //     // don't consider this a neighbor, skip this spot
-    //     output.push(' ');
-    //   } else {
-    //     // found a point near this point
-    //     output.push(node.text);
-    //     visited.add(node);
-
-    //     x = cx;
-    //   }
-
-    //   // move to next position
-    //   x += xMean;
-    // }
-
-    // TODO: Build Graph
 
     console.log(output.join(''));
     console.log(output);
