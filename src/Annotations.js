@@ -67,6 +67,8 @@ export default class Annotations extends Component {
   // Also used for fast nearest neighbor lookups.
   tree = null;
 
+  gridOverlayLayer = null;
+
   // We rarely update this component because drawing is handled by konva.
   shouldComponentUpdate(nextProps) {
     return this.props.image !== nextProps.image;
@@ -106,10 +108,13 @@ export default class Annotations extends Component {
     // (re)?create layers
 
     // image layer
-    const imageLayer = new Konva.FastLayer({scaleX: scaleX, scaleY: scaleY});
-    const imageElement = new Konva.Image({image: image});
+    const imageLayer = new Konva.FastLayer({ scaleX, scaleY });
+    const imageElement = new Konva.Image({ image });
     imageLayer.add(imageElement);
     stage.add(imageLayer);
+
+    this.gridOverlayLayer = new Konva.FastLayer({ scaleX, scaleY });
+    stage.add(this.gridOverlayLayer);
 
     // selection layer (the dashed box is goes here)
     const selectionLayer = new Konva.FastLayer();
@@ -117,7 +122,7 @@ export default class Annotations extends Component {
     stage.add(selectionLayer);
 
     // annotation layer (colorful bounding boxes go here)
-    const annotationsLayer = this.annotations = new Konva.Layer({scaleX: scaleX, scaleY: scaleY});
+    const annotationsLayer = this.annotations = new Konva.Layer({ scaleX, scaleY });
     this.elements = new Map();
     this.createAnnotations();
     stage.add(annotationsLayer);
@@ -281,53 +286,83 @@ export default class Annotations extends Component {
     const {
       x: { dev: xDev, mean: xMean },
       y: { dev: yDev, mean: yMean },
-      bounds,
+      bounds: { minX, minY, maxX, maxY },
     } = findVariances(data, tree, selected);
 
-    // build the graph from left to right, top to bottom
-    let x = bounds.minX;
+    // TODO: The bounds are started from the minimum center instead of from the
+    // average center.
 
-    // TODO: We are starting our search the minimum center instead of starting
-    // from the average center.
-    let y = bounds.minY;
+    // TODO: the overlay layer isn't cleared
+    // draw estimated grid
+    const layer = this.gridOverlayLayer;
 
-    const output = [];
-    const visited = new Set();
-
-    while (x < bounds.maxX) {
-      // TODO: How do we account for cumulative errors across large empty
-      // spaces? We don't do it here and the error grows falling out of the
-      // grid.
-
-      // get nearest selected point
-      const limit = 1;
-      const neighbors = knn(tree, x, y, limit, ({node}) => {
-        const { x: cx, y: cy } = center(node.boundingRect);
-        const yError = Math.abs(y - cy);
-        const xError = Math.abs(x - cx);
-
-        // TODO: fixme (use deviations instead of means)
-        return selected.has(node) && !visited.has(node) &&
-          yError < yDev * 3 && xError < xMean;
+    for (let x = minX; x < maxX; x += xMean) {
+      // create a line
+      const line = new Konva.Line({
+        points: [x, minY, x, maxY],
+        stroke: 'black',
       });
 
-      if (!neighbors.length) {
-        // there is no node within tolerance of this intersection
-        output.push(' ');
-      } else {
-        // nearest node to grid intersection
-        const [{ node }] = neighbors;
-
-        output.push(node.text);
-        visited.add(node);
-      }
-
-      // go to next column
-      x += xMean;
+      layer.add(line);
     }
 
-    console.log(output.join(''));
-    console.log(output);
+    for (let y = minY; y < maxY; y += yMean) {
+      // create a line
+      const line = new Konva.Line({
+        points: [minX, y, maxX, y],
+        stroke: 'black',
+      });
+
+      layer.add(line);
+    }
+
+    layer.batchDraw();
+
+    // TODO: implement this
+    // build the graph from left to right, top to bottom
+    // const output = [];
+    // const visited = new Set();
+
+    // while (x < bounds.maxX) {
+    //   // TODO: How do we account for cumulative errors across large empty
+    //   // spaces? We don't do it here and the error grows falling out of the
+    //   // grid.
+
+    //   // get nearest selected point
+    //   const limit = 1;
+    //   const neighbors = knn(tree, x, y, limit, ({node}) => {
+    //     const { x: cx, y: cy } = center(node.boundingRect);
+    //     const yError = Math.abs(y - cy);
+    //     const xError = Math.abs(x - cx);
+
+    //     if (selected.has(node) && !visited.has(node)) {
+    //       console.log(yError);
+    //       console.log(xError);
+    //       console.log(node.text);
+    //     }
+
+    //     // TODO: fixme (use deviations instead of means)
+    //     return selected.has(node) && !visited.has(node) &&
+    //       yError < yDev * 5 && xError < xDev * 5;
+    //   });
+
+    //   if (!neighbors.length) {
+    //     // there is no node within tolerance of this intersection
+    //     output.push(' ');
+    //   } else {
+    //     // nearest node to grid intersection
+    //     const [{ node }] = neighbors;
+
+    //     output.push(node.text);
+    //     visited.add(node);
+    //   }
+
+    //   // go to next column
+    //   x += xMean;
+    // }
+
+    // console.log(output.join(''));
+    // console.log(output);
   }
 
   componentWillReceiveProps(nextProps) {
