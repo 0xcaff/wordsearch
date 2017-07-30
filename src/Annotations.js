@@ -67,15 +67,17 @@ export default class Annotations extends Component {
   // Also used for fast nearest neighbor lookups.
   tree = null;
 
+  // The Konva.Layer which holds the calculated grid of puzzle.
   gridOverlayLayer = null;
 
-  // We rarely update this component because drawing is handled by konva.
+  // We rarely update this component because drawing is handled by konva and
+  // updates happen imperatively.
   shouldComponentUpdate(nextProps) {
     return this.props.image !== nextProps.image;
   }
 
   componentDidMount() {
-    this.stage = new Konva.Stage({container: this.domNode});
+    this.stage = new Konva.Stage({ container: this.domNode });
 
     this.handleProps(this.props);
   }
@@ -139,13 +141,15 @@ export default class Annotations extends Component {
       height: 0,
       stroke: COLORS.SELECTION,
       dash: [10, 10],
+
+      // TODO: use a dash offset to animate this
     });
 
     layer.add(area);
 
     const stage = this.stage;
 
-    // attach listeners to stage so we receive all click events, (even consumed
+    // attach listeners to stage so we receive all mouse events, (even consumed
     // ones).
     stage.on('contentMousedown', pos(({x, y}) => {
       select(area, {x0: x, y0: y, x1: x, y1: y});
@@ -253,6 +257,12 @@ export default class Annotations extends Component {
     }
   }
 
+  // update all nodes
+  updateAllNodes() {
+    this.data.forEach(node => this.updateNode(node));
+    this.annotations.batchDraw();
+  }
+
   selectWord() {
     // get the selected nodes
     const selected = Array.from(this.selected.values());
@@ -273,12 +283,6 @@ export default class Annotations extends Component {
     console.log(word);
   }
 
-  // update all nodes
-  updateAllNodes() {
-    this.data.forEach(node => this.updateNode(node));
-    this.annotations.batchDraw();
-  }
-
   selectPuzzle() {
     const { data, tree, selected } = this;
 
@@ -296,7 +300,13 @@ export default class Annotations extends Component {
     // draw estimated grid
     const layer = this.gridOverlayLayer;
 
-    for (let x = minX; x < maxX; x += xMean) {
+    const cols = Math.floor((maxX - minX) / xMean);
+    const rows = Math.floor((maxY - minY) / yMean);
+
+    const dx = (maxX - minX) / cols;
+    const dy = (maxY - minY) / rows;
+
+    for (let x = minX; x <= maxX; x += dx) {
       // create a line
       const line = new Konva.Line({
         points: [x, minY, x, maxY],
@@ -306,7 +316,7 @@ export default class Annotations extends Component {
       layer.add(line);
     }
 
-    for (let y = minY; y < maxY; y += yMean) {
+    for (let y = minY; y <= maxY; y += dy) {
       // create a line
       const line = new Konva.Line({
         points: [minX, y, maxX, y],
@@ -318,51 +328,53 @@ export default class Annotations extends Component {
 
     layer.batchDraw();
 
-    // TODO: implement this
     // build the graph from left to right, top to bottom
-    // const output = [];
-    // const visited = new Set();
+    const output = [];
+    const visited = new Set();
 
-    // while (x < bounds.maxX) {
-    //   // TODO: How do we account for cumulative errors across large empty
-    //   // spaces? We don't do it here and the error grows falling out of the
-    //   // grid.
+    let x = minX;
+    let y = minY + dy * 4;
 
-    //   // get nearest selected point
-    //   const limit = 1;
-    //   const neighbors = knn(tree, x, y, limit, ({node}) => {
-    //     const { x: cx, y: cy } = center(node.boundingRect);
-    //     const yError = Math.abs(y - cy);
-    //     const xError = Math.abs(x - cx);
+    while (x <= maxX) {
+      // TODO: How do we account for cumulative errors across large empty
+      // spaces? We don't do it here and the error grows falling out of the
+      // grid.
 
-    //     if (selected.has(node) && !visited.has(node)) {
-    //       console.log(yError);
-    //       console.log(xError);
-    //       console.log(node.text);
-    //     }
+      // get nearest selected point
+      const limit = 1;
+      const neighbors = knn(tree, x, y, limit, ({node}) => {
+        const { x: cx, y: cy } = center(node.boundingRect);
+        const yError = Math.abs(y - cy);
+        const xError = Math.abs(x - cx);
 
-    //     // TODO: fixme (use deviations instead of means)
-    //     return selected.has(node) && !visited.has(node) &&
-    //       yError < yDev * 5 && xError < xDev * 5;
-    //   });
+        // if (selected.has(node) && !visited.has(node)) {
+        //   console.log(yError);
+        //   console.log(xError);
+        //   console.log(node.text);
+        // }
 
-    //   if (!neighbors.length) {
-    //     // there is no node within tolerance of this intersection
-    //     output.push(' ');
-    //   } else {
-    //     // nearest node to grid intersection
-    //     const [{ node }] = neighbors;
+        // TODO: fixme (use deviations instead of means)
+        return selected.has(node) && !visited.has(node) &&
+          yError < yDev * 3 && xError < xDev * 3;
+      });
 
-    //     output.push(node.text);
-    //     visited.add(node);
-    //   }
+      if (!neighbors.length) {
+        // there is no node within tolerance of this intersection
+        output.push(' ');
+      } else {
+        // nearest node to grid intersection
+        const [{ node }] = neighbors;
 
-    //   // go to next column
-    //   x += xMean;
-    // }
+        output.push(node.text);
+        visited.add(node);
+      }
 
-    // console.log(output.join(''));
-    // console.log(output);
+      // go to next column
+      x += dx;
+    }
+
+    console.log(output.join(''));
+    console.log(output);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -583,7 +595,7 @@ const dimsToBounds = ({x0, y0, x1, y1}) => ({
   maxY: Math.max(y0, y1),
 });
 
-// Converts a konva rect into rbush bounds.
+// Converts a konva rect into a rbush bounds.
 function boundsRect(area, scaleX, scaleY) {
   const dim = dims(area);
   const scaled = scale(dim, scaleX, scaleY);
