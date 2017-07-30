@@ -13,6 +13,8 @@ import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
 
 import puzzles from './wordsearch/data/index';
 
+import { getSymbols } from './utils';
+
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 
 // TODO: Add a new flow which allows uploading an image instead of entering the
@@ -207,17 +209,19 @@ class App extends Component {
     });
 
     const json = await resp.json();
+
     // TODO: Handle reror
     // TODO: Handle failed response
     if (json.error) {
-
     }
+
+    const symbols = getSymbols(json.responses[0]);
 
     this.image = await imageFromFile(file);
 
     // TODO: check length
     // TODO: there are two fields, check textAnnotations
-    this.setState({annotations: json.responses[0]});
+    this.setState({ annotations: symbols });
   }
 
   render() {
