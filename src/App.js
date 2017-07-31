@@ -215,7 +215,7 @@ class App extends Component {
     if (json.error) {
     }
 
-    const symbols = getSymbols(json.responses[0]);
+    const symbols = getSymbols(json.responses[0]['fullTextAnnotation']);
 
     this.image = await imageFromFile(file);
 

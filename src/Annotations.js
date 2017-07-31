@@ -5,7 +5,10 @@ import knn from 'rbush-knn';
 
 import Button from './Button';
 
-import { withPosition, expandSelection, boundsFromRect, toggleInSet, boundsOfVertices, centerOfBounds, sizeOfBounds, getUnboundedBounds, concatBounds, stddev, compareBounds } from './utils';
+import { withPosition, expandSelection, boundsFromRect, toggleInSet,
+  boundsOfVertices, centerOfBounds, sizeOfBounds, getUnboundedBounds,
+  concatBounds, stddev, compareBounds, estimateExtrema, mean
+} from './utils';
 
 import './Annotations.css';
 
@@ -19,7 +22,6 @@ const COLORS = {
 // TODO: Show tooltip with highlighted character.
 
 // TODO: The selection doesn't work for some puzzles. Investigate.
-// TODO: Updating the graph puts it in an inconsistent state
 
 // TODO: Make the UI Look Nice:
 // * hide bounding boxes
@@ -27,7 +29,8 @@ const COLORS = {
 // * Put the area selector in a box
 // * Loading indicator.
 
-// TODO: Hookup grid finder
+// TODO: Think about making the assumption the area between grid rows and
+// columns are equal.
 
 // Renders results from a Google Cloud Vision text annotation query. We are
 // using konva to render this view because React was choking on reconciliation
@@ -103,7 +106,7 @@ export default class Annotations extends Component {
 
     // setup stage
     const stage = this.stage;
-    stage.clear();
+    stage.removeChildren();
     stage.width(width);
     stage.height(height);
 
@@ -285,96 +288,76 @@ export default class Annotations extends Component {
 
   selectPuzzle() {
     const { data, tree, selected } = this;
+    const selectedNodes = data.filter(node => selected.has(node));
 
-    // find minimum significant variance in each direction
-    const {
-      x: { dev: xDev, mean: xMean },
-      y: { dev: yDev, mean: yMean },
-      bounds: { minX, minY, maxX, maxY },
-    } = findVariances(data, tree, selected);
+    const centers = selectedNodes.map(node => centerOfBounds(node.boundingRect));
+    const xValues = centers.map(ctr => ctr.x);
+    const yValues = centers.map(ctr => ctr.y);
 
-    // TODO: The bounds are started from the minimum center instead of from the
-    // average center.
+    const avgHeight = mean(...selectedNodes.map(({ boundingRect }) =>
+      sizeOfBounds(boundingRect).height));
 
-    // TODO: the overlay layer isn't cleared
+    const avgWidth = mean(...selectedNodes.map(({ boundingRect }) =>
+      sizeOfBounds(boundingRect).width));
+
+    const { maxes: xMaxes } = estimateExtrema({
+      values: xValues, bandwidth: avgWidth / 2,
+    });
+
+    const { maxes: yMaxes } = estimateExtrema({
+      values: yValues, bandwidth: avgHeight / 2,
+    });
+
     // draw estimated grid
     const layer = this.gridOverlayLayer;
+    layer.removeChildren();
 
-    const cols = Math.floor((maxX - minX) / xMean);
-    const rows = Math.floor((maxY - minY) / yMean);
+    const xMin = xMaxes[0];
+    const xMax = xMaxes[xMaxes.length - 1];
 
-    const dx = (maxX - minX) / cols;
-    const dy = (maxY - minY) / rows;
+    const yMin = yMaxes[0];
+    const yMax = yMaxes[yMaxes.length - 1];
 
-    for (let x = minX; x <= maxX; x += dx) {
-      // create a line
-      const line = new Konva.Line({
-        points: [x, minY, x, maxY],
+    xMaxes.forEach(x =>
+      layer.add(new Konva.Line({
+        points: [x, yMin, x, yMax],
         stroke: 'black',
-      });
+      })
+    ));
 
-      layer.add(line);
-    }
-
-    for (let y = minY; y <= maxY; y += dy) {
-      // create a line
-      const line = new Konva.Line({
-        points: [minX, y, maxX, y],
+    yMaxes.forEach(y =>
+      layer.add(new Konva.Line({
+        points: [xMin, y, xMax, y],
         stroke: 'black',
-      });
-
-      layer.add(line);
-    }
+      })
+    ));
 
     layer.batchDraw();
 
-    // build the graph from left to right, top to bottom
     const output = [];
-    const visited = new Set();
 
-    let x = minX;
-    let y = minY + dy * 4;
+    yMaxes.forEach(y => {
+      const row = [];
 
-    while (x <= maxX) {
-      // TODO: How do we account for cumulative errors across large empty
-      // spaces? We don't do it here and the error grows falling out of the
-      // grid.
+      xMaxes.forEach(x => {
+        // TODO: check error
 
-      // get nearest selected point
-      const limit = 1;
-      const neighbors = knn(tree, x, y, limit, ({node}) => {
-        const { x: cx, y: cy } = centerOfBounds(node.boundingRect);
-        const yError = Math.abs(y - cy);
-        const xError = Math.abs(x - cx);
+        const limit = 1;
+        const neighbors = knn(tree, x, y, limit);
 
-        // if (selected.has(node) && !visited.has(node)) {
-        //   console.log(yError);
-        //   console.log(xError);
-        //   console.log(node.text);
-        // }
+        if (neighbors.length === 0) {
+          row.push(' ');
+        } else {
+          const [{ node }] = neighbors;
 
-        // TODO: fixme (use deviations instead of means)
-        return selected.has(node) && !visited.has(node) &&
-          yError < yDev * 3 && xError < xDev * 3;
+          row.push(node.text);
+        }
       });
 
-      if (!neighbors.length) {
-        // there is no node within tolerance of this intersection
-        output.push(' ');
-      } else {
-        // nearest node to grid intersection
-        const [{ node }] = neighbors;
+      output.push(row);
+    });
 
-        output.push(node.text);
-        visited.add(node);
-      }
-
-      // go to next column
-      x += dx;
-    }
-
-    console.log(output.join(''));
-    console.log(output);
+    console.log(output.map(row => row.join('')).join('\n'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -399,110 +382,5 @@ export default class Annotations extends Component {
       </div>
     );
   }
-}
-
-// Finds grid seperation in the x and y directions.
-function findVariances(nodes, tree, selected) {
-  let bounds = getUnboundedBounds();
-
-  // spacing between grid elements
-  const dxs = [];
-  const dys = [];
-
-  nodes.forEach(node => {
-    if (!selected.has(node)) {
-      // ignore non-selected nodes
-      return;
-    }
-
-    const { boundingRect } = node;
-    const { width, height } = sizeOfBounds(boundingRect);
-    const { x, y } = centerOfBounds(boundingRect);
-    bounds = concatBounds(bounds, { x, y });
-
-    const limit = 8;
-    const neighbors = knn(tree, x, y, limit, leaf =>
-      leaf.node !== node && selected.has(leaf.node))
-
-    const spacing = {T: Infinity, L: Infinity, R: Infinity, B: Infinity};
-    // take the minimum change in each direction ignoring corners
-    //  i | x | i
-    // ---|---|---
-    //  x | c | x
-    // ---|---|---
-    //  i | x | i
-    neighbors.forEach(neighbor => {
-      const { node: nnode } = neighbor;
-      const { x: nx, y: ny } = centerOfBounds(nnode.boundingRect);
-      const { width: nWidth, height: nHeight } = sizeOfBounds(nnode.boundingRect);
-
-      // It doesn't really matter which order we do this in as long as it is
-      // consistent.
-      const dx = x - nx;
-      const dy = y - ny;
-
-      const adx = Math.abs(dx);
-      const ady = Math.abs(dy);
-
-      // TODO: This doesn't handle the sparse case. The node in the center would
-      // cause the grid spacing to be too large.
-      //
-      // xxxxxxx
-      // x     x
-      // x  x  x
-      // x     x
-      // xxxxxxx
-
-      const updateHorizontal = () => {
-        if (dx > 0) {
-          spacing.R = Math.min(spacing.R, adx);
-        } else {
-          spacing.L = Math.min(spacing.L, adx);
-        }
-      };
-
-      const updateVertical = () => {
-        if (dy > 0) {
-          spacing.T = Math.min(spacing.T, ady);
-        } else {
-          spacing.B = Math.min(spacing.B, ady);
-        }
-      };
-
-      if (adx < (nWidth + width) / 2) {
-        // dx is less than the average width of the boxes, the change should
-        // be bigger in dy.
-
-        updateVertical();
-      } else if (ady < (nHeight + height) / 2) {
-        // dy is less than the average width of the boxes, the change should
-        // be bigger in dx.
-
-        updateHorizontal();
-      } else {
-        // the change is significant in both directions, this neighboring node
-        // is not directly left, right, up or down
-
-        updateVertical();
-        updateHorizontal();
-      }
-    });
-
-    // update deviations
-    const mdxs = [spacing.L, spacing.R].filter(d => d !== Infinity);
-    const mdys = [spacing.T, spacing.B].filter(d => d !== Infinity);
-
-    dxs.push(...mdxs);
-    dys.push(...mdys);
-  });
-
-  const { dev: xDev, mean: xMean } = stddev(...dxs);
-  const { dev: yDev, mean: yMean } = stddev(...dys);
-
-  return {
-    x: {dev: xDev, mean: xMean},
-    y: {dev: yDev, mean: yMean},
-    bounds,
-  };
 }
 

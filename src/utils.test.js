@@ -1,4 +1,4 @@
-import { stddev, getSymbols, boundsOfVertices, mean } from './utils';
+import { stddev, getSymbols, boundsOfVertices, mean, required, findExtrema } from './utils';
 
 const example = {
   pages: [{
@@ -81,3 +81,29 @@ it('calculates the standard deviation', () => {
   expect(dev).toBe(2);
 });
 
+it('finds the extrema of a function', () => {
+  const f = Math.sin;
+
+  const { mins, maxes } = findExtrema({
+    f,
+    start: 0,
+    end: 2 * Math.PI,
+    stepSize: Math.PI / 8,
+  });
+
+  expect(mins).toHaveLength(1);
+  expect(mins[0]).toBe(3 * Math.PI / 2);
+
+  expect(maxes).toHaveLength(1);
+  expect(maxes[0]).toBe(Math.PI / 2);
+});
+
+it('should throw if arguments are not specified', () => {
+  expect(() => {
+    const { test = required('test') } = { };
+  }).toThrow();
+
+  expect(() => {
+    const { test = required('test') } = { test: 'here is a string' };
+  }).not.toThrow();
+});

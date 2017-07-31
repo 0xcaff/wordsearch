@@ -84,6 +84,12 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-warning-comments": [
+        "warn"
+      ],
+      "no-console": "warn"
+    }
   }
 }

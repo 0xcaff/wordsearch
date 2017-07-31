@@ -157,3 +157,81 @@ export function stddev(...values) {
 }
 
 export const mean = (...values) => values.reduce((acc, val) => acc + (val/values.length), 0);
+
+function getKernelDensityEstimator(values, bandwidth, kernel = gaussianKernel) {
+  return (x) => {
+    const n = values.length;
+    const h = bandwidth;
+
+    const kernelSum = values.reduce((sum, xi) => {
+      const kernelEvaled = kernel(x - xi, h);
+      return sum + kernelEvaled;
+    }, 0);
+
+    return kernelSum / (n * h);
+  };
+}
+
+export function findExtrema({
+  f = required('f'),
+  start = required('start'),
+  end = required('end'),
+  stepSize = required('stepSize'),
+}) {
+  const mins = [];
+  const maxes = [];
+
+  const evaledAtStep = [];
+
+  const stepCount = Math.round((end - start) / stepSize);
+
+  // We base this look on stepCount because of float rounding errors.
+  for (let x = start, step = 0; step <= stepCount; x += stepSize, step++) {
+    evaledAtStep[step] = f(x);
+  }
+
+  for (let step = 0; step < evaledAtStep.length; step++) {
+    const previous = getPossiblyUnbounded(evaledAtStep, step - 1);
+    const current = evaledAtStep[step];
+    const next = getPossiblyUnbounded(evaledAtStep, step + 1);
+
+    if (current > previous && current > next) {
+      maxes.push(start + step * stepSize);
+    }
+
+    if (current < previous && current < next) {
+      mins.push(start + step * stepSize);
+    }
+  }
+
+  return { mins, maxes };
+}
+
+export function estimateExtrema({ values, bandwidth }) {
+  const extra = bandwidth * 8;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+
+  const kde = getKernelDensityEstimator(values, bandwidth);
+
+  const start = min - extra;
+  const end = max + extra;
+  const steps = 1000;
+
+  return findExtrema({
+    f: kde,
+    start,
+    end,
+
+    // stepSize: deviation / (end - start),
+    stepSize: bandwidth,
+  });
+}
+
+const exp = (to) => Math.E ** to;
+const gaussianKernel = (x, h) => exp(-(x ** 2) / (2 * h ** 2));
+
+// Gets elements from an array returning undefined if i is out of the array bounds.
+const getPossiblyUnbounded = (array, i) => i >= 0 && i < array.length ? array[i] : undefined;
+
+const required = (name) => { throw new TypeError(`${name} is a required parameter`) };
