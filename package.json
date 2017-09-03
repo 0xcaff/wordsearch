@@ -7,8 +7,9 @@
     "konva": "^1.6.3",
     "rbush": "^2.0.1",
     "rbush-knn": "^2.0.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react": "next",
+    "react-dom": "next",
+    "smoothscroll-polyfill": "^0.3.6"
   },
   "devDependencies": {
     "autoprefixer": "7.1.0",

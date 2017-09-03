@@ -14,6 +14,7 @@ export default class GridSelection extends PureComponent {
     const endNode = selection[selection.length - 1];
     const { x: toX, y: toY } = grid.positionOf(endNode);
 
+    // TODO: Remove Display Contents
     return (
       <div
         className='GridMatches'

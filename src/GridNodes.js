@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import Node from './Node';
 
-import './GridNodes.css';
-
 export default class GridNodes extends PureComponent {
   render() {
     console.log("GridNodes.render");
@@ -32,12 +30,6 @@ export default class GridNodes extends PureComponent {
       }
     }
 
-    return (
-      <div
-        className='GridNodes'>
-        {nodes}
-      </div>
-    );
+    return nodes;
   }
 };
-

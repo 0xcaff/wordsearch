@@ -115,7 +115,7 @@ class App extends Component {
     }
 
     // replace with new selection
-    this.setState({selected: selection});
+    this.setState({ selected: selection });
   }
 
   removeSelected(...selection) {
@@ -144,14 +144,14 @@ class App extends Component {
     this.nodes = connectGrid(grid);
 
     // display grid
-    this.setState({grid: grid});
+    this.setState({ grid });
   }
 
   findMatches(evt) {
     this.matches = findMatchesGraph(this.state.words, this.nodes,
       new Set(Object.keys(Directions)));
 
-    this.setState(prevState => ({grid: prevState.grid.shallowCopy()}));
+    this.setState(prevState => ({ grid: prevState.grid.shallowCopy() }));
   }
 
   selectMatches(word) {
@@ -185,7 +185,7 @@ class App extends Component {
   }
 
   invalidateGrid() {
-    this.setState({grid: null});
+    this.setState({ grid: null });
     this.matches = null;
   }
 
