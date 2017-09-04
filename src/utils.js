@@ -100,18 +100,16 @@ export function boundsFromRect(area, scaleX, scaleY) {
   return bounds;
 }
 
-// Comparse the bounds of two bounding rects returning:
+// Compares the bounds of two bounding rects returning:
 // * < 1 if a is less than b
 // * 0 if a is equal to b
 // * > 1 if a is greater than b
 //
 // a is greater than b if a is further down or more to the right than b
 export function compareBounds(a, b) {
-  // TODO: fixme i'm broken
-
   // condense bounds into point
-  const {x: ax, y: ay} = centerOfBounds(a);
-  const {x: bx, y: by} = centerOfBounds(b);
+  const { x: ax, y: ay } = centerOfBounds(a);
+  const { x: bx, y: by } = centerOfBounds(b);
 
   const dx = ax - bx;
   const dy = ay - by;
@@ -293,3 +291,53 @@ export const getPuzzleFromGrid = (xs, ys, xTolerance, yTolerance, tree) =>
     const { text } = node;
     return text;
   }));
+
+// Sort nodes from left to right, top to bottom.
+export const sortWordSelected = (selected, tree) => {
+  if (selected.size === 0) {
+    throw new TypeError('Nothing selected.');
+  }
+
+  // find the highest, leftest node. That will be the first char.
+  let { center: { x: cx, y: cy } } = Array.from(selected)
+    .reduce((node, currentValue) => {
+      const { boundingRect } = currentValue;
+      const { x, y } = centerOfBounds(boundingRect);
+
+      const { center: currentCenter } = node;
+      if (x <= currentCenter.x && y <= currentCenter.y) {
+        // TODO: Logic Error Here
+        // new center
+        return Object.assign({}, currentValue, { center: { x, y } });
+      }
+
+      return node;
+    }, { center: { x: Infinity, y: Infinity } });
+
+  const visited = new Set();
+  const output = [];
+
+  const limit = 1;
+
+  while (visited.size < selected.size) {
+    console.log(output);
+    const neighbors = knn(tree, cx, cy, limit,
+      ({ node }) => selected.has(node) && !visited.has(node));
+
+    if (neighbors.length === 0) {
+      // there is no neighbor
+      throw new TypeError("Couldn't find a nearest neighbor.")
+    }
+
+    const [{ node }] = neighbors;
+
+    output.push(node);
+    visited.add(node);
+
+    const center = centerOfBounds(node.boundingRect);
+    cx = center.x;
+    cy = center.y;
+  }
+
+  return output;
+};
