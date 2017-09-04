@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 import rbush from 'rbush';
-import knn from 'rbush-knn';
 
 import Button from './Button';
 
-import { withPosition, expandSelection, boundsFromRect, toggleInSet,
-  boundsOfVertices, centerOfBounds, sizeOfBounds, getUnboundedBounds,
-  concatBounds, stddev, compareBounds, estimateExtrema, mean
+import {
+  withPosition, expandSelection, boundsFromRect, toggleInSet, boundsOfVertices,
+  compareBounds, getPuzzleFromGrid, findGrid,
 } from './utils';
 
 import './Annotations.css';
@@ -179,7 +178,7 @@ export default class Annotations extends Component {
         selected.clear();
       }
 
-      contained.forEach(({node}) => {
+      contained.forEach(({ node }) => {
         toggleInSet(selected, node);
       });
 
@@ -202,7 +201,7 @@ export default class Annotations extends Component {
       // extraction time.
       node.boundingRect = bbox;
 
-      const leaf = { node: node };
+      const leaf = { node };
       Object.assign(leaf, bbox);
 
       return leaf;
@@ -290,42 +289,26 @@ export default class Annotations extends Component {
     const { data, tree, selected } = this;
     const selectedNodes = data.filter(node => selected.has(node));
 
-    const centers = selectedNodes.map(node => centerOfBounds(node.boundingRect));
-    const xValues = centers.map(ctr => ctr.x);
-    const yValues = centers.map(ctr => ctr.y);
-
-    const avgHeight = mean(...selectedNodes.map(({ boundingRect }) =>
-      sizeOfBounds(boundingRect).height));
-
-    const avgWidth = mean(...selectedNodes.map(({ boundingRect }) =>
-      sizeOfBounds(boundingRect).width));
-
-    const { maxes: xMaxes } = estimateExtrema({
-      values: xValues, bandwidth: avgWidth / 2,
-    });
-
-    const { maxes: yMaxes } = estimateExtrema({
-      values: yValues, bandwidth: avgHeight / 2,
-    });
+    const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(selectedNodes);
 
     // draw estimated grid
     const layer = this.gridOverlayLayer;
     layer.removeChildren();
 
-    const xMin = xMaxes[0];
-    const xMax = xMaxes[xMaxes.length - 1];
+    const xMin = xGridLines[0];
+    const xMax = xGridLines[xGridLines.length - 1];
 
-    const yMin = yMaxes[0];
-    const yMax = yMaxes[yMaxes.length - 1];
+    const yMin = yGridLines[0];
+    const yMax = yGridLines[yGridLines.length - 1];
 
-    xMaxes.forEach(x =>
+    xGridLines.forEach(x =>
       layer.add(new Konva.Line({
         points: [x, yMin, x, yMax],
         stroke: 'black',
       })
     ));
 
-    yMaxes.forEach(y =>
+    yGridLines.forEach(y =>
       layer.add(new Konva.Line({
         points: [xMin, y, xMax, y],
         stroke: 'black',
@@ -334,29 +317,7 @@ export default class Annotations extends Component {
 
     layer.batchDraw();
 
-    const output = [];
-
-    yMaxes.forEach(y => {
-      const row = [];
-
-      xMaxes.forEach(x => {
-        // TODO: check error
-
-        const limit = 1;
-        const neighbors = knn(tree, x, y, limit);
-
-        if (neighbors.length === 0) {
-          row.push(' ');
-        } else {
-          const [{ node }] = neighbors;
-
-          row.push(node.text);
-        }
-      });
-
-      output.push(row);
-    });
-
+    const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
     console.log(output.map(row => row.join('')).join('\n'));
   }
 
@@ -383,4 +344,3 @@ export default class Annotations extends Component {
     );
   }
 }
-

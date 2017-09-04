@@ -1,0 +1,5837 @@
+[
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "LINE_BREAK"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2020,
+            "y": 688
+          },
+          {
+            "x": 2120,
+            "y": 689
+          },
+          {
+            "x": 2119,
+            "y": 743
+          },
+          {
+            "x": 2019,
+            "y": 742
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 2019,
+        "minY": 688,
+        "maxX": 2120,
+        "maxY": 743
+      }
+    },
+    "minX": 2019,
+    "minY": 688,
+    "maxX": 2120,
+    "maxY": 743
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "EOL_SURE_SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2285,
+            "y": 508
+          },
+          {
+            "x": 2308,
+            "y": 508
+          },
+          {
+            "x": 2308,
+            "y": 570
+          },
+          {
+            "x": 2285,
+            "y": 570
+          }
+        ]
+      },
+      "text": "T",
+      "boundingRect": {
+        "minX": 2285,
+        "minY": 508,
+        "maxX": 2308,
+        "maxY": 570
+      }
+    },
+    "minX": 2285,
+    "minY": 508,
+    "maxX": 2308,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1826,
+            "y": 508
+          },
+          {
+            "x": 1849,
+            "y": 508
+          },
+          {
+            "x": 1849,
+            "y": 570
+          },
+          {
+            "x": 1826,
+            "y": 570
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 1826,
+        "minY": 508,
+        "maxX": 1849,
+        "maxY": 570
+      }
+    },
+    "minX": 1826,
+    "minY": 508,
+    "maxX": 1849,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2054,
+            "y": 594
+          },
+          {
+            "x": 2076,
+            "y": 594
+          },
+          {
+            "x": 2076,
+            "y": 650
+          },
+          {
+            "x": 2054,
+            "y": 650
+          }
+        ]
+      },
+      "text": "O",
+      "boundingRect": {
+        "minX": 2054,
+        "minY": 594,
+        "maxX": 2076,
+        "maxY": 650
+      }
+    },
+    "minX": 2054,
+    "minY": 594,
+    "maxX": 2076,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "LINE_BREAK"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2167,
+            "y": 594
+          },
+          {
+            "x": 2189,
+            "y": 594
+          },
+          {
+            "x": 2189,
+            "y": 650
+          },
+          {
+            "x": 2167,
+            "y": 650
+          }
+        ]
+      },
+      "text": "L",
+      "boundingRect": {
+        "minX": 2167,
+        "minY": 594,
+        "maxX": 2189,
+        "maxY": 650
+      }
+    },
+    "minX": 2167,
+    "minY": 594,
+    "maxX": 2189,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1949,
+            "y": 594
+          },
+          {
+            "x": 1971,
+            "y": 594
+          },
+          {
+            "x": 1971,
+            "y": 650
+          },
+          {
+            "x": 1949,
+            "y": 650
+          }
+        ]
+      },
+      "text": "G",
+      "boundingRect": {
+        "minX": 1949,
+        "minY": 594,
+        "maxX": 1971,
+        "maxY": 650
+      }
+    },
+    "minX": 1949,
+    "minY": 594,
+    "maxX": 1971,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1836,
+            "y": 594
+          },
+          {
+            "x": 1858,
+            "y": 594
+          },
+          {
+            "x": 1858,
+            "y": 650
+          },
+          {
+            "x": 1836,
+            "y": 650
+          }
+        ]
+      },
+      "text": "G",
+      "boundingRect": {
+        "minX": 1836,
+        "minY": 594,
+        "maxX": 1858,
+        "maxY": 650
+      }
+    },
+    "minX": 1836,
+    "minY": 594,
+    "maxX": 1858,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1886,
+            "y": 686
+          },
+          {
+            "x": 1994,
+            "y": 687
+          },
+          {
+            "x": 1993,
+            "y": 741
+          },
+          {
+            "x": 1885,
+            "y": 740
+          }
+        ]
+      },
+      "text": "M",
+      "boundingRect": {
+        "minX": 1885,
+        "minY": 686,
+        "maxX": 1994,
+        "maxY": 741
+      }
+    },
+    "minX": 1885,
+    "minY": 686,
+    "maxX": 1994,
+    "maxY": 741
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1837,
+            "y": 685
+          },
+          {
+            "x": 1857,
+            "y": 685
+          },
+          {
+            "x": 1856,
+            "y": 739
+          },
+          {
+            "x": 1836,
+            "y": 739
+          }
+        ]
+      },
+      "text": "T",
+      "boundingRect": {
+        "minX": 1836,
+        "minY": 685,
+        "maxX": 1857,
+        "maxY": 739
+      }
+    },
+    "minX": 1836,
+    "minY": 685,
+    "maxX": 1857,
+    "maxY": 739
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2170,
+            "y": 508
+          },
+          {
+            "x": 2193,
+            "y": 508
+          },
+          {
+            "x": 2193,
+            "y": 570
+          },
+          {
+            "x": 2170,
+            "y": 570
+          }
+        ]
+      },
+      "text": "R",
+      "boundingRect": {
+        "minX": 2170,
+        "minY": 508,
+        "maxX": 2193,
+        "maxY": 570
+      }
+    },
+    "minX": 2170,
+    "minY": 508,
+    "maxX": 2193,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2064,
+            "y": 420
+          },
+          {
+            "x": 2087,
+            "y": 420
+          },
+          {
+            "x": 2087,
+            "y": 480
+          },
+          {
+            "x": 2064,
+            "y": 480
+          }
+        ]
+      },
+      "text": "Q",
+      "boundingRect": {
+        "minX": 2064,
+        "minY": 420,
+        "maxX": 2087,
+        "maxY": 480
+      }
+    },
+    "minX": 2064,
+    "minY": 420,
+    "maxX": 2087,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2168,
+            "y": 420
+          },
+          {
+            "x": 2191,
+            "y": 420
+          },
+          {
+            "x": 2191,
+            "y": 480
+          },
+          {
+            "x": 2168,
+            "y": 480
+          }
+        ]
+      },
+      "text": "H",
+      "boundingRect": {
+        "minX": 2168,
+        "minY": 420,
+        "maxX": 2191,
+        "maxY": 480
+      }
+    },
+    "minX": 2168,
+    "minY": 420,
+    "maxX": 2191,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1916,
+            "y": 420
+          },
+          {
+            "x": 2008,
+            "y": 420
+          },
+          {
+            "x": 2008,
+            "y": 480
+          },
+          {
+            "x": 1916,
+            "y": 480
+          }
+        ]
+      },
+      "text": "O",
+      "boundingRect": {
+        "minX": 1916,
+        "minY": 420,
+        "maxX": 2008,
+        "maxY": 480
+      }
+    },
+    "minX": 1916,
+    "minY": 420,
+    "maxX": 2008,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2238,
+            "y": 420
+          },
+          {
+            "x": 2338,
+            "y": 420
+          },
+          {
+            "x": 2338,
+            "y": 480
+          },
+          {
+            "x": 2238,
+            "y": 480
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 2238,
+        "minY": 420,
+        "maxX": 2338,
+        "maxY": 480
+      }
+    },
+    "minX": 2238,
+    "minY": 420,
+    "maxX": 2338,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "EOL_SURE_SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2360,
+            "y": 420
+          },
+          {
+            "x": 2451,
+            "y": 420
+          },
+          {
+            "x": 2451,
+            "y": 480
+          },
+          {
+            "x": 2360,
+            "y": 480
+          }
+        ]
+      },
+      "text": "O",
+      "boundingRect": {
+        "minX": 2360,
+        "minY": 420,
+        "maxX": 2451,
+        "maxY": 480
+      }
+    },
+    "minX": 2360,
+    "minY": 420,
+    "maxX": 2451,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1949,
+            "y": 508
+          },
+          {
+            "x": 1972,
+            "y": 508
+          },
+          {
+            "x": 1972,
+            "y": 570
+          },
+          {
+            "x": 1949,
+            "y": 570
+          }
+        ]
+      },
+      "text": "Q",
+      "boundingRect": {
+        "minX": 1949,
+        "minY": 508,
+        "maxX": 1972,
+        "maxY": 570
+      }
+    },
+    "minX": 1949,
+    "minY": 508,
+    "maxX": 1972,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2054,
+            "y": 508
+          },
+          {
+            "x": 2077,
+            "y": 508
+          },
+          {
+            "x": 2077,
+            "y": 570
+          },
+          {
+            "x": 2054,
+            "y": 570
+          }
+        ]
+      },
+      "text": "W",
+      "boundingRect": {
+        "minX": 2054,
+        "minY": 508,
+        "maxX": 2077,
+        "maxY": 570
+      }
+    },
+    "minX": 2054,
+    "minY": 508,
+    "maxX": 2077,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1278,
+            "y": 594
+          },
+          {
+            "x": 1300,
+            "y": 594
+          },
+          {
+            "x": 1300,
+            "y": 650
+          },
+          {
+            "x": 1278,
+            "y": 650
+          }
+        ]
+      },
+      "text": "O",
+      "boundingRect": {
+        "minX": 1278,
+        "minY": 594,
+        "maxX": 1300,
+        "maxY": 650
+      }
+    },
+    "minX": 1278,
+    "minY": 594,
+    "maxX": 1300,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1384,
+            "y": 594
+          },
+          {
+            "x": 1406,
+            "y": 594
+          },
+          {
+            "x": 1406,
+            "y": 650
+          },
+          {
+            "x": 1384,
+            "y": 650
+          }
+        ]
+      },
+      "text": "O",
+      "boundingRect": {
+        "minX": 1384,
+        "minY": 594,
+        "maxX": 1406,
+        "maxY": 650
+      }
+    },
+    "minX": 1384,
+    "minY": 594,
+    "maxX": 1406,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1163,
+            "y": 678
+          },
+          {
+            "x": 1183,
+            "y": 678
+          },
+          {
+            "x": 1182,
+            "y": 732
+          },
+          {
+            "x": 1162,
+            "y": 732
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 1162,
+        "minY": 678,
+        "maxX": 1183,
+        "maxY": 732
+      }
+    },
+    "minX": 1162,
+    "minY": 678,
+    "maxX": 1183,
+    "maxY": 732
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1462,
+            "y": 681
+          },
+          {
+            "x": 1550,
+            "y": 682
+          },
+          {
+            "x": 1549,
+            "y": 736
+          },
+          {
+            "x": 1461,
+            "y": 735
+          }
+        ]
+      },
+      "text": "F",
+      "boundingRect": {
+        "minX": 1461,
+        "minY": 681,
+        "maxX": 1550,
+        "maxY": 736
+      }
+    },
+    "minX": 1461,
+    "minY": 681,
+    "maxX": 1550,
+    "maxY": 736
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1351,
+            "y": 680
+          },
+          {
+            "x": 1439,
+            "y": 681
+          },
+          {
+            "x": 1438,
+            "y": 735
+          },
+          {
+            "x": 1350,
+            "y": 734
+          }
+        ]
+      },
+      "text": "K",
+      "boundingRect": {
+        "minX": 1350,
+        "minY": 680,
+        "maxX": 1439,
+        "maxY": 735
+      }
+    },
+    "minX": 1350,
+    "minY": 680,
+    "maxX": 1439,
+    "maxY": 735
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1607,
+            "y": 682
+          },
+          {
+            "x": 1627,
+            "y": 682
+          },
+          {
+            "x": 1626,
+            "y": 736
+          },
+          {
+            "x": 1606,
+            "y": 736
+          }
+        ]
+      },
+      "text": "A",
+      "boundingRect": {
+        "minX": 1606,
+        "minY": 682,
+        "maxX": 1627,
+        "maxY": 736
+      }
+    },
+    "minX": 1606,
+    "minY": 682,
+    "maxX": 1627,
+    "maxY": 736
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1718,
+            "y": 684
+          },
+          {
+            "x": 1738,
+            "y": 684
+          },
+          {
+            "x": 1737,
+            "y": 738
+          },
+          {
+            "x": 1717,
+            "y": 738
+          }
+        ]
+      },
+      "text": "S",
+      "boundingRect": {
+        "minX": 1717,
+        "minY": 684,
+        "maxX": 1738,
+        "maxY": 738
+      }
+    },
+    "minX": 1717,
+    "minY": 684,
+    "maxX": 1738,
+    "maxY": 738
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1274,
+            "y": 678
+          },
+          {
+            "x": 1294,
+            "y": 678
+          },
+          {
+            "x": 1293,
+            "y": 732
+          },
+          {
+            "x": 1273,
+            "y": 732
+          }
+        ]
+      },
+      "text": "A",
+      "boundingRect": {
+        "minX": 1273,
+        "minY": 678,
+        "maxX": 1294,
+        "maxY": 732
+      }
+    },
+    "minX": 1273,
+    "minY": 678,
+    "maxX": 1294,
+    "maxY": 732
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1161,
+            "y": 508
+          },
+          {
+            "x": 1184,
+            "y": 508
+          },
+          {
+            "x": 1184,
+            "y": 570
+          },
+          {
+            "x": 1161,
+            "y": 570
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 1161,
+        "minY": 508,
+        "maxX": 1184,
+        "maxY": 570
+      }
+    },
+    "minX": 1161,
+    "minY": 508,
+    "maxX": 1184,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1613,
+            "y": 508
+          },
+          {
+            "x": 1636,
+            "y": 508
+          },
+          {
+            "x": 1636,
+            "y": 570
+          },
+          {
+            "x": 1613,
+            "y": 570
+          }
+        ]
+      },
+      "text": "1",
+      "boundingRect": {
+        "minX": 1613,
+        "minY": 508,
+        "maxX": 1636,
+        "maxY": 570
+      }
+    },
+    "minX": 1613,
+    "minY": 508,
+    "maxX": 1636,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1275,
+            "y": 508
+          },
+          {
+            "x": 1298,
+            "y": 508
+          },
+          {
+            "x": 1298,
+            "y": 570
+          },
+          {
+            "x": 1275,
+            "y": 570
+          }
+        ]
+      },
+      "text": "F",
+      "boundingRect": {
+        "minX": 1275,
+        "minY": 508,
+        "maxX": 1298,
+        "maxY": 570
+      }
+    },
+    "minX": 1275,
+    "minY": 508,
+    "maxX": 1298,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1496,
+            "y": 594
+          },
+          {
+            "x": 1518,
+            "y": 594
+          },
+          {
+            "x": 1518,
+            "y": 650
+          },
+          {
+            "x": 1496,
+            "y": 650
+          }
+        ]
+      },
+      "text": "S",
+      "boundingRect": {
+        "minX": 1496,
+        "minY": 594,
+        "maxX": 1518,
+        "maxY": 650
+      }
+    },
+    "minX": 1496,
+    "minY": 594,
+    "maxX": 1518,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1378,
+            "y": 508
+          },
+          {
+            "x": 1401,
+            "y": 508
+          },
+          {
+            "x": 1401,
+            "y": 570
+          },
+          {
+            "x": 1378,
+            "y": 570
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 1378,
+        "minY": 508,
+        "maxX": 1401,
+        "maxY": 570
+      }
+    },
+    "minX": 1378,
+    "minY": 508,
+    "maxX": 1401,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1610,
+            "y": 594
+          },
+          {
+            "x": 1632,
+            "y": 594
+          },
+          {
+            "x": 1632,
+            "y": 650
+          },
+          {
+            "x": 1610,
+            "y": 650
+          }
+        ]
+      },
+      "text": "T",
+      "boundingRect": {
+        "minX": 1610,
+        "minY": 594,
+        "maxX": 1632,
+        "maxY": 650
+      }
+    },
+    "minX": 1610,
+    "minY": 594,
+    "maxX": 1632,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1714,
+            "y": 594
+          },
+          {
+            "x": 1736,
+            "y": 594
+          },
+          {
+            "x": 1736,
+            "y": 650
+          },
+          {
+            "x": 1714,
+            "y": 650
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 1714,
+        "minY": 594,
+        "maxX": 1736,
+        "maxY": 650
+      }
+    },
+    "minX": 1714,
+    "minY": 594,
+    "maxX": 1736,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1127,
+            "y": 594
+          },
+          {
+            "x": 1224,
+            "y": 594
+          },
+          {
+            "x": 1224,
+            "y": 650
+          },
+          {
+            "x": 1127,
+            "y": 650
+          }
+        ]
+      },
+      "text": "B",
+      "boundingRect": {
+        "minX": 1127,
+        "minY": 594,
+        "maxX": 1224,
+        "maxY": 650
+      }
+    },
+    "minX": 1127,
+    "minY": 594,
+    "maxX": 1224,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1795,
+            "y": 420
+          },
+          {
+            "x": 1894,
+            "y": 420
+          },
+          {
+            "x": 1894,
+            "y": 480
+          },
+          {
+            "x": 1795,
+            "y": 480
+          }
+        ]
+      },
+      "text": "H",
+      "boundingRect": {
+        "minX": 1795,
+        "minY": 420,
+        "maxX": 1894,
+        "maxY": 480
+      }
+    },
+    "minX": 1795,
+    "minY": 420,
+    "maxX": 1894,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1238,
+            "y": 420
+          },
+          {
+            "x": 1329,
+            "y": 420
+          },
+          {
+            "x": 1329,
+            "y": 480
+          },
+          {
+            "x": 1238,
+            "y": 480
+          }
+        ]
+      },
+      "text": "W",
+      "boundingRect": {
+        "minX": 1238,
+        "minY": 420,
+        "maxX": 1329,
+        "maxY": 480
+      }
+    },
+    "minX": 1238,
+    "minY": 420,
+    "maxX": 1329,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1724,
+            "y": 420
+          },
+          {
+            "x": 1747,
+            "y": 420
+          },
+          {
+            "x": 1747,
+            "y": 480
+          },
+          {
+            "x": 1724,
+            "y": 480
+          }
+        ]
+      },
+      "text": "A",
+      "boundingRect": {
+        "minX": 1724,
+        "minY": 420,
+        "maxX": 1747,
+        "maxY": 480
+      }
+    },
+    "minX": 1724,
+    "minY": 420,
+    "maxX": 1747,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1385,
+            "y": 420
+          },
+          {
+            "x": 1408,
+            "y": 420
+          },
+          {
+            "x": 1408,
+            "y": 480
+          },
+          {
+            "x": 1385,
+            "y": 480
+          }
+        ]
+      },
+      "text": "U",
+      "boundingRect": {
+        "minX": 1385,
+        "minY": 420,
+        "maxX": 1408,
+        "maxY": 480
+      }
+    },
+    "minX": 1385,
+    "minY": 420,
+    "maxX": 1408,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1499,
+            "y": 420
+          },
+          {
+            "x": 1522,
+            "y": 420
+          },
+          {
+            "x": 1522,
+            "y": 480
+          },
+          {
+            "x": 1499,
+            "y": 480
+          }
+        ]
+      },
+      "text": "B",
+      "boundingRect": {
+        "minX": 1499,
+        "minY": 420,
+        "maxX": 1522,
+        "maxY": 480
+      }
+    },
+    "minX": 1499,
+    "minY": 420,
+    "maxX": 1522,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1611,
+            "y": 420
+          },
+          {
+            "x": 1634,
+            "y": 420
+          },
+          {
+            "x": 1634,
+            "y": 480
+          },
+          {
+            "x": 1611,
+            "y": 480
+          }
+        ]
+      },
+      "text": "U",
+      "boundingRect": {
+        "minX": 1611,
+        "minY": 420,
+        "maxX": 1634,
+        "maxY": 480
+      }
+    },
+    "minX": 1611,
+    "minY": 420,
+    "maxX": 1634,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1710,
+            "y": 508
+          },
+          {
+            "x": 1733,
+            "y": 508
+          },
+          {
+            "x": 1733,
+            "y": 570
+          },
+          {
+            "x": 1710,
+            "y": 570
+          }
+        ]
+      },
+      "text": "M",
+      "boundingRect": {
+        "minX": 1710,
+        "minY": 508,
+        "maxX": 1733,
+        "maxY": 570
+      }
+    },
+    "minX": 1710,
+    "minY": 508,
+    "maxX": 1733,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1497,
+            "y": 508
+          },
+          {
+            "x": 1520,
+            "y": 508
+          },
+          {
+            "x": 1520,
+            "y": 570
+          },
+          {
+            "x": 1497,
+            "y": 570
+          }
+        ]
+      },
+      "text": "V",
+      "boundingRect": {
+        "minX": 1497,
+        "minY": 508,
+        "maxX": 1520,
+        "maxY": 570
+      }
+    },
+    "minX": 1497,
+    "minY": 508,
+    "maxX": 1520,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 599,
+            "y": 594
+          },
+          {
+            "x": 621,
+            "y": 594
+          },
+          {
+            "x": 621,
+            "y": 650
+          },
+          {
+            "x": 599,
+            "y": 650
+          }
+        ]
+      },
+      "text": "Y",
+      "boundingRect": {
+        "minX": 599,
+        "minY": 594,
+        "maxX": 621,
+        "maxY": 650
+      }
+    },
+    "minX": 599,
+    "minY": 594,
+    "maxX": 621,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 940,
+            "y": 676
+          },
+          {
+            "x": 960,
+            "y": 676
+          },
+          {
+            "x": 959,
+            "y": 730
+          },
+          {
+            "x": 939,
+            "y": 730
+          }
+        ]
+      },
+      "text": "B",
+      "boundingRect": {
+        "minX": 939,
+        "minY": 676,
+        "maxX": 960,
+        "maxY": 730
+      }
+    },
+    "minX": 939,
+    "minY": 676,
+    "maxX": 960,
+    "maxY": 730
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 895,
+            "y": 594
+          },
+          {
+            "x": 982,
+            "y": 594
+          },
+          {
+            "x": 982,
+            "y": 650
+          },
+          {
+            "x": 895,
+            "y": 650
+          }
+        ]
+      },
+      "text": "M",
+      "boundingRect": {
+        "minX": 895,
+        "minY": 594,
+        "maxX": 982,
+        "maxY": 650
+      }
+    },
+    "minX": 895,
+    "minY": 594,
+    "maxX": 982,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 807,
+            "y": 594
+          },
+          {
+            "x": 882,
+            "y": 594
+          },
+          {
+            "x": 882,
+            "y": 650
+          },
+          {
+            "x": 807,
+            "y": 650
+          }
+        ]
+      },
+      "text": "C",
+      "boundingRect": {
+        "minX": 807,
+        "minY": 594,
+        "maxX": 882,
+        "maxY": 650
+      }
+    },
+    "minX": 807,
+    "minY": 594,
+    "maxX": 882,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 852,
+            "y": 674
+          },
+          {
+            "x": 872,
+            "y": 674
+          },
+          {
+            "x": 871,
+            "y": 728
+          },
+          {
+            "x": 851,
+            "y": 728
+          }
+        ]
+      },
+      "text": ",",
+      "boundingRect": {
+        "minX": 851,
+        "minY": 674,
+        "maxX": 872,
+        "maxY": 728
+      }
+    },
+    "minX": 851,
+    "minY": 674,
+    "maxX": 872,
+    "maxY": 728
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 718,
+            "y": 673
+          },
+          {
+            "x": 738,
+            "y": 673
+          },
+          {
+            "x": 737,
+            "y": 727
+          },
+          {
+            "x": 717,
+            "y": 727
+          }
+        ]
+      },
+      "text": "T",
+      "boundingRect": {
+        "minX": 717,
+        "minY": 673,
+        "maxX": 738,
+        "maxY": 727
+      }
+    },
+    "minX": 717,
+    "minY": 673,
+    "maxX": 738,
+    "maxY": 727
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1051,
+            "y": 677
+          },
+          {
+            "x": 1071,
+            "y": 677
+          },
+          {
+            "x": 1070,
+            "y": 731
+          },
+          {
+            "x": 1050,
+            "y": 731
+          }
+        ]
+      },
+      "text": "R",
+      "boundingRect": {
+        "minX": 1050,
+        "minY": 677,
+        "maxX": 1071,
+        "maxY": 731
+      }
+    },
+    "minX": 1050,
+    "minY": 677,
+    "maxX": 1071,
+    "maxY": 731
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 829,
+            "y": 674
+          },
+          {
+            "x": 849,
+            "y": 674
+          },
+          {
+            "x": 848,
+            "y": 728
+          },
+          {
+            "x": 828,
+            "y": 728
+          }
+        ]
+      },
+      "text": "Q",
+      "boundingRect": {
+        "minX": 828,
+        "minY": 674,
+        "maxX": 849,
+        "maxY": 728
+      }
+    },
+    "minX": 828,
+    "minY": 674,
+    "maxX": 849,
+    "maxY": 728
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 907,
+            "y": 508
+          },
+          {
+            "x": 994,
+            "y": 508
+          },
+          {
+            "x": 994,
+            "y": 570
+          },
+          {
+            "x": 907,
+            "y": 570
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 907,
+        "minY": 508,
+        "maxX": 994,
+        "maxY": 570
+      }
+    },
+    "minX": 907,
+    "minY": 508,
+    "maxX": 994,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 559,
+            "y": 508
+          },
+          {
+            "x": 652,
+            "y": 508
+          },
+          {
+            "x": 652,
+            "y": 570
+          },
+          {
+            "x": 559,
+            "y": 570
+          }
+        ]
+      },
+      "text": "G",
+      "boundingRect": {
+        "minX": 559,
+        "minY": 508,
+        "maxX": 652,
+        "maxY": 570
+      }
+    },
+    "minX": 559,
+    "minY": 508,
+    "maxX": 652,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 824,
+            "y": 508
+          },
+          {
+            "x": 847,
+            "y": 508
+          },
+          {
+            "x": 847,
+            "y": 570
+          },
+          {
+            "x": 824,
+            "y": 570
+          }
+        ]
+      },
+      "text": "U",
+      "boundingRect": {
+        "minX": 824,
+        "minY": 508,
+        "maxX": 847,
+        "maxY": 570
+      }
+    },
+    "minX": 824,
+    "minY": 508,
+    "maxX": 847,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1014,
+            "y": 508
+          },
+          {
+            "x": 1100,
+            "y": 508
+          },
+          {
+            "x": 1100,
+            "y": 570
+          },
+          {
+            "x": 1014,
+            "y": 570
+          }
+        ]
+      },
+      "text": "W",
+      "boundingRect": {
+        "minX": 1014,
+        "minY": 508,
+        "maxX": 1100,
+        "maxY": 570
+      }
+    },
+    "minX": 1014,
+    "minY": 508,
+    "maxX": 1100,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 674,
+            "y": 508
+          },
+          {
+            "x": 767,
+            "y": 508
+          },
+          {
+            "x": 767,
+            "y": 570
+          },
+          {
+            "x": 674,
+            "y": 570
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 674,
+        "minY": 508,
+        "maxX": 767,
+        "maxY": 570
+      }
+    },
+    "minX": 674,
+    "minY": 508,
+    "maxX": 767,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 480,
+            "y": 508
+          },
+          {
+            "x": 503,
+            "y": 508
+          },
+          {
+            "x": 503,
+            "y": 570
+          },
+          {
+            "x": 480,
+            "y": 570
+          }
+        ]
+      },
+      "text": "Y",
+      "boundingRect": {
+        "minX": 480,
+        "minY": 508,
+        "maxX": 503,
+        "maxY": 570
+      }
+    },
+    "minX": 480,
+    "minY": 508,
+    "maxX": 503,
+    "maxY": 570
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 715,
+            "y": 594
+          },
+          {
+            "x": 737,
+            "y": 594
+          },
+          {
+            "x": 737,
+            "y": 650
+          },
+          {
+            "x": 715,
+            "y": 650
+          }
+        ]
+      },
+      "text": "F",
+      "boundingRect": {
+        "minX": 715,
+        "minY": 594,
+        "maxX": 737,
+        "maxY": 650
+      }
+    },
+    "minX": 715,
+    "minY": 594,
+    "maxX": 737,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1001,
+            "y": 594
+          },
+          {
+            "x": 1100,
+            "y": 594
+          },
+          {
+            "x": 1100,
+            "y": 650
+          },
+          {
+            "x": 1001,
+            "y": 650
+          }
+        ]
+      },
+      "text": "M",
+      "boundingRect": {
+        "minX": 1001,
+        "minY": 594,
+        "maxX": 1100,
+        "maxY": 650
+      }
+    },
+    "minX": 1001,
+    "minY": 594,
+    "maxX": 1100,
+    "maxY": 650
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 820,
+            "y": 420
+          },
+          {
+            "x": 843,
+            "y": 420
+          },
+          {
+            "x": 843,
+            "y": 480
+          },
+          {
+            "x": 820,
+            "y": 480
+          }
+        ]
+      },
+      "text": "Z",
+      "boundingRect": {
+        "minX": 820,
+        "minY": 420,
+        "maxX": 843,
+        "maxY": 480
+      }
+    },
+    "minX": 820,
+    "minY": 420,
+    "maxX": 843,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 707,
+            "y": 420
+          },
+          {
+            "x": 730,
+            "y": 420
+          },
+          {
+            "x": 730,
+            "y": 480
+          },
+          {
+            "x": 707,
+            "y": 480
+          }
+        ]
+      },
+      "text": "T",
+      "boundingRect": {
+        "minX": 707,
+        "minY": 420,
+        "maxX": 730,
+        "maxY": 480
+      }
+    },
+    "minX": 707,
+    "minY": 420,
+    "maxX": 730,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1124,
+            "y": 420
+          },
+          {
+            "x": 1216,
+            "y": 420
+          },
+          {
+            "x": 1216,
+            "y": 480
+          },
+          {
+            "x": 1124,
+            "y": 480
+          }
+        ]
+      },
+      "text": "K",
+      "boundingRect": {
+        "minX": 1124,
+        "minY": 420,
+        "maxX": 1216,
+        "maxY": 480
+      }
+    },
+    "minX": 1124,
+    "minY": 420,
+    "maxX": 1216,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 942,
+            "y": 420
+          },
+          {
+            "x": 965,
+            "y": 420
+          },
+          {
+            "x": 965,
+            "y": 480
+          },
+          {
+            "x": 942,
+            "y": 480
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 942,
+        "minY": 420,
+        "maxX": 965,
+        "maxY": 480
+      }
+    },
+    "minX": 942,
+    "minY": 420,
+    "maxX": 965,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 325,
+            "y": 420
+          },
+          {
+            "x": 417,
+            "y": 420
+          },
+          {
+            "x": 417,
+            "y": 480
+          },
+          {
+            "x": 325,
+            "y": 480
+          }
+        ]
+      },
+      "text": "V",
+      "boundingRect": {
+        "minX": 325,
+        "minY": 420,
+        "maxX": 417,
+        "maxY": 480
+      }
+    },
+    "minX": 325,
+    "minY": 420,
+    "maxX": 417,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1046,
+            "y": 420
+          },
+          {
+            "x": 1069,
+            "y": 420
+          },
+          {
+            "x": 1069,
+            "y": 480
+          },
+          {
+            "x": 1046,
+            "y": 480
+          }
+        ]
+      },
+      "text": "R",
+      "boundingRect": {
+        "minX": 1046,
+        "minY": 420,
+        "maxX": 1069,
+        "maxY": 480
+      }
+    },
+    "minX": 1046,
+    "minY": 420,
+    "maxX": 1069,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 551,
+            "y": 420
+          },
+          {
+            "x": 643,
+            "y": 420
+          },
+          {
+            "x": 643,
+            "y": 480
+          },
+          {
+            "x": 551,
+            "y": 480
+          }
+        ]
+      },
+      "text": "R",
+      "boundingRect": {
+        "minX": 551,
+        "minY": 420,
+        "maxX": 643,
+        "maxY": 480
+      }
+    },
+    "minX": 551,
+    "minY": 420,
+    "maxX": 643,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 439,
+            "y": 420
+          },
+          {
+            "x": 530,
+            "y": 420
+          },
+          {
+            "x": 530,
+            "y": 480
+          },
+          {
+            "x": 439,
+            "y": 480
+          }
+        ]
+      },
+      "text": "W",
+      "boundingRect": {
+        "minX": 439,
+        "minY": 420,
+        "maxX": 530,
+        "maxY": 480
+      }
+    },
+    "minX": 439,
+    "minY": 420,
+    "maxX": 530,
+    "maxY": 480
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2058,
+            "y": 329
+          },
+          {
+            "x": 2081,
+            "y": 329
+          },
+          {
+            "x": 2081,
+            "y": 391
+          },
+          {
+            "x": 2058,
+            "y": 391
+          }
+        ]
+      },
+      "text": "o",
+      "boundingRect": {
+        "minX": 2058,
+        "minY": 329,
+        "maxX": 2081,
+        "maxY": 391
+      }
+    },
+    "minX": 2058,
+    "minY": 329,
+    "maxX": 2081,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2174,
+            "y": 329
+          },
+          {
+            "x": 2197,
+            "y": 329
+          },
+          {
+            "x": 2197,
+            "y": 391
+          },
+          {
+            "x": 2174,
+            "y": 391
+          }
+        ]
+      },
+      "text": "G",
+      "boundingRect": {
+        "minX": 2174,
+        "minY": 329,
+        "maxX": 2197,
+        "maxY": 391
+      }
+    },
+    "minX": 2174,
+    "minY": 329,
+    "maxX": 2197,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1957,
+            "y": 240
+          },
+          {
+            "x": 1982,
+            "y": 240
+          },
+          {
+            "x": 1982,
+            "y": 303
+          },
+          {
+            "x": 1957,
+            "y": 303
+          }
+        ]
+      },
+      "text": "T",
+      "boundingRect": {
+        "minX": 1957,
+        "minY": 240,
+        "maxX": 1982,
+        "maxY": 303
+      }
+    },
+    "minX": 1957,
+    "minY": 240,
+    "maxX": 1982,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2066,
+            "y": 240
+          },
+          {
+            "x": 2091,
+            "y": 240
+          },
+          {
+            "x": 2091,
+            "y": 303
+          },
+          {
+            "x": 2066,
+            "y": 303
+          }
+        ]
+      },
+      "text": "Z",
+      "boundingRect": {
+        "minX": 2066,
+        "minY": 240,
+        "maxX": 2091,
+        "maxY": 303
+      }
+    },
+    "minX": 2066,
+    "minY": 240,
+    "maxX": 2091,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2286,
+            "y": 240
+          },
+          {
+            "x": 2311,
+            "y": 240
+          },
+          {
+            "x": 2311,
+            "y": 303
+          },
+          {
+            "x": 2286,
+            "y": 303
+          }
+        ]
+      },
+      "text": "W",
+      "boundingRect": {
+        "minX": 2286,
+        "minY": 240,
+        "maxX": 2311,
+        "maxY": 303
+      }
+    },
+    "minX": 2286,
+    "minY": 240,
+    "maxX": 2311,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2396,
+            "y": 240
+          },
+          {
+            "x": 2421,
+            "y": 240
+          },
+          {
+            "x": 2421,
+            "y": 303
+          },
+          {
+            "x": 2396,
+            "y": 303
+          }
+        ]
+      },
+      "text": "L",
+      "boundingRect": {
+        "minX": 2396,
+        "minY": 240,
+        "maxX": 2421,
+        "maxY": 303
+      }
+    },
+    "minX": 2396,
+    "minY": 240,
+    "maxX": 2421,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2474,
+            "y": 240
+          },
+          {
+            "x": 2563,
+            "y": 240
+          },
+          {
+            "x": 2563,
+            "y": 303
+          },
+          {
+            "x": 2474,
+            "y": 303
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 2474,
+        "minY": 240,
+        "maxX": 2563,
+        "maxY": 303
+      }
+    },
+    "minX": 2474,
+    "minY": 240,
+    "maxX": 2563,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "EOL_SURE_SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2510,
+            "y": 329
+          },
+          {
+            "x": 2533,
+            "y": 329
+          },
+          {
+            "x": 2533,
+            "y": 391
+          },
+          {
+            "x": 2510,
+            "y": 391
+          }
+        ]
+      },
+      "text": "Y",
+      "boundingRect": {
+        "minX": 2510,
+        "minY": 329,
+        "maxX": 2533,
+        "maxY": 391
+      }
+    },
+    "minX": 2510,
+    "minY": 329,
+    "maxX": 2533,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2289,
+            "y": 329
+          },
+          {
+            "x": 2312,
+            "y": 329
+          },
+          {
+            "x": 2312,
+            "y": 391
+          },
+          {
+            "x": 2289,
+            "y": 391
+          }
+        ]
+      },
+      "text": "S",
+      "boundingRect": {
+        "minX": 2289,
+        "minY": 329,
+        "maxX": 2312,
+        "maxY": 391
+      }
+    },
+    "minX": 2289,
+    "minY": 329,
+    "maxX": 2312,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2395,
+            "y": 329
+          },
+          {
+            "x": 2418,
+            "y": 329
+          },
+          {
+            "x": 2418,
+            "y": 391
+          },
+          {
+            "x": 2395,
+            "y": 391
+          }
+        ]
+      },
+      "text": "I",
+      "boundingRect": {
+        "minX": 2395,
+        "minY": 329,
+        "maxX": 2418,
+        "maxY": 391
+      }
+    },
+    "minX": 2395,
+    "minY": 329,
+    "maxX": 2418,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "EOL_SURE_SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2584,
+            "y": 240
+          },
+          {
+            "x": 2673,
+            "y": 240
+          },
+          {
+            "x": 2673,
+            "y": 303
+          },
+          {
+            "x": 2584,
+            "y": 303
+          }
+        ]
+      },
+      "text": "V",
+      "boundingRect": {
+        "minX": 2584,
+        "minY": 240,
+        "maxX": 2673,
+        "maxY": 303
+      }
+    },
+    "minX": 2584,
+    "minY": 240,
+    "maxX": 2673,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2400,
+            "y": 154
+          },
+          {
+            "x": 2424,
+            "y": 154
+          },
+          {
+            "x": 2424,
+            "y": 216
+          },
+          {
+            "x": 2400,
+            "y": 216
+          }
+        ]
+      },
+      "text": "B",
+      "boundingRect": {
+        "minX": 2400,
+        "minY": 154,
+        "maxX": 2424,
+        "maxY": 216
+      }
+    },
+    "minX": 2400,
+    "minY": 154,
+    "maxX": 2424,
+    "maxY": 216
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2518,
+            "y": 153
+          },
+          {
+            "x": 2542,
+            "y": 153
+          },
+          {
+            "x": 2542,
+            "y": 215
+          },
+          {
+            "x": 2518,
+            "y": 215
+          }
+        ]
+      },
+      "text": "C",
+      "boundingRect": {
+        "minX": 2518,
+        "minY": 153,
+        "maxX": 2542,
+        "maxY": 215
+      }
+    },
+    "minX": 2518,
+    "minY": 153,
+    "maxX": 2542,
+    "maxY": 215
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2179,
+            "y": 154
+          },
+          {
+            "x": 2203,
+            "y": 154
+          },
+          {
+            "x": 2203,
+            "y": 216
+          },
+          {
+            "x": 2179,
+            "y": 216
+          }
+        ]
+      },
+      "text": "Z",
+      "boundingRect": {
+        "minX": 2179,
+        "minY": 154,
+        "maxX": 2203,
+        "maxY": 216
+      }
+    },
+    "minX": 2179,
+    "minY": 154,
+    "maxX": 2203,
+    "maxY": 216
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2069,
+            "y": 154
+          },
+          {
+            "x": 2093,
+            "y": 154
+          },
+          {
+            "x": 2093,
+            "y": 216
+          },
+          {
+            "x": 2069,
+            "y": 216
+          }
+        ]
+      },
+      "text": "F",
+      "boundingRect": {
+        "minX": 2069,
+        "minY": 154,
+        "maxX": 2093,
+        "maxY": 216
+      }
+    },
+    "minX": 2069,
+    "minY": 154,
+    "maxX": 2093,
+    "maxY": 216
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "EOL_SURE_SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2625,
+            "y": 153
+          },
+          {
+            "x": 2649,
+            "y": 153
+          },
+          {
+            "x": 2649,
+            "y": 215
+          },
+          {
+            "x": 2625,
+            "y": 215
+          }
+        ]
+      },
+      "text": "G",
+      "boundingRect": {
+        "minX": 2625,
+        "minY": 153,
+        "maxX": 2649,
+        "maxY": 215
+      }
+    },
+    "minX": 2625,
+    "minY": 153,
+    "maxX": 2649,
+    "maxY": 215
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2290,
+            "y": 154
+          },
+          {
+            "x": 2314,
+            "y": 154
+          },
+          {
+            "x": 2314,
+            "y": 216
+          },
+          {
+            "x": 2290,
+            "y": 216
+          }
+        ]
+      },
+      "text": "S",
+      "boundingRect": {
+        "minX": 2290,
+        "minY": 154,
+        "maxX": 2314,
+        "maxY": 216
+      }
+    },
+    "minX": 2290,
+    "minY": 154,
+    "maxX": 2314,
+    "maxY": 216
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 2176,
+            "y": 240
+          },
+          {
+            "x": 2201,
+            "y": 240
+          },
+          {
+            "x": 2201,
+            "y": 303
+          },
+          {
+            "x": 2176,
+            "y": 303
+          }
+        ]
+      },
+      "text": "P",
+      "boundingRect": {
+        "minX": 2176,
+        "minY": 240,
+        "maxX": 2201,
+        "maxY": 303
+      }
+    },
+    "minX": 2176,
+    "minY": 240,
+    "maxX": 2201,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1953,
+            "y": 329
+          },
+          {
+            "x": 1976,
+            "y": 329
+          },
+          {
+            "x": 1976,
+            "y": 391
+          },
+          {
+            "x": 1953,
+            "y": 391
+          }
+        ]
+      },
+      "text": "F",
+      "boundingRect": {
+        "minX": 1953,
+        "minY": 329,
+        "maxX": 1976,
+        "maxY": 391
+      }
+    },
+    "minX": 1953,
+    "minY": 329,
+    "maxX": 1976,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1386,
+            "y": 329
+          },
+          {
+            "x": 1409,
+            "y": 329
+          },
+          {
+            "x": 1409,
+            "y": 391
+          },
+          {
+            "x": 1386,
+            "y": 391
+          }
+        ]
+      },
+      "text": "G",
+      "boundingRect": {
+        "minX": 1386,
+        "minY": 329,
+        "maxX": 1409,
+        "maxY": 391
+      }
+    },
+    "minX": 1386,
+    "minY": 329,
+    "maxX": 1409,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1837,
+            "y": 329
+          },
+          {
+            "x": 1860,
+            "y": 329
+          },
+          {
+            "x": 1860,
+            "y": 391
+          },
+          {
+            "x": 1837,
+            "y": 391
+          }
+        ]
+      },
+      "text": "B",
+      "boundingRect": {
+        "minX": 1837,
+        "minY": 329,
+        "maxX": 1860,
+        "maxY": 391
+      }
+    },
+    "minX": 1837,
+    "minY": 329,
+    "maxX": 1860,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1714,
+            "y": 329
+          },
+          {
+            "x": 1737,
+            "y": 329
+          },
+          {
+            "x": 1737,
+            "y": 391
+          },
+          {
+            "x": 1714,
+            "y": 391
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 1714,
+        "minY": 329,
+        "maxX": 1737,
+        "maxY": 391
+      }
+    },
+    "minX": 1714,
+    "minY": 329,
+    "maxX": 1737,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1164,
+            "y": 329
+          },
+          {
+            "x": 1187,
+            "y": 329
+          },
+          {
+            "x": 1187,
+            "y": 391
+          },
+          {
+            "x": 1164,
+            "y": 391
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 1164,
+        "minY": 329,
+        "maxX": 1187,
+        "maxY": 391
+      }
+    },
+    "minX": 1164,
+    "minY": 329,
+    "maxX": 1187,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1279,
+            "y": 329
+          },
+          {
+            "x": 1302,
+            "y": 329
+          },
+          {
+            "x": 1302,
+            "y": 391
+          },
+          {
+            "x": 1279,
+            "y": 391
+          }
+        ]
+      },
+      "text": "T",
+      "boundingRect": {
+        "minX": 1279,
+        "minY": 329,
+        "maxX": 1302,
+        "maxY": 391
+      }
+    },
+    "minX": 1279,
+    "minY": 329,
+    "maxX": 1302,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1607,
+            "y": 329
+          },
+          {
+            "x": 1630,
+            "y": 329
+          },
+          {
+            "x": 1630,
+            "y": 391
+          },
+          {
+            "x": 1607,
+            "y": 391
+          }
+        ]
+      },
+      "text": "R",
+      "boundingRect": {
+        "minX": 1607,
+        "minY": 329,
+        "maxX": 1630,
+        "maxY": 391
+      }
+    },
+    "minX": 1607,
+    "minY": 329,
+    "maxX": 1630,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1496,
+            "y": 329
+          },
+          {
+            "x": 1519,
+            "y": 329
+          },
+          {
+            "x": 1519,
+            "y": 391
+          },
+          {
+            "x": 1496,
+            "y": 391
+          }
+        ]
+      },
+      "text": "D",
+      "boundingRect": {
+        "minX": 1496,
+        "minY": 329,
+        "maxX": 1519,
+        "maxY": 391
+      }
+    },
+    "minX": 1496,
+    "minY": 329,
+    "maxX": 1519,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1163,
+            "y": 157
+          },
+          {
+            "x": 1187,
+            "y": 157
+          },
+          {
+            "x": 1187,
+            "y": 219
+          },
+          {
+            "x": 1163,
+            "y": 219
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 1163,
+        "minY": 157,
+        "maxX": 1187,
+        "maxY": 219
+      }
+    },
+    "minX": 1163,
+    "minY": 157,
+    "maxX": 1187,
+    "maxY": 219
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1728,
+            "y": 240
+          },
+          {
+            "x": 1753,
+            "y": 240
+          },
+          {
+            "x": 1753,
+            "y": 303
+          },
+          {
+            "x": 1728,
+            "y": 303
+          }
+        ]
+      },
+      "text": "U",
+      "boundingRect": {
+        "minX": 1728,
+        "minY": 240,
+        "maxX": 1753,
+        "maxY": 303
+      }
+    },
+    "minX": 1728,
+    "minY": 240,
+    "maxX": 1753,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1582,
+            "y": 240
+          },
+          {
+            "x": 1678,
+            "y": 240
+          },
+          {
+            "x": 1678,
+            "y": 303
+          },
+          {
+            "x": 1582,
+            "y": 303
+          }
+        ]
+      },
+      "text": "f",
+      "boundingRect": {
+        "minX": 1582,
+        "minY": 240,
+        "maxX": 1678,
+        "maxY": 303
+      }
+    },
+    "minX": 1582,
+    "minY": 240,
+    "maxX": 1678,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1837,
+            "y": 240
+          },
+          {
+            "x": 1862,
+            "y": 240
+          },
+          {
+            "x": 1862,
+            "y": 303
+          },
+          {
+            "x": 1837,
+            "y": 303
+          }
+        ]
+      },
+      "text": "U",
+      "boundingRect": {
+        "minX": 1837,
+        "minY": 240,
+        "maxX": 1862,
+        "maxY": 303
+      }
+    },
+    "minX": 1837,
+    "minY": 240,
+    "maxX": 1862,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1234,
+            "y": 240
+          },
+          {
+            "x": 1330,
+            "y": 240
+          },
+          {
+            "x": 1330,
+            "y": 303
+          },
+          {
+            "x": 1234,
+            "y": 303
+          }
+        ]
+      },
+      "text": "A",
+      "boundingRect": {
+        "minX": 1234,
+        "minY": 240,
+        "maxX": 1330,
+        "maxY": 303
+      }
+    },
+    "minX": 1234,
+    "minY": 240,
+    "maxX": 1330,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1116,
+            "y": 240
+          },
+          {
+            "x": 1211,
+            "y": 240
+          },
+          {
+            "x": 1211,
+            "y": 303
+          },
+          {
+            "x": 1116,
+            "y": 303
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 1116,
+        "minY": 240,
+        "maxX": 1211,
+        "maxY": 303
+      }
+    },
+    "minX": 1116,
+    "minY": 240,
+    "maxX": 1211,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1389,
+            "y": 240
+          },
+          {
+            "x": 1414,
+            "y": 240
+          },
+          {
+            "x": 1414,
+            "y": 303
+          },
+          {
+            "x": 1389,
+            "y": 303
+          }
+        ]
+      },
+      "text": "Z",
+      "boundingRect": {
+        "minX": 1389,
+        "minY": 240,
+        "maxX": 1414,
+        "maxY": 303
+      }
+    },
+    "minX": 1389,
+    "minY": 240,
+    "maxX": 1414,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1463,
+            "y": 240
+          },
+          {
+            "x": 1559,
+            "y": 240
+          },
+          {
+            "x": 1559,
+            "y": 303
+          },
+          {
+            "x": 1463,
+            "y": 303
+          }
+        ]
+      },
+      "text": "o",
+      "boundingRect": {
+        "minX": 1463,
+        "minY": 240,
+        "maxX": 1559,
+        "maxY": 303
+      }
+    },
+    "minX": 1463,
+    "minY": 240,
+    "maxX": 1559,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1691,
+            "y": 156
+          },
+          {
+            "x": 1787,
+            "y": 156
+          },
+          {
+            "x": 1787,
+            "y": 218
+          },
+          {
+            "x": 1691,
+            "y": 218
+          }
+        ]
+      },
+      "text": "L",
+      "boundingRect": {
+        "minX": 1691,
+        "minY": 156,
+        "maxX": 1787,
+        "maxY": 218
+      }
+    },
+    "minX": 1691,
+    "minY": 156,
+    "maxX": 1787,
+    "maxY": 218
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1053,
+            "y": 157
+          },
+          {
+            "x": 1077,
+            "y": 157
+          },
+          {
+            "x": 1077,
+            "y": 219
+          },
+          {
+            "x": 1053,
+            "y": 219
+          }
+        ]
+      },
+      "text": "C",
+      "boundingRect": {
+        "minX": 1053,
+        "minY": 157,
+        "maxX": 1077,
+        "maxY": 219
+      }
+    },
+    "minX": 1053,
+    "minY": 157,
+    "maxX": 1077,
+    "maxY": 219
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1581,
+            "y": 156
+          },
+          {
+            "x": 1669,
+            "y": 156
+          },
+          {
+            "x": 1669,
+            "y": 218
+          },
+          {
+            "x": 1581,
+            "y": 218
+          }
+        ]
+      },
+      "text": "I",
+      "boundingRect": {
+        "minX": 1581,
+        "minY": 156,
+        "maxX": 1669,
+        "maxY": 218
+      }
+    },
+    "minX": 1581,
+    "minY": 156,
+    "maxX": 1669,
+    "maxY": 218
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1951,
+            "y": 156
+          },
+          {
+            "x": 1975,
+            "y": 156
+          },
+          {
+            "x": 1975,
+            "y": 218
+          },
+          {
+            "x": 1951,
+            "y": 218
+          }
+        ]
+      },
+      "text": "W",
+      "boundingRect": {
+        "minX": 1951,
+        "minY": 156,
+        "maxX": 1975,
+        "maxY": 218
+      }
+    },
+    "minX": 1951,
+    "minY": 156,
+    "maxX": 1975,
+    "maxY": 218
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1348,
+            "y": 157
+          },
+          {
+            "x": 1451,
+            "y": 157
+          },
+          {
+            "x": 1451,
+            "y": 219
+          },
+          {
+            "x": 1348,
+            "y": 219
+          }
+        ]
+      },
+      "text": "L",
+      "boundingRect": {
+        "minX": 1348,
+        "minY": 157,
+        "maxX": 1451,
+        "maxY": 219
+      }
+    },
+    "minX": 1348,
+    "minY": 157,
+    "maxX": 1451,
+    "maxY": 219
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1836,
+            "y": 156
+          },
+          {
+            "x": 1860,
+            "y": 156
+          },
+          {
+            "x": 1860,
+            "y": 218
+          },
+          {
+            "x": 1836,
+            "y": 218
+          }
+        ]
+      },
+      "text": "K",
+      "boundingRect": {
+        "minX": 1836,
+        "minY": 156,
+        "maxX": 1860,
+        "maxY": 218
+      }
+    },
+    "minX": 1836,
+    "minY": 156,
+    "maxX": 1860,
+    "maxY": 218
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1486,
+            "y": 157
+          },
+          {
+            "x": 1510,
+            "y": 157
+          },
+          {
+            "x": 1510,
+            "y": 219
+          },
+          {
+            "x": 1486,
+            "y": 219
+          }
+        ]
+      },
+      "text": "M",
+      "boundingRect": {
+        "minX": 1486,
+        "minY": 157,
+        "maxX": 1510,
+        "maxY": 219
+      }
+    },
+    "minX": 1486,
+    "minY": 157,
+    "maxX": 1510,
+    "maxY": 219
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1229,
+            "y": 157
+          },
+          {
+            "x": 1324,
+            "y": 157
+          },
+          {
+            "x": 1324,
+            "y": 219
+          },
+          {
+            "x": 1229,
+            "y": 219
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 1229,
+        "minY": 157,
+        "maxX": 1324,
+        "maxY": 219
+      }
+    },
+    "minX": 1229,
+    "minY": 157,
+    "maxX": 1324,
+    "maxY": 219
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 467,
+            "y": 329
+          },
+          {
+            "x": 490,
+            "y": 329
+          },
+          {
+            "x": 490,
+            "y": 391
+          },
+          {
+            "x": 467,
+            "y": 391
+          }
+        ]
+      },
+      "text": "P",
+      "boundingRect": {
+        "minX": 467,
+        "minY": 329,
+        "maxX": 490,
+        "maxY": 391
+      }
+    },
+    "minX": 467,
+    "minY": 329,
+    "maxX": 490,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 935,
+            "y": 329
+          },
+          {
+            "x": 958,
+            "y": 329
+          },
+          {
+            "x": 958,
+            "y": 391
+          },
+          {
+            "x": 935,
+            "y": 391
+          }
+        ]
+      },
+      "text": "F",
+      "boundingRect": {
+        "minX": 935,
+        "minY": 329,
+        "maxX": 958,
+        "maxY": 391
+      }
+    },
+    "minX": 935,
+    "minY": 329,
+    "maxX": 958,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 353,
+            "y": 329
+          },
+          {
+            "x": 376,
+            "y": 329
+          },
+          {
+            "x": 376,
+            "y": 391
+          },
+          {
+            "x": 353,
+            "y": 391
+          }
+        ]
+      },
+      "text": "B",
+      "boundingRect": {
+        "minX": 353,
+        "minY": 329,
+        "maxX": 376,
+        "maxY": 391
+      }
+    },
+    "minX": 353,
+    "minY": 329,
+    "maxX": 376,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1050,
+            "y": 329
+          },
+          {
+            "x": 1073,
+            "y": 329
+          },
+          {
+            "x": 1073,
+            "y": 391
+          },
+          {
+            "x": 1050,
+            "y": 391
+          }
+        ]
+      },
+      "text": "L",
+      "boundingRect": {
+        "minX": 1050,
+        "minY": 329,
+        "maxX": 1073,
+        "maxY": 391
+      }
+    },
+    "minX": 1050,
+    "minY": 329,
+    "maxX": 1073,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 242,
+            "y": 329
+          },
+          {
+            "x": 265,
+            "y": 329
+          },
+          {
+            "x": 265,
+            "y": 391
+          },
+          {
+            "x": 242,
+            "y": 391
+          }
+        ]
+      },
+      "text": "J",
+      "boundingRect": {
+        "minX": 242,
+        "minY": 329,
+        "maxX": 265,
+        "maxY": 391
+      }
+    },
+    "minX": 242,
+    "minY": 329,
+    "maxX": 265,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 705,
+            "y": 329
+          },
+          {
+            "x": 728,
+            "y": 329
+          },
+          {
+            "x": 728,
+            "y": 391
+          },
+          {
+            "x": 705,
+            "y": 391
+          }
+        ]
+      },
+      "text": "V",
+      "boundingRect": {
+        "minX": 705,
+        "minY": 329,
+        "maxX": 728,
+        "maxY": 391
+      }
+    },
+    "minX": 705,
+    "minY": 329,
+    "maxX": 728,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 820,
+            "y": 329
+          },
+          {
+            "x": 843,
+            "y": 329
+          },
+          {
+            "x": 843,
+            "y": 391
+          },
+          {
+            "x": 820,
+            "y": 391
+          }
+        ]
+      },
+      "text": "P",
+      "boundingRect": {
+        "minX": 820,
+        "minY": 329,
+        "maxX": 843,
+        "maxY": 391
+      }
+    },
+    "minX": 820,
+    "minY": 329,
+    "maxX": 843,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 590,
+            "y": 329
+          },
+          {
+            "x": 613,
+            "y": 329
+          },
+          {
+            "x": 613,
+            "y": 391
+          },
+          {
+            "x": 590,
+            "y": 391
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 590,
+        "minY": 329,
+        "maxX": 613,
+        "maxY": 391
+      }
+    },
+    "minX": 590,
+    "minY": 329,
+    "maxX": 613,
+    "maxY": 391
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 236,
+            "y": 240
+          },
+          {
+            "x": 261,
+            "y": 240
+          },
+          {
+            "x": 261,
+            "y": 303
+          },
+          {
+            "x": 236,
+            "y": 303
+          }
+        ]
+      },
+      "text": "F",
+      "boundingRect": {
+        "minX": 236,
+        "minY": 240,
+        "maxX": 261,
+        "maxY": 303
+      }
+    },
+    "minX": 236,
+    "minY": 240,
+    "maxX": 261,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 575,
+            "y": 240
+          },
+          {
+            "x": 600,
+            "y": 240
+          },
+          {
+            "x": 600,
+            "y": 303
+          },
+          {
+            "x": 575,
+            "y": 303
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 575,
+        "minY": 240,
+        "maxX": 600,
+        "maxY": 303
+      }
+    },
+    "minX": 575,
+    "minY": 240,
+    "maxX": 600,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 342,
+            "y": 240
+          },
+          {
+            "x": 367,
+            "y": 240
+          },
+          {
+            "x": 367,
+            "y": 303
+          },
+          {
+            "x": 342,
+            "y": 303
+          }
+        ]
+      },
+      "text": "M",
+      "boundingRect": {
+        "minX": 342,
+        "minY": 240,
+        "maxX": 367,
+        "maxY": 303
+      }
+    },
+    "minX": 342,
+    "minY": 240,
+    "maxX": 367,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 119,
+            "y": 240
+          },
+          {
+            "x": 144,
+            "y": 240
+          },
+          {
+            "x": 144,
+            "y": 303
+          },
+          {
+            "x": 119,
+            "y": 303
+          }
+        ]
+      },
+      "text": "V",
+      "boundingRect": {
+        "minX": 119,
+        "minY": 240,
+        "maxX": 144,
+        "maxY": 303
+      }
+    },
+    "minX": 119,
+    "minY": 240,
+    "maxX": 144,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 887,
+            "y": 240
+          },
+          {
+            "x": 991,
+            "y": 240
+          },
+          {
+            "x": 991,
+            "y": 303
+          },
+          {
+            "x": 887,
+            "y": 303
+          }
+        ]
+      },
+      "text": "N",
+      "boundingRect": {
+        "minX": 887,
+        "minY": 240,
+        "maxX": 991,
+        "maxY": 303
+      }
+    },
+    "minX": 887,
+    "minY": 240,
+    "maxX": 991,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 821,
+            "y": 240
+          },
+          {
+            "x": 846,
+            "y": 240
+          },
+          {
+            "x": 846,
+            "y": 303
+          },
+          {
+            "x": 821,
+            "y": 303
+          }
+        ]
+      },
+      "text": "A",
+      "boundingRect": {
+        "minX": 821,
+        "minY": 240,
+        "maxX": 846,
+        "maxY": 303
+      }
+    },
+    "minX": 821,
+    "minY": 240,
+    "maxX": 846,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 702,
+            "y": 240
+          },
+          {
+            "x": 727,
+            "y": 240
+          },
+          {
+            "x": 727,
+            "y": 303
+          },
+          {
+            "x": 702,
+            "y": 303
+          }
+        ]
+      },
+      "text": "B",
+      "boundingRect": {
+        "minX": 702,
+        "minY": 240,
+        "maxX": 727,
+        "maxY": 303
+      }
+    },
+    "minX": 702,
+    "minY": 240,
+    "maxX": 727,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 1014,
+            "y": 240
+          },
+          {
+            "x": 1110,
+            "y": 240
+          },
+          {
+            "x": 1110,
+            "y": 303
+          },
+          {
+            "x": 1014,
+            "y": 303
+          }
+        ]
+      },
+      "text": "A",
+      "boundingRect": {
+        "minX": 1014,
+        "minY": 240,
+        "maxX": 1110,
+        "maxY": 303
+      }
+    },
+    "minX": 1014,
+    "minY": 240,
+    "maxX": 1110,
+    "maxY": 303
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 113,
+            "y": 160
+          },
+          {
+            "x": 137,
+            "y": 160
+          },
+          {
+            "x": 137,
+            "y": 222
+          },
+          {
+            "x": 113,
+            "y": 222
+          }
+        ]
+      },
+      "text": "C",
+      "boundingRect": {
+        "minX": 113,
+        "minY": 160,
+        "maxX": 137,
+        "maxY": 222
+      }
+    },
+    "minX": 113,
+    "minY": 160,
+    "maxX": 137,
+    "maxY": 222
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 460,
+            "y": 160
+          },
+          {
+            "x": 484,
+            "y": 160
+          },
+          {
+            "x": 484,
+            "y": 222
+          },
+          {
+            "x": 460,
+            "y": 222
+          }
+        ]
+      },
+      "text": "K",
+      "boundingRect": {
+        "minX": 460,
+        "minY": 160,
+        "maxX": 484,
+        "maxY": 222
+      }
+    },
+    "minX": 460,
+    "minY": 160,
+    "maxX": 484,
+    "maxY": 222
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 935,
+            "y": 158
+          },
+          {
+            "x": 959,
+            "y": 158
+          },
+          {
+            "x": 959,
+            "y": 220
+          },
+          {
+            "x": 935,
+            "y": 220
+          }
+        ]
+      },
+      "text": "I",
+      "boundingRect": {
+        "minX": 935,
+        "minY": 158,
+        "maxX": 959,
+        "maxY": 220
+      }
+    },
+    "minX": 935,
+    "minY": 158,
+    "maxX": 959,
+    "maxY": 220
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 784,
+            "y": 158
+          },
+          {
+            "x": 872,
+            "y": 158
+          },
+          {
+            "x": 872,
+            "y": 220
+          },
+          {
+            "x": 784,
+            "y": 220
+          }
+        ]
+      },
+      "text": "U",
+      "boundingRect": {
+        "minX": 784,
+        "minY": 158,
+        "maxX": 872,
+        "maxY": 220
+      }
+    },
+    "minX": 784,
+    "minY": 158,
+    "maxX": 872,
+    "maxY": 220
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 587,
+            "y": 158
+          },
+          {
+            "x": 611,
+            "y": 158
+          },
+          {
+            "x": 611,
+            "y": 220
+          },
+          {
+            "x": 587,
+            "y": 220
+          }
+        ]
+      },
+      "text": "E",
+      "boundingRect": {
+        "minX": 587,
+        "minY": 158,
+        "maxX": 611,
+        "maxY": 220
+      }
+    },
+    "minX": 587,
+    "minY": 158,
+    "maxX": 611,
+    "maxY": 220
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ]
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 665,
+            "y": 158
+          },
+          {
+            "x": 763,
+            "y": 158
+          },
+          {
+            "x": 763,
+            "y": 220
+          },
+          {
+            "x": 665,
+            "y": 220
+          }
+        ]
+      },
+      "text": "J",
+      "boundingRect": {
+        "minX": 665,
+        "minY": 158,
+        "maxX": 763,
+        "maxY": 220
+      }
+    },
+    "minX": 665,
+    "minY": 158,
+    "maxX": 763,
+    "maxY": 220
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 350,
+            "y": 160
+          },
+          {
+            "x": 374,
+            "y": 160
+          },
+          {
+            "x": 374,
+            "y": 222
+          },
+          {
+            "x": 350,
+            "y": 222
+          }
+        ]
+      },
+      "text": "Q",
+      "boundingRect": {
+        "minX": 350,
+        "minY": 160,
+        "maxX": 374,
+        "maxY": 222
+      }
+    },
+    "minX": 350,
+    "minY": 160,
+    "maxX": 374,
+    "maxY": 222
+  },
+  {
+    "node": {
+      "property": {
+        "detectedLanguages": [
+          {
+            "languageCode": "en"
+          }
+        ],
+        "detectedBreak": {
+          "type": "SPACE"
+        }
+      },
+      "boundingBox": {
+        "vertices": [
+          {
+            "x": 223,
+            "y": 160
+          },
+          {
+            "x": 247,
+            "y": 160
+          },
+          {
+            "x": 247,
+            "y": 222
+          },
+          {
+            "x": 223,
+            "y": 222
+          }
+        ]
+      },
+      "text": "S",
+      "boundingRect": {
+        "minX": 223,
+        "minY": 160,
+        "maxX": 247,
+        "maxY": 222
+      }
+    },
+    "minX": 223,
+    "minY": 160,
+    "maxX": 247,
+    "maxY": 222
+  }
+]

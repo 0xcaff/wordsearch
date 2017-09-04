@@ -1,3 +1,5 @@
+import knn from 'rbush-knn';
+
 // Flattens annotations from the google cloud vision API into just an array of
 // the discovered letters. The structure GCV assumes is incorrect. It assumes
 // document while we need a grid.
@@ -216,7 +218,6 @@ export function estimateExtrema({ values, bandwidth }) {
 
   const start = min - extra;
   const end = max + extra;
-  const steps = 1000;
 
   return findExtrema({
     f: kde,
@@ -235,3 +236,60 @@ const gaussianKernel = (x, h) => exp(-(x ** 2) / (2 * h ** 2));
 const getPossiblyUnbounded = (array, i) => i >= 0 && i < array.length ? array[i] : undefined;
 
 const required = (name) => { throw new TypeError(`${name} is a required parameter`) };
+
+// Given an array of selected nodes, finds the grid lines the nodes are on and
+// the average height and width of the bounding boxes.
+export const findGrid = (selected) => {
+  const centers = selected.map(node => centerOfBounds(node.boundingRect));
+
+  const xs = centers.map(ctr => ctr.x);
+  const ys = centers.map(ctr => ctr.y);
+
+  const avgHeight = mean(...selected.map(
+    ({ boundingRect: { maxY, minY }}) => maxY - minY));
+
+  const avgWidth = mean(...selected.map(
+    ({ boundingRect: { maxX, minX }}) => maxX - minX));
+
+  const { maxes: xGridLines } = estimateExtrema({
+    values: xs, bandwidth: avgWidth / 2 });
+
+  const { maxes: yGridLines } = estimateExtrema({
+    values: ys, bandwidth: avgHeight / 2 });
+
+  return { avgHeight, avgWidth, xGridLines, yGridLines };
+}
+
+// Given a grid, tolerances and a rbush tree, find the nodes nearest to the grid
+// intersections.
+//
+// xs: The x positions at which grid lines are.
+// ys: The y positions at wicch grid lines are.
+// xTolerance: The maximum displacement in the x direction between the grid
+// intersection and center of the letter bounding box.
+// yTolerance: The maximum displacement in the y direction between the grid
+// intersection and center of the letter bounding box.
+// tree: A rbush tree to find the nodes nearest to grid intersections.
+export const getPuzzleFromGrid = (xs, ys, xTolerance, yTolerance, tree) =>
+  ys.map(y => xs.map(x => {
+    const limit = 1;
+
+    const neighbors = knn(tree, x, y, limit);
+    if (neighbors.length === 0) {
+      return ' ';
+    }
+
+    const [{ node }] = neighbors;
+    const { x: cx, y: cy } = centerOfBounds(node.boundingRect);
+
+    const dx = Math.abs(cx - x);
+    const dy = Math.abs(cy - y);
+
+    if (dx > xTolerance || dy > yTolerance) {
+      // nothing within tolerance
+      return ' ';
+    }
+
+    const { text } = node;
+    return text;
+  }));

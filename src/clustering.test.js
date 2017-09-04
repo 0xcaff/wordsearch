@@ -3,6 +3,8 @@ import { estimateExtrema } from './utils';
 const estimates = ({ f0r, dim }) =>
   `estimates clusters for the ${f0r} puzzle in the ${dim}-dimension`;
 
+// bandwidth is 1 / 2 * avg size
+
 const data = [{
   it: estimates({ f0r: 'butterfly', dim: 'x' }),
   values: [
