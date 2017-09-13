@@ -6,7 +6,7 @@ import Button from './Button';
 
 import {
   withPosition, expandSelection, boundsFromRect, toggleInSet, boundsOfVertices,
-  compareBounds, getPuzzleFromGrid, findGrid,
+  compareBounds, getPuzzleFromGrid, findGrid, sortWordSelected,
 } from './utils';
 
 import './Annotations.css';
@@ -269,9 +269,8 @@ export default class Annotations extends Component {
     // get the selected nodes
     const selected = Array.from(this.selected.values());
 
-    // sort from left to right, top to bottom
-    const sorted = selected.slice().sort((a, b) =>
-      compareBounds(a.boundingRect, b.boundingRect));
+    // TODO: fixme
+    const sorted = sortWordSelected(selected.slice());
 
     const word = sorted.map(node => node.text).join('');
     this.selected.clear();
