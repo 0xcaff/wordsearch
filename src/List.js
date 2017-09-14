@@ -56,7 +56,8 @@ export default class List extends Component {
   render() {
     console.log("List.render")
 
-    const { itemProps, focused, items } = this.props;
+    const { focused, items, itemProps = () => null } = this.props;
+    const firstFocused = focused && focused[0];
 
     return (
       <div
@@ -65,29 +66,32 @@ export default class List extends Component {
           { items.map(item =>
             <li
               {...itemProps(item)}
-              ref={focused[0] === item ?
+              ref={firstFocused === item ?
                 (elem => elem && elem.scrollIntoView({behavior: 'smooth'})) :
                 undefined
               }
-              className={[focused.includes(item) && 'focused'].filter(e => !!e).join(' ')}
+              className={
+                [focused && focused.includes(item) && 'focused']
+                  .filter(e => !!e).join(' ')
+              }
               key={item}>
                 {item}
             </li>
           ) }
 
-          <li
-            className="Input"
-            key=""
-            title='Enter Word or Paste Newline Separated Words'>
-            <input
-              onPaste={this.handlePaste}
-              onKeyPress={this.handleEntryKeyPress}
-              type='text'
-              placeholder='Enter Word or Paste Newline Separated Words' />
-          </li>
+          { this.props.onChange &&
+            <li
+              className="Input"
+              key=""
+              title='Enter Word or Paste Newline Separated Words'>
+              <input
+                onPaste={this.handlePaste}
+                onKeyPress={this.handleEntryKeyPress}
+                type='text'
+                placeholder='Enter Word or Paste Newline Separated Words' />
+            </li> }
         </ul>
       </div>
     );
   }
 }
-

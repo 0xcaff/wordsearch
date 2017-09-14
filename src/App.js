@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
-import Grid from './Grid';
-import TextEntry from './TextEntry';
-import List from './List';
-import Button from './Button';
-import Annotations from './Annotations';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
+
+import InputSelection from './InputSelection';
+import ImageInput from './ImageInput';
+import TextInput from './TextInput';
+import ViewPuzzle from './ViewPuzzle';
 
 import './App.css';
-import './Button.css';
-
-import { CharNode, ArrayGrid, connectGrid, findMatches as findMatchesGraph,
-  Directions } from './wordsearch/search';
-
-import puzzles from './wordsearch/data/index';
-
-import { getSymbols } from './utils';
-
-const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 
 // TODO: Add a new flow which allows uploading an image instead of entering the
 // puzzle and words manually.
@@ -49,348 +45,23 @@ const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 // TODO: The TextEntry is too small in chrome (doesn't seem to account for
 // letter-spacing).
 
-// An app with a single view. It's only a single view because having multiple
-// routes wouldn't make sense unless the puzzle is persisted.
 class App extends Component {
-  state = {
-    // The value of the stuff in the textbox used for inputting a wordsearch.
-    textEntry: '',
-
-    // The requested words to find matches for.
-    words: [],
-
-    // An array of words (array of nodes) which are currently selected.
-    selected: [],
-
-    // Words in the wordlist which should be brought into focus.
-    focused: [],
-
-    grid: null,
-
-    annotations: null,
-  };
-
-  // This value isn't reflected in the view, that's why it's not state.
-  matches = null;
-
-  constructor(props) {
-    super(props);
-
-    this.buildGraph = this.buildGraph.bind(this);
-    this.findMatches = this.findMatches.bind(this);
-
-    this.addSelected = this.addSelected.bind(this);
-    this.removeSelected = this.removeSelected.bind(this);
-
-    this.onSelect = this.onSelect.bind(this);
-    this.onUnselect = this.onUnselect.bind(this);
-  }
-
-  onSelect(...selection) {
-    console.log("Selecting", selection.map(selection =>
-      selection.map(node => node.khar).join('')
-    ).join());
-
-    const focused = selection.map(nodes =>
-      nodes.map(node => node.khar).join('')
-    );
-    this.setState({focused: focused});
-
-    this.addSelected(...selection);
-  }
-
-  onUnselect(...selection) {
-    console.log("Unselecting", selection.map(selection =>
-      selection.map(node => node.khar).join('')
-    ).join());
-
-    this.setState({focused: []});
-    this.removeSelected(...selection);
-  }
-
-  // [a, b, c], [d, e, f]
-  addSelected(...selection) {
-    if (!selection || !selection.length) {
-      return;
-    }
-
-    // replace with new selection
-    this.setState({ selected: selection });
-  }
-
-  removeSelected(...selection) {
-    if (!selection || !selection.length) {
-      return;
-    }
-
-    // always clear all selected items
-    this.setState({selected: []});
-  }
-
-  buildGraph(evt) {
-    evt.preventDefault();
-
-    // get rows
-    const rows = this.state.textEntry.split(/\r?\n/);
-
-    // create nodes
-    const nodeRows = rows.map(row => row
-          .split('')
-          .map(khar => new CharNode(khar))
-    );
-
-    // build and connect grid
-    const grid = ArrayGrid.fromArray(nodeRows);
-    this.nodes = connectGrid(grid);
-
-    // display grid
-    this.setState({ grid });
-  }
-
-  findMatches(evt) {
-    this.matches = findMatchesGraph(this.state.words, this.nodes,
-      new Set(Object.keys(Directions)));
-
-    this.setState(prevState => ({ grid: prevState.grid.shallowCopy() }));
-  }
-
-  selectMatches(word) {
-    if (!this.matches) {
-      // the matches haven't been found yet
-      return;
-    }
-
-    const matches = this.matches[word];
-    if (!matches) {
-      // no match, show some feedback
-      return;
-    }
-
-    this.addSelected(...matches);
-  }
-
-  unSelectMatches(word) {
-    if (!this.matches) {
-      // the matches haven't been found yet
-      return;
-    }
-
-    const matches = this.matches[word];
-    if (!matches) {
-      // no match, show some feedback
-      return;
-    }
-
-    this.removeSelected(...matches);
-  }
-
-  invalidateGrid() {
-    this.setState({ grid: null });
-    this.matches = null;
-  }
-
-  async onImageChanged(event) {
-    if (!event || !event.target || !event.target.files || !event.target.files.length) {
-      return;
-    }
-
-    const file = event.target.files[0];
-    const encoded = btoa(await read(file));
-
-    const resp = await fetch(
-      `https://vision.googleapis.com/v1/images:annotate?key=${KEY}`, {
-        method: 'POST',
-        body: JSON.stringify({
-          requests: [{
-            image: {content: encoded},
-            features: [{type: "DOCUMENT_TEXT_DETECTION"}],
-          }]
-        }),
-    });
-
-    const json = await resp.json();
-
-    // TODO: Handle reror
-    // TODO: Handle failed response
-    if (json.error) {
-    }
-
-    const symbols = getSymbols(json.responses[0]['fullTextAnnotation']);
-
-    this.image = await imageFromFile(file);
-
-    // TODO: check length
-    // TODO: there are two fields, check textAnnotations
-    this.setState({ annotations: symbols });
-  }
-
   render() {
-    console.log("App.render")
-
-    const { grid, words, textEntry, focused, annotations } = this.state;
-
-    let results = null;
-    if (grid) {
-      results = (
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            breakBefore: 'page',
-          }}>
-          <div
-            style={{
-              maxWidth: '100vmin', // TODO: using vmin here makes long grids to break
-              padding: '1em',
-              alignSelf: 'center',
-              flexBasis: `${grid.columns()}em`,
-              flexGrow: 1,
-            }}>
-
-            <Grid
-              grid={grid}
-              selected={this.state.selected}
-              onSelect={this.onSelect}
-              onUnselect={this.onUnselect} />
-          </div>
-
-          <div
-            className='WordList'
-            style={{
-              // TODO: When this element breaks onto a new row, we should set
-              // flex-grow 1 so it looks nice on smaller screens
-            }}>
-            <h3>Words</h3>
-
-            <List
-              items={words}
-              focused={focused}
-              onChange={newItems => this.setState({words: newItems})}
-              itemProps={(item) => ({
-                onMouseEnter: _ => this.selectMatches(item),
-                onMouseLeave: _ => this.unSelectMatches(item),
-              })} />
-
-            <div
-              style={{margin: '2em'}}>
-              <Button
-                onClick={this.findMatches}>
-                  Find Matches!
-              </Button>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <div className="App">
-        <div className="App-header">
-          <h1>Wordsearch Solver</h1>
-        </div>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={InputSelection} />
 
-        <AppIntro
-          puzzles={puzzles}
-          onClickPuzzle={puzzle => {
-            this.invalidateGrid();
+          <Route exact path='/input/text' component={TextInput} />
+          <Route exact path='/input/image' component={ImageInput} />
+          <Route exact path='/view' component={ViewPuzzle} />
 
-            this.setState({
-              textEntry: puzzle.rows.join('\n'),
-              words: puzzle.words,
-            });
-          }} />
-
-        <div className='container'>
-          <TextEntry
-            minimumRows={5}
-            minimumColumns={20}
-            value={textEntry}
-            placeholder="Enter puzzle"
-            onChange={newValue => {
-              this.invalidateGrid();
-              this.setState({textEntry: newValue});
-            }} />
-        </div>
-
-        <div>
-          <label
-            htmlFor='image'
-            className='Button'>
-            Extract from Image
-          </label>
-
-          <input
-            type='file'
-            id='image'
-            style={{display: 'none'}}
-            onChange={event => this.onImageChanged(event)} />
-
-          <Button
-            onClick={this.buildGraph}>
-            Build Graph!
-          </Button>
-        </div>
-
-        { annotations &&
-          <Annotations
-            annotations={annotations}
-            image={this.image} /> }
-
-        { results }
-      </div>
+          {/* Redirect any non-matching routes to the exact root. */}
+          <Redirect from='/' to='/' />
+        </Switch>
+      </Router>
     );
   }
 }
 
 export default App;
-
-const AppIntro = (props) => {
-  const { puzzles, onClickPuzzle } = props;
-
-  const formatted = Object.entries(puzzles)
-    .reduce((acc, [name, puzzle], idx, arr) => {
-      const element = <span
-        key={name}
-        className='clickable'
-        onClick={_ => onClickPuzzle(puzzle)}>
-          {name}
-      </span>
-
-      acc.push(element);
-
-      if (idx < arr.length - 1) {
-        // add after all elements but last
-        acc.push(<span key={`${name}-${idx}`}>, </span>);
-      }
-
-      return acc;
-    }, []);
-
-  return (
-    <p
-      className='App-intro'>
-      Never solve a word search by hand again. Enter your puzzle in the text
-      box below or select one of the sample puzzles to get started ({formatted}).
-    </p>
-  );
-}
-
-function read(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (err) => reject(err);
-  });
-}
-
-function imageFromFile(file) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = (err) => reject(err);
-
-    image.src = URL.createObjectURL(file);
-  });
-}

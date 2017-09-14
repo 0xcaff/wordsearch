@@ -1,12 +1,3 @@
-* {
-	box-sizing: border-box;
-}
-
-.App {
-	text-align: center;
-	font-family: monospace;
-}
-
 .App-header {
 	background-color: #222;
 	color: white;
@@ -61,4 +52,3 @@
 		display: none;
 	}
 }
-

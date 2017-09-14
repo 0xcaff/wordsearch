@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Konva from 'konva';
 import rbush from 'rbush';
 
-import Button from './Button';
-
 import {
   withPosition, expandSelection, boundsFromRect, toggleInSet, boundsOfVertices,
   compareBounds, getPuzzleFromGrid, findGrid, sortWordSelected,
@@ -17,6 +15,8 @@ const COLORS = {
   DEFAULT: 'black',
   SELECTION: '#222',
 };
+
+// TODO: Narrow The Scope of this Component
 
 // TODO: Show tooltip with highlighted character.
 
@@ -182,10 +182,13 @@ export default class Annotations extends Component {
         toggleInSet(selected, node);
       });
 
+      // TODO: Expose Selected
+
       this.updateAllNodes();
     }));
   }
 
+  // TODO: Move RTree Creation Up
   // Creates an rbush R-Tree for fast lookups of things in a region.
   static buildRTree(annotations) {
     const tree = rbush();
@@ -317,7 +320,7 @@ export default class Annotations extends Component {
     layer.batchDraw();
 
     const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
-    console.log(output.map(row => row.join('')).join('\n'));
+    const text = output.map(row => row.join('')).join('\n');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -334,11 +337,6 @@ export default class Annotations extends Component {
         <div
           ref={elem => this.domNode = elem}
           className='canvases' />
-
-        <Button
-          onClick={_ => this.selectPuzzle()}>Select Puzzle</Button>
-        <Button
-          onClick={_ => this.selectWord()}>Select Word</Button>
       </div>
     );
   }

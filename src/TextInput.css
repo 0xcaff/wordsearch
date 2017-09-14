@@ -1,0 +1,11 @@
+.TextInput h1 {
+  text-align: center;
+}
+
+.TextInput footer {
+  text-align: center;
+}
+
+.TextInput main {
+  display: flex;
+}
