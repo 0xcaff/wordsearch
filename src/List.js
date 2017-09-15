@@ -53,17 +53,26 @@ export default class List extends Component {
     onChange(newItems);
   }
 
+  removeItem(index) {
+    const { onChange, items: oldItems } = this.props;
+
+    const newItems = oldItems.slice();
+    newItems.splice(index, 1);
+
+    onChange(newItems);
+  }
+
   render() {
     console.log("List.render")
 
-    const { focused, items, itemProps = () => null } = this.props;
+    const { focused, items, itemProps = () => null, onChange } = this.props;
     const firstFocused = focused && focused[0];
 
     return (
       <div
-        className="List">
+        className={['List', onChange ? 'Updatable' : 'Static'].join(' ')}>
         <ul>
-          { items.map(item =>
+          { items.map((item, i) =>
             <li
               {...itemProps(item)}
               ref={firstFocused === item ?
@@ -75,11 +84,18 @@ export default class List extends Component {
                   .filter(e => !!e).join(' ')
               }
               key={item}>
-                {item}
+                <span>
+                  { item }
+
+                  { onChange &&
+                    <span
+                      onClick={() => this.removeItem(i)}
+                      className='Remove'>x</span> }
+                </span>
             </li>
           ) }
 
-          { this.props.onChange &&
+          { onChange &&
             <li
               className="Input"
               key=""
