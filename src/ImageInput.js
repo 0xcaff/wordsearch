@@ -154,7 +154,9 @@ class ImageInput extends Component {
           Add Word
         </Button>
 
-        <Button onClick={() => history.push('/view', { text: this.puzzle, words: this.words })}>
+        <Button onClick={() => history.push('/input/text',
+          { text: this.puzzle, words: this.words })
+        }>
           Continue
         </Button>
       </div>

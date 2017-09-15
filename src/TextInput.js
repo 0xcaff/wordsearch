@@ -8,13 +8,14 @@ import './TextInput.css';
 
 // TODO: This is kinda glitchy on chrome but it works fine in firefox.
 class TextInput extends Component {
-  state = { text: '', words: [] };
-
   constructor(props) {
     super(props);
 
-    const { history: { state: { text, words } = {} } } = props;
-    this.state = Object.assign({ text, words }, this.state);
+    const { location: {
+      state: { text, words } = { text: '', words: [] }
+    } } = props;
+
+    this.state = { text, words };
   }
 
   render() {
