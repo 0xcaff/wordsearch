@@ -6,6 +6,7 @@ import Button from './Button';
 
 import './TextInput.css';
 
+// TODO: This is kinda glitchy on chrome but it works fine in firefox.
 class TextInput extends Component {
   state = { text: '', words: [] };
 
@@ -42,7 +43,7 @@ class TextInput extends Component {
         <footer>
           <Button
             onClick={() => history.push('/view', { text, words })}>
-              Solve Puzzle
+              Solve Puzzle!
           </Button>
         </footer>
       </div>

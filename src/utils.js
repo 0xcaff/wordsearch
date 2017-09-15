@@ -1,3 +1,4 @@
+import rbush from 'rbush';
 import knn from 'rbush-knn';
 
 // Flattens annotations from the google cloud vision API into just an array of
@@ -341,3 +342,28 @@ export const sortWordSelected = (selected, tree) => {
 
   return output;
 };
+
+// Creates an rbush R-Tree for fast lookups of things in a region.
+export const buildRTree = (annotations) => {
+  const tree = rbush();
+
+  const leaves = annotations.map(node => {
+    const { boundingBox } = node;
+
+    // the bounding box may not be aligned along the xy plane, so convert it
+    // ot be sure.
+    const bbox = boundsOfVertices(boundingBox.vertices);
+
+    // This is nice to have, so let's hold on to it for using during
+    // extraction time.
+    node.boundingRect = bbox;
+
+    const leaf = { node };
+    Object.assign(leaf, bbox);
+
+    return leaf;
+  });
+
+  tree.load(leaves);
+  return tree;
+}

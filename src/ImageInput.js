@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Annotations from './Annotations';
+import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from './utils';
 import { detectText } from './gcv';
 
 // Google Cloud Vision API Key.
@@ -17,7 +18,16 @@ class ImageInput extends Component {
 
     // Whether or not something the app is waiting for something.
     loading: false,
+
+    // Whether or not an error message should be rendered.
+    error: false,
+
+    // A rbush rtree used for knn.
+    tree: null,
   };
+
+  // The set of nodes which are selected on the annotation element.
+  selected = null;
 
   componentDidMount() {
     const { location: { state }, history } = this.props;
@@ -49,14 +59,73 @@ class ImageInput extends Component {
 
     const encoded = btoa(await read(file));
 
-    const symbols = await detectText(encoded, KEY);
+    const annotations = await detectText(encoded, KEY);
     const image = await imageFromFile(file);
 
-    this.setState({ annotations: symbols, loading: false, image });
+    const tree = buildRTree(annotations);
+    this.setState({ annotations, loading: false, image, tree });
+  }
+
+  selectWord() {
+    // get the selected nodes
+    const selected = Array.from(this.selected.values());
+
+    // TODO: fixme
+    const sorted = sortWordSelected(selected.slice());
+
+    const word = sorted.map(node => node.text).join('');
+    this.selected.clear();
+
+    // update all nodes
+    this.updateAllNodes();
+
+    // TODO: Test this
+
+    return word;
+  }
+
+  selectPuzzle() {
+    const { annotations: data, tree } = this.state;
+    const { selected } = this;
+    const selectedNodes = data.filter(node => selected.has(node));
+
+    const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(selectedNodes);
+
+    // TODO:
+    // const xMin = xGridLines[0];
+    // const xMax = xGridLines[xGridLines.length - 1];
+
+    // const yMin = yGridLines[0];
+    // const yMax = yGridLines[yGridLines.length - 1];
+
+    // draw estimated grid
+    // const layer = this.gridOverlayLayer;
+    // layer.removeChildren();
+
+    // xGridLines.forEach(x =>
+    //   layer.add(new Konva.Line({
+    //     points: [x, yMin, x, yMax],
+    //     stroke: 'black',
+    //   })
+    // ));
+
+    // yGridLines.forEach(y =>
+    //   layer.add(new Konva.Line({
+    //     points: [xMin, y, xMax, y],
+    //     stroke: 'black',
+    //   })
+    // ));
+
+    // layer.batchDraw();
+
+    const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
+    const text = output.map(row => row.join('')).join('\n');
+
+    return text;
   }
 
   render() {
-    const { annotations, image, loading, error } = this.state;
+    const { annotations, image, loading, error, tree } = this.state;
 
     return (
       <div className='ImageInput'>
@@ -65,8 +134,10 @@ class ImageInput extends Component {
 
         { annotations &&
           <Annotations
+            tree={tree}
             annotations={annotations}
-            image={image} />
+            image={image}
+            onSelectedChanged={selected => this.selected = selected} />
         }
       </div>
     );

@@ -35,6 +35,7 @@
   flex-wrap: wrap;
 }
 
+/* The 40rem is max-width of .InputSelection */
 @media(min-width: 40rem) {
   .InputSelection > header {
     font-size: calc(40rem * var(--size));

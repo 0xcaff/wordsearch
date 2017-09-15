@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
-import rbush from 'rbush';
 
 import {
-  withPosition, expandSelection, boundsFromRect, toggleInSet, boundsOfVertices,
-  compareBounds, getPuzzleFromGrid, findGrid, sortWordSelected,
+  withPosition, expandSelection, boundsFromRect, toggleInSet
 } from './utils';
 
 import './Annotations.css';
@@ -15,8 +13,6 @@ const COLORS = {
   DEFAULT: 'black',
   SELECTION: '#222',
 };
-
-// TODO: Narrow The Scope of this Component
 
 // TODO: Show tooltip with highlighted character.
 
@@ -56,7 +52,7 @@ export default class Annotations extends Component {
   selected = null;
 
   // A mapping of nodes (data) to Lines (view). This allows for surgically
-  // updating a view after changing a value .
+  // updating a view after changing a value.
   elements = null;
 
   // The Konva.Layer which holds the views for the annotation elements. It's
@@ -88,8 +84,9 @@ export default class Annotations extends Component {
 
   // Called when new props are received, including after the initial render.
   handleProps(props) {
-    const { image, annotations: rawAnnotations } = props;
+    const { image, tree, annotations: rawAnnotations } = props;
     this.data = rawAnnotations;
+    this.tree = tree;
 
     // compute dimensions of canvas based on image.
     const { width: imageWidth, height: imageHeight } = image;
@@ -133,7 +130,7 @@ export default class Annotations extends Component {
   }
 
   initSelectionLayer(layer, scaleX, scaleY) {
-    const tree = this.tree = Annotations.buildRTree(this.data);
+    const { tree } = this;
     const selected = this.selected;
 
     const area = new Konva.Rect({
@@ -188,32 +185,6 @@ export default class Annotations extends Component {
     }));
   }
 
-  // TODO: Move RTree Creation Up
-  // Creates an rbush R-Tree for fast lookups of things in a region.
-  static buildRTree(annotations) {
-    const tree = rbush();
-
-    const leaves = annotations.map(node => {
-      const { boundingBox } = node;
-
-      // the bounding box may not be aligned along the xy plane, so convert it
-      // ot be sure.
-      const bbox = boundsOfVertices(boundingBox.vertices);
-
-      // This is nice to have, so let's hold on to it for using during
-      // extraction time.
-      node.boundingRect = bbox;
-
-      const leaf = { node };
-      Object.assign(leaf, bbox);
-
-      return leaf;
-    });
-
-    tree.load(leaves);
-    return tree;
-  }
-
   createAnnotations() {
     const layer = this.annotations;
 
@@ -264,63 +235,13 @@ export default class Annotations extends Component {
 
   // update all nodes
   updateAllNodes() {
+    const { selected } = this;
+    const { onSelectedChanged } = this.props;
+
     this.data.forEach(node => this.updateNode(node));
     this.annotations.batchDraw();
-  }
 
-  selectWord() {
-    // get the selected nodes
-    const selected = Array.from(this.selected.values());
-
-    // TODO: fixme
-    const sorted = sortWordSelected(selected.slice());
-
-    const word = sorted.map(node => node.text).join('');
-    this.selected.clear();
-
-    // update all nodes
-    this.updateAllNodes();
-
-    // TODO: Test this
-
-    // TODO: Do something with result.
-    console.log(word);
-  }
-
-  selectPuzzle() {
-    const { data, tree, selected } = this;
-    const selectedNodes = data.filter(node => selected.has(node));
-
-    const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(selectedNodes);
-
-    // draw estimated grid
-    const layer = this.gridOverlayLayer;
-    layer.removeChildren();
-
-    const xMin = xGridLines[0];
-    const xMax = xGridLines[xGridLines.length - 1];
-
-    const yMin = yGridLines[0];
-    const yMax = yGridLines[yGridLines.length - 1];
-
-    xGridLines.forEach(x =>
-      layer.add(new Konva.Line({
-        points: [x, yMin, x, yMax],
-        stroke: 'black',
-      })
-    ));
-
-    yGridLines.forEach(y =>
-      layer.add(new Konva.Line({
-        points: [xMin, y, xMax, y],
-        stroke: 'black',
-      })
-    ));
-
-    layer.batchDraw();
-
-    const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
-    const text = output.map(row => row.join('')).join('\n');
+    onSelectedChanged(selected);
   }
 
   componentWillReceiveProps(nextProps) {
