@@ -53,7 +53,6 @@ class ViewPuzzle extends Component {
     super(props);
 
     const { location, history } = props;
-    console.log(location.state);
     if (!location.state) {
       history.replace('/');
       return;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Button from './Button';
 import Annotations from './Annotations';
 import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from './utils';
 import { detectText } from './gcv';
@@ -28,6 +29,9 @@ class ImageInput extends Component {
 
   // The set of nodes which are selected on the annotation element.
   selected = null;
+
+  // The list of selected words.
+  words = [];
 
   componentDidMount() {
     const { location: { state }, history } = this.props;
@@ -74,10 +78,11 @@ class ImageInput extends Component {
     const sorted = sortWordSelected(selected.slice());
 
     const word = sorted.map(node => node.text).join('');
-    this.selected.clear();
+    // TODO: this
+    // this.selected.clear();
 
     // update all nodes
-    this.updateAllNodes();
+    // this.updateAllNodes();
 
     // TODO: Test this
 
@@ -125,6 +130,7 @@ class ImageInput extends Component {
   }
 
   render() {
+    const { history } = this.props;
     const { annotations, image, loading, error, tree } = this.state;
 
     return (
@@ -139,6 +145,18 @@ class ImageInput extends Component {
             image={image}
             onSelectedChanged={selected => this.selected = selected} />
         }
+
+        <Button onClick={() => this.puzzle = this.selectPuzzle()}>
+          Select Puzzle
+        </Button>
+
+        <Button onClick={() => this.words.push(this.selectWord())}>
+          Add Word
+        </Button>
+
+        <Button onClick={() => history.push('/view', { text: this.puzzle, words: this.words })}>
+          Continue
+        </Button>
       </div>
     );
   }
