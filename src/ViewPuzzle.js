@@ -27,6 +27,8 @@ const buildGraph = (text) => {
   return { grid, nodes };
 };
 
+// TODO: Display Something for No Matches
+
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.
 class ViewPuzzle extends Component {
@@ -59,7 +61,6 @@ class ViewPuzzle extends Component {
 
     const { state: { words, text } } = location;
     const { grid, nodes } = buildGraph(text);
-    const matches = findMatches
 
     this.matches = findMatches(words, nodes,
       new Set(Object.keys(Directions))

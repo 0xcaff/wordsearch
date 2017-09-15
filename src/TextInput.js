@@ -40,7 +40,10 @@ class TextInput extends Component {
         </main>
 
         <footer>
-          <Button>Solve Puzzle</Button>
+          <Button
+            onClick={() => history.push('/view', { text, words })}>
+              Solve Puzzle
+          </Button>
         </footer>
       </div>
     );

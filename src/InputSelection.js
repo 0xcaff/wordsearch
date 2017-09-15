@@ -1,5 +1,7 @@
 import React from 'react';
+
 import Button from './Button';
+import InputButton from './InputButton';
 
 import puzzles from './wordsearch/data/index';
 
@@ -20,9 +22,20 @@ const InputSelection = (props) => {
 
       <main>
         <div>
-          <Button onClick={() => history.push('/input/image')}>
-            Select from Image
-          </Button>
+          <InputButton
+            onChange={event => {
+              if (
+                !event || !event.target || !event.target.files ||
+                !event.target.files.length) {
+
+                return;
+              }
+
+              const [ file ] = event.target.files;
+              history.push('/input/image', { file });
+            }}>
+              Select from Image
+          </InputButton>
 
           <Button onClick={() => history.push('/input/text')}>
             Select from Text

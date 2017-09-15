@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 
-import InputButton from './InputButton';
-
 import Annotations from './Annotations';
-import { getSymbols } from './utils';
 import { detectText } from './gcv';
 
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 
-// TODO: Potentially Expect a File in the Constructor
 // TODO: Pretification.
 class ImageInput extends Component {
   state = {
@@ -23,6 +19,19 @@ class ImageInput extends Component {
     loading: false,
   };
 
+  componentDidMount() {
+    const { location: { state }, history } = this.props;
+
+    if (!state) {
+      history.push('/');
+      return;
+    }
+
+    const { file } = state;
+
+    this.handleFile(file);
+  }
+
   async onImageChange(event) {
     if (
       !event || !event.target || !event.target.files ||
@@ -31,9 +40,13 @@ class ImageInput extends Component {
       return;
     }
 
+    const [ file ] = event.target.files;
+    await this.handleFile(file);
+  }
+
+  async handleFile(file) {
     this.setState({ error: false, loading: true });
 
-    const [ file ] = event.target.files;
     const encoded = btoa(await read(file));
 
     const symbols = await detectText(encoded, KEY);
@@ -47,14 +60,6 @@ class ImageInput extends Component {
 
     return (
       <div className='ImageInput'>
-        <InputButton
-          onChange={event => this.onImageChange(event)
-            .catch(() => this.setState({ error: true, loading: false })
-          )}
-          disabled={loading}>
-            Extract from Image
-        </InputButton>
-
         { loading && <span>Loading...</span> }
         { error && <span>Something Went Wrong</span> }
 
