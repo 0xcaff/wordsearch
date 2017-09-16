@@ -1,0 +1,11 @@
+.ImageInput .Loading, .ImageInput .Error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+}
+
+.ImageInput .Error {
+  font-size: x-large;
+}

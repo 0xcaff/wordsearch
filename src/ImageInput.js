@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
+import Loading from './Loading';
 import Button from './Button';
 import Annotations from './Annotations';
 import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from './utils';
 import { detectText } from './gcv';
+
+import './ImageInput.css';
 
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
@@ -59,15 +63,20 @@ class ImageInput extends Component {
   }
 
   async handleFile(file) {
-    this.setState({ error: false, loading: true });
+    try {
+      this.setState({ error: false, loading: true });
 
-    const encoded = btoa(await read(file));
+      const encoded = btoa(await read(file));
 
-    const annotations = await detectText(encoded, KEY);
-    const image = await imageFromFile(file);
+      const annotations = await detectText(encoded, KEY);
+      const image = await imageFromFile(file);
 
-    const tree = buildRTree(annotations);
-    this.setState({ annotations, loading: false, image, tree });
+      const tree = buildRTree(annotations);
+      this.setState({ annotations, loading: false, image, tree });
+    } catch (e) {
+      console.error(e);
+      this.setState({ loading: false, error: true });
+    }
   }
 
   selectWord() {
@@ -135,30 +144,41 @@ class ImageInput extends Component {
 
     return (
       <div className='ImageInput'>
-        { loading && <span>Loading...</span> }
-        { error && <span>Something Went Wrong</span> }
+        { loading && <Loading /> }
 
-        { annotations &&
-          <Annotations
-            tree={tree}
-            annotations={annotations}
-            image={image}
-            onSelectedChanged={selected => this.selected = selected} />
+        { error &&
+          <div className='Error'>
+            <span>
+              Something Went Wrong :( <Link className='clickable' to='/'>Go Back</Link>
+            </span>
+          </div>
         }
 
-        <Button onClick={() => this.puzzle = this.selectPuzzle()}>
-          Select Puzzle
-        </Button>
+        { annotations && !loading && !error &&
+          <main>
+            <h1>Select Puzzle Region</h1>
+            <Button onClick={() => this.puzzle = this.selectPuzzle()}>
+              Select Puzzle
+            </Button>
 
-        <Button onClick={() => this.words.push(this.selectWord())}>
-          Add Word
-        </Button>
+            <Button onClick={() => this.words.push(this.selectWord())}>
+              Add Word
+            </Button>
 
-        <Button onClick={() => history.push('/input/text',
-          { text: this.puzzle, words: this.words })
-        }>
-          Continue
-        </Button>
+            <Button onClick={() => history.push('/input/text',
+              { text: this.puzzle, words: this.words })
+            }>
+              Continue
+            </Button>
+
+            <Annotations
+              tree={tree}
+              annotations={annotations}
+              image={image}
+              onSelectedChanged={selected => this.selected = selected} />
+          </main>
+        }
+
       </div>
     );
   }
