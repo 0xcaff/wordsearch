@@ -9,3 +9,22 @@
 .ImageInput .Error {
   font-size: x-large;
 }
+
+.ImageInput > main > h1 {
+  text-align: center;
+}
+
+.ImageInput .Content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ImageInput > main > .Buttons {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.ImageInput > main > .Buttons > .Button {
+  margin: 0 1em;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import List from './List';
 import Loading from './Loading';
 import Button from './Button';
 import Annotations from './Annotations';
@@ -29,13 +30,16 @@ class ImageInput extends Component {
 
     // A rbush rtree used for knn.
     tree: null,
+
+    // The puzzle text.
+    puzzle: '',
+
+    // The list of selected words.
+    words: [],
   };
 
   // The set of nodes which are selected on the annotation element.
   selected = null;
-
-  // The list of selected words.
-  words = [];
 
   componentDidMount() {
     const { location: { state }, history } = this.props;
@@ -140,7 +144,7 @@ class ImageInput extends Component {
 
   render() {
     const { history } = this.props;
-    const { annotations, image, loading, error, tree } = this.state;
+    const { annotations, image, loading, error, tree, puzzle, words } = this.state;
 
     return (
       <div className='ImageInput'>
@@ -157,25 +161,45 @@ class ImageInput extends Component {
         { annotations && !loading && !error &&
           <main>
             <h1>Select Puzzle Region</h1>
-            <Button onClick={() => this.puzzle = this.selectPuzzle()}>
-              Select Puzzle
-            </Button>
 
-            <Button onClick={() => this.words.push(this.selectWord())}>
-              Add Word
-            </Button>
+            <div className='Content'>
+              <Annotations
+                tree={tree}
+                annotations={annotations}
+                image={image}
+                onSelectedChanged={selected => this.selected = selected} />
 
-            <Button onClick={() => history.push('/input/text',
-              { text: this.puzzle, words: this.words })
-            }>
-              Continue
-            </Button>
+              { puzzle &&
+                <List
+                  items={words}
+                  onChange={ newValue => this.setState({ words: newValue }) } />
+              }
+            </div>
 
-            <Annotations
-              tree={tree}
-              annotations={annotations}
-              image={image}
-              onSelectedChanged={selected => this.selected = selected} />
+            <div className='Buttons'>
+              { !puzzle &&
+                <Button onClick={() => this.setState({ puzzle: this.selectPuzzle() })}>
+                  Select Puzzle
+                </Button>
+              }
+
+              { puzzle &&
+                <Button onClick={() => {
+                  const word = this.selectWord();
+                  this.setState({ words: words.concat(word) });
+                }}>
+                  Add Word
+                </Button>
+              }
+
+              { puzzle &&
+                <Button onClick={() => history.push('/input/text',
+                  { text: puzzle, words })}>
+
+                  Continue
+                </Button>
+              }
+            </div>
           </main>
         }
 

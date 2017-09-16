@@ -7,8 +7,6 @@ import puzzles from './wordsearch/data/index';
 
 import './InputSelection.css';
 
-// TODO: Allow for Examples
-
 // First component the user sees when the visit the site. It decides which input
 // method to use to get the wordsearch (text or image).
 const InputSelection = (props) => {
@@ -77,7 +75,7 @@ const DemoPuzzles = (props) => {
 
   return (
     <p className='DemoPuzzles'>
-      Or try one of these demo puzzles: { formatted }.
+      Or try one of these puzzles: { formatted }.
     </p>
   );
 }

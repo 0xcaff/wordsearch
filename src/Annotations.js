@@ -14,6 +14,8 @@ const COLORS = {
   SELECTION: '#222',
 };
 
+// TODO: Allow for Toggling Overlays (bounding boxes and grid lines).
+
 // TODO: Show tooltip with highlighted character.
 
 // TODO: The selection doesn't work for some puzzles. Investigate.
