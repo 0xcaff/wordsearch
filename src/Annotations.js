@@ -22,9 +22,7 @@ const COLORS = {
 
 // TODO: Make the UI Look Nice:
 // * hide bounding boxes
-// * put the stuff here in a pop up dialog
 // * Put the area selector in a box
-// * Loading indicator.
 
 // TODO: Think about making the assumption the area between grid rows and
 // columns are equal.
@@ -81,59 +79,78 @@ export default class Annotations extends Component {
   componentDidMount() {
     this.stage = new Konva.Stage({ container: this.domNode });
 
-    this.handleProps(this.props);
+    this.handleProps(this.props, {});
   }
 
   // Called when new props are received, including after the initial render.
-  handleProps(props) {
-    const { image, tree, annotations: rawAnnotations } = props;
-    this.data = rawAnnotations;
-    this.tree = tree;
+  handleProps(props, oldProps) {
+    const {
+      image,
+      tree,
+      annotations: rawAnnotations,
+      selected = new Set(),
+    } = props;
 
-    // compute dimensions of canvas based on image.
-    const { width: imageWidth, height: imageHeight } = image;
-    const width = Math.min(800, imageWidth);
-    const height = (imageHeight / imageWidth) * width;
+    const {
+      image: oldImage,
+      tree: oldTree,
+      annotations: oldAnnotations,
+      selected: oldSelected
+    } = oldProps;
 
-    // applying these as multipliers to the image size will result in the canvas
-    // size
-    const scaleX = width / imageWidth;
-    const scaleY = height / imageHeight;
+    if (rawAnnotations !== oldAnnotations && tree !== oldTree && image !== oldImage) {
+      this.data = rawAnnotations;
+      this.tree = tree;
 
-    this.selected = new Set();
+      // compute dimensions of canvas based on image.
+      const { width: imageWidth, height: imageHeight } = image;
+      const width = Math.min(800, imageWidth);
+      const height = (imageHeight / imageWidth) * width;
 
-    // setup stage
-    const stage = this.stage;
-    stage.removeChildren();
-    stage.width(width);
-    stage.height(height);
+      // applying these as multipliers to the image size will result in the canvas
+      // size
+      const scaleX = width / imageWidth;
+      const scaleY = height / imageHeight;
 
-    // (re)?create layers
+      this.selected = selected;
 
-    // image layer
-    const imageLayer = new Konva.FastLayer({ scaleX, scaleY });
-    const imageElement = new Konva.Image({ image });
-    imageLayer.add(imageElement);
-    stage.add(imageLayer);
+      // setup stage
+      const stage = this.stage;
+      stage.removeChildren();
+      stage.width(width);
+      stage.height(height);
 
-    this.gridOverlayLayer = new Konva.FastLayer({ scaleX, scaleY });
-    stage.add(this.gridOverlayLayer);
+      // (re)?create layers
 
-    // selection layer (the dashed box is goes here)
-    const selectionLayer = new Konva.FastLayer();
-    this.initSelectionLayer(selectionLayer, scaleX, scaleY);
-    stage.add(selectionLayer);
+      // image layer
+      const imageLayer = new Konva.FastLayer({ scaleX, scaleY });
+      const imageElement = new Konva.Image({ image });
+      imageLayer.add(imageElement);
+      stage.add(imageLayer);
 
-    // annotation layer (colorful bounding boxes go here)
-    const annotationsLayer = this.annotations = new Konva.Layer({ scaleX, scaleY });
-    this.elements = new Map();
-    this.createAnnotations();
-    stage.add(annotationsLayer);
+      this.gridOverlayLayer = new Konva.FastLayer({ scaleX, scaleY });
+      stage.add(this.gridOverlayLayer);
+
+      // selection layer (the dashed box is goes here)
+      const selectionLayer = new Konva.FastLayer();
+      this.initSelectionLayer(selectionLayer, scaleX, scaleY);
+      stage.add(selectionLayer);
+
+      // annotation layer (colorful bounding boxes go here)
+      const annotationsLayer = this.annotations = new Konva.Layer({ scaleX, scaleY });
+      this.elements = new Map();
+      this.createAnnotations();
+      stage.add(annotationsLayer);
+    }
+
+    if (selected !== oldSelected) {
+      this.selected = selected;
+      this.updateAllNodes();
+    }
   }
 
   initSelectionLayer(layer, scaleX, scaleY) {
     const { tree } = this;
-    const selected = this.selected;
 
     const area = new Konva.Rect({
       x: 0,
@@ -161,6 +178,8 @@ export default class Annotations extends Component {
     }));
 
     stage.on('contentMouseup', withPosition(({x, y}, {evt}) => {
+      const { selected } = this;
+
       expandSelection(area, {x1: x, y1: y});
 
       // TODO: the selection doesn't work with images much larger than the frame
@@ -180,8 +199,6 @@ export default class Annotations extends Component {
       contained.forEach(({ node }) => {
         toggleInSet(selected, node);
       });
-
-      // TODO: Expose Selected
 
       this.updateAllNodes();
     }));
@@ -247,7 +264,8 @@ export default class Annotations extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.handleProps(nextProps);
+    console.log(nextProps, this.props);
+    this.handleProps(nextProps, this.props);
   }
 
   componentWillUnmount() {

@@ -27,8 +27,9 @@ const buildGraph = (text) => {
   return { grid, nodes };
 };
 
-// TODO: Go back to the edit view.
 // TODO: Display Something for No Matches
+// TODO: Make this work in chrome.
+// TODO: Make it fast.
 
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.

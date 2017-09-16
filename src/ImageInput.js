@@ -10,10 +10,11 @@ import { detectText } from './gcv';
 
 import './ImageInput.css';
 
+// TODO: Select Puzzle Region
+
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 
-// TODO: Pretification.
 class ImageInput extends Component {
   state = {
     // An array of symbols and their locations.
@@ -36,10 +37,10 @@ class ImageInput extends Component {
 
     // The list of selected words.
     words: [],
-  };
 
-  // The set of nodes which are selected on the annotation element.
-  selected = null;
+    // The set of nodes which are selected on the annotation element.
+    selected: undefined,
+  };
 
   componentDidMount() {
     const { location: { state }, history } = this.props;
@@ -84,23 +85,20 @@ class ImageInput extends Component {
   }
 
   selectWord() {
+    const { selected } = this.state;
+
     // get the selected nodes
-    const selected = Array.from(this.selected.values());
-    const sorted = sortWordSelected(selected.slice());
+    const selectedArr = Array.from(selected);
+    const sorted = sortWordSelected(selectedArr);
     const word = sorted.map(node => node.text).join('');
 
-    // TODO: this
-    // this.selected.clear();
-
-    // update all nodes
-    // this.updateAllNodes();
+    this.setState({ selected: new Set() });
 
     return word;
   }
 
   selectPuzzle() {
-    const { annotations: data, tree } = this.state;
-    const { selected } = this;
+    const { annotations: data, tree, selected } = this.state;
     const selectedNodes = data.filter(node => selected.has(node));
 
     const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(selectedNodes);
@@ -140,7 +138,7 @@ class ImageInput extends Component {
 
   render() {
     const { history } = this.props;
-    const { annotations, image, loading, error, tree, puzzle, words } = this.state;
+    const { annotations, image, loading, error, tree, puzzle, words, selected } = this.state;
 
     return (
       <div className='ImageInput'>
@@ -163,7 +161,8 @@ class ImageInput extends Component {
                 tree={tree}
                 annotations={annotations}
                 image={image}
-                onSelectedChanged={selected => this.selected = selected} />
+                selected={selected}
+                onSelectedChanged={ selected => this.setState({ selected }) } />
 
               { puzzle &&
                 <List
