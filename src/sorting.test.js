@@ -230,10 +230,7 @@ data.forEach(({ it: desc, input, output }) => {
       return acc
     }, new Set());
 
-    const tree = rbush();
-    tree.load(input.map(node => Object.assign({ node }, node.boundingRect)));
-
-    const got = sortWordSelected(selected, tree);
+    const got = sortWordSelected(selected);
     const gotText = got.map(node => node.text).join('');
 
     expect(gotText).toBe(output);

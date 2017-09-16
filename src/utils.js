@@ -293,54 +293,49 @@ export const getPuzzleFromGrid = (xs, ys, xTolerance, yTolerance, tree) =>
     return text;
   }));
 
+// TODO: looks similar to something else
 // Sort nodes from left to right, top to bottom.
-export const sortWordSelected = (selected, tree) => {
+export const sortWordSelected = (selected) => {
   if (selected.size === 0) {
-    throw new TypeError('Nothing selected.');
+    return selected;
   }
 
-  // find the highest, leftest node. That will be the first char.
-  let { center: { x: cx, y: cy } } = Array.from(selected)
-    .reduce((node, currentValue) => {
-      const { boundingRect } = currentValue;
-      const { x, y } = centerOfBounds(boundingRect);
+  const selectedWithCenters = Array.from(selected)
+    .map(node => ({ ...node, center: centerOfBounds(node.boundingRect) }));
 
-      const { center: currentCenter } = node;
-      if (x <= currentCenter.x && y <= currentCenter.y) {
-        // TODO: Logic Error Here
-        // new center
-        return Object.assign({}, currentValue, { center: { x, y } });
+  const { highest, lowest, leftest, rightest } = selectedWithCenters
+    .reduce(({ highest, lowest, leftest, rightest }, { center: { x, y } } ) => {
+      if (y < highest) {
+        highest = y;
       }
 
-      return node;
-    }, { center: { x: Infinity, y: Infinity } });
+      if (x < leftest) {
+        leftest = x;
+      }
 
-  const visited = new Set();
-  const output = [];
+      if (y > lowest) {
+        lowest = y
+      }
 
-  const limit = 1;
+      if (x > rightest) {
+        rightest = x;
+      }
 
-  while (visited.size < selected.size) {
-    console.log(output);
-    const neighbors = knn(tree, cx, cy, limit,
-      ({ node }) => selected.has(node) && !visited.has(node));
+      return { highest, lowest, leftest, rightest };
+    }, { highest: Infinity, lowest: -Infinity, rightest: -Infinity, leftest: Infinity });
 
-    if (neighbors.length === 0) {
-      // there is no neighbor
-      throw new TypeError("Couldn't find a nearest neighbor.")
-    }
+  const dy = highest - lowest;
+  const dx = rightest - leftest;
 
-    const [{ node }] = neighbors;
+  const ady = Math.abs(dy);
+  const adx = Math.abs(dx);
 
-    output.push(node);
-    visited.add(node);
+  const comparator = adx >= ady ?
+    ({ center: { x: ax } }, { center: { x: bx } }) => ax - bx :
+    ({ center: { y: ay } }, { center: { y: by } }) => ay - by;
 
-    const center = centerOfBounds(node.boundingRect);
-    cx = center.x;
-    cy = center.y;
-  }
-
-  return output;
+  const sorted = selectedWithCenters.sort(comparator);
+  return sorted;
 };
 
 // Creates an rbush R-Tree for fast lookups of things in a region.

@@ -86,20 +86,14 @@ class ImageInput extends Component {
   selectWord() {
     // get the selected nodes
     const selected = Array.from(this.selected.values());
-
-    console.log(selected);
-
-    // TODO: fixme
     const sorted = sortWordSelected(selected.slice());
-
     const word = sorted.map(node => node.text).join('');
+
     // TODO: this
     // this.selected.clear();
 
     // update all nodes
     // this.updateAllNodes();
-
-    // TODO: Test this
 
     return word;
   }
