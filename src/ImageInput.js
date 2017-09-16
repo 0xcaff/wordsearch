@@ -10,6 +10,7 @@ import { detectText } from './gcv';
 
 import './ImageInput.css';
 
+// TODO: Do user testing to see what users think should be done.
 // TODO: Select Puzzle Region
 
 // Google Cloud Vision API Key.
