@@ -14,15 +14,7 @@ const COLORS = {
   SELECTION: '#222',
 };
 
-// TODO: Allow for Toggling Overlays (bounding boxes and grid lines).
-
 // TODO: Desaturate background image when making selections.
-// TODO: Show tooltip with highlighted character.
-
-// TODO: The selection doesn't work for some puzzles. Investigate.
-
-// TODO: Think about making the assumption the area between grid rows and
-// columns are equal.
 
 // Renders results from a Google Cloud Vision text annotation query. We are
 // using konva to render this view because React was choking on reconciliation
@@ -185,8 +177,6 @@ export default class Annotations extends Component {
       const { selected } = this;
 
       expandSelection(area, {x1: x, y1: y});
-
-      // TODO: the selection doesn't work with images much larger than the frame
 
       // add contained nodes to selection
       const contained = tree.search(boundsFromRect(area, 1 / scaleX, 1 / scaleY));

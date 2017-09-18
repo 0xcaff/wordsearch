@@ -11,8 +11,6 @@ import { detectText } from './gcv';
 
 import './ImageInput.css';
 
-// TODO: Do user testing to see what users think should be done.
-
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 

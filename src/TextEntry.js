@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import './TextEntry.css'
 
-// TODO: The sizing for this is broken in chrome because chrone doesn't account
-// for letter-spacing in the line-width.
-
 export default class TextEntry extends Component {
   constructor(props) {
     super(props);

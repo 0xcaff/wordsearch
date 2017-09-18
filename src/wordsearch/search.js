@@ -169,7 +169,6 @@ export function connectGrid(grid) {
   return nodes;
 }
 
-// TODO: Performance Test on Phone
 // The worst case complexity of this algorithm is O(n * w * l) where n is the
 // number of nodes in the graph, w is the number of words we are searching for
 // and l is the average length of the word we are searching for.

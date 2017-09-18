@@ -6,7 +6,6 @@ import Button from './Button';
 
 import './TextInput.css';
 
-// TODO: This is kinda glitchy on chrome but it works fine in firefox.
 class TextInput extends Component {
   constructor(props) {
     super(props);
