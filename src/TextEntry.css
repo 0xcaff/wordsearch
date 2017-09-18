@@ -1,5 +1,27 @@
-.TextEntry > textarea {
-	line-height: 1em;
-	letter-spacing: 0.5em;
+.TextEntry {
+  padding: 1em;
+  border: 1px solid black;
+
+  min-width: 15em;
 }
 
+.TextEntry .DraftEditor-root {
+  overflow-x: auto;
+}
+
+.TextEntry .Char {
+  width: 2em;
+  height: 2em;
+
+  display: inline-grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.TextEntry .public-DraftEditorPlaceholder-root {
+  color: #444;
+}
+
+.TextEntry .Block > div {
+  white-space: nowrap;
+}

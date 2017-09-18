@@ -1,50 +1,63 @@
 import React, { Component } from 'react';
+import { Editor, EditorState, ContentState, CompositeDecorator } from 'draft-js';
+
+import 'draft-js/dist/Draft.css';
 import './TextEntry.css'
 
 export default class TextEntry extends Component {
   constructor(props) {
     super(props);
 
-    this.handleText = this.handleText.bind(this);
+    const { value } = props;
+
+    const decorator = new CompositeDecorator([
+      { strategy: eachCharStrategy, component: HandleSpan }
+    ]);
+
+    const contentState = ContentState.createFromText(value);
+    const editorState = EditorState.createWithContent(contentState, decorator);
+
+    this.state = { editorState };
+    this.onChange = this.onChange.bind(this);
   }
 
-  handleText(event) {
-    const textEntry = event.target.value;
-    this.props.onChange(textEntry);
+  onChange(editorState) {
+    const { onChange } = this.props;
+
+    const contentState = editorState.getCurrentContent();
+    onChange(contentState.getPlainText());
+
+    this.setState({ editorState });
+  }
+
+  blockStyleFn(contentBlock) {
+    return 'Block';
   }
 
   render() {
-    const { minimumRows, minimumColumns, value, placeholder } = this.props;
-    const rows = value.split(/\r?\n/);
-
-    let mostCols = rows.reduce((acc, val) => {
-        if (val.length > acc) {
-          return val.length;
-        }
-
-        return acc;
-      }, 0);
-
-    if (mostCols < minimumColumns) {
-      mostCols = minimumColumns;
-    }
-
-    let rowsCount = rows.length;
-    if (rowsCount < minimumRows) {
-      rowsCount = minimumRows;
-    }
+    const { editorState } = this.state;
+    const { placeholder } = this.props;
 
     return (
       <div className='TextEntry'>
-        <textarea
-          value={value}
-          cols={mostCols}
-          rows={rowsCount}
-          onChange={this.handleText}
+        <Editor
           placeholder={placeholder}
-          spellCheck={false} />
+          stripPastedStyles={true}
+          editorState={editorState}
+          onChange={this.onChange}
+          blockStyleFn={this.blockStyleFn} />
       </div>
     );
   }
 }
 
+const eachCharStrategy = (contentBlock, callback, contentState) => {
+  const text = contentBlock.getText();
+
+  for (let i = 0; i < text.length; i++) {
+    callback(i, i + 1);
+  }
+};
+
+const HandleSpan = (props) =>
+  <span className='Char'>{ props.children }</span>

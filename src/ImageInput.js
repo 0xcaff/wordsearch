@@ -169,7 +169,7 @@ class ImageInput extends Component {
                 onSelectedChanged={ selected => this.setState({ selected }) } />
 
               { puzzle &&
-                <div className='WordList'>
+                <div className='Words'>
                   <h2>Words</h2>
 
                   <List

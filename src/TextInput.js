@@ -29,8 +29,6 @@ class TextInput extends Component {
 
         <main>
           <TextEntry
-            minimumRows={5}
-            minimumColumns={20}
             value={text}
             placeholder="Enter puzzle"
             onChange={ newValue => this.setState({ text: newValue }) } />

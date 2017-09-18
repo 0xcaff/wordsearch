@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "canvas": "^1.6.5",
+    "draft-js": "^0.10.1",
     "konva": "^1.6.3",
     "rbush": "^2.0.1",
     "rbush-knn": "^2.0.0",
