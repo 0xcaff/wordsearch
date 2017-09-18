@@ -20,6 +20,10 @@
   justify-content: center;
 }
 
+.ImageInput .WordList > h2 {
+  text-align: center;
+}
+
 .ImageInput > main > .Buttons {
   text-align: center;
   margin: 1em 0;

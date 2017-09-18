@@ -169,9 +169,13 @@ class ImageInput extends Component {
                 onSelectedChanged={ selected => this.setState({ selected }) } />
 
               { puzzle &&
-                <List
-                  items={words}
-                  onChange={ newValue => this.setState({ words: newValue }) } />
+                <div className='WordList'>
+                  <h2>Words</h2>
+
+                  <List
+                    items={words}
+                    onChange={ newValue => this.setState({ words: newValue }) } />
+                </div>
               }
             </div>
 
