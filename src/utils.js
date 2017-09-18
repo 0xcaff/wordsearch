@@ -24,23 +24,6 @@ export function getSymbols(parent, innerPropName = 'pages') {
 
 const innerPropNames = ['pages', 'blocks', 'paragraphs', 'words', 'symbols']; // , 'text'];
 
-// Expands sel to the given coordinates and redraws the layer sel is on if
-// needed.
-export function expandSelection(sel, { x0, y0, x1, y1 }) {
-  let changed = false;
-
-  if (x0 === undefined) { x0 = sel.x() } else { sel.x(x0); changed = true };
-  if (y0 === undefined) { y0 = sel.y() } else { sel.y(y0); changed = true };
-
-  if (x0 !== undefined && x1 !== undefined) { sel.width(x1 - x0); changed = true };
-  if (y0 !== undefined && y1 !== undefined) { sel.height(y1 - y0); changed = true };
-
-  if (changed) {
-    const layer = sel.getLayer();
-    layer.batchDraw();
-  }
-}
-
 export const withPosition = (inner) => evt => inner(getPosition(evt), evt);
 
 export const getPosition = (evt) =>

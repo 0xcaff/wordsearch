@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 
-import {
-  withPosition, expandSelection, boundsFromRect, toggleInSet
-} from './utils';
+import { withPosition, boundsFromRect, toggleInSet } from './utils';
 
 import './Annotations.css';
 
@@ -276,5 +274,22 @@ export default class Annotations extends Component {
           className='canvases' />
       </div>
     );
+  }
+}
+
+// Expands sel to the given coordinates and redraws the layer sel is on if
+// needed.
+function expandSelection(center, { x0, y0, x1, y1 }) {
+  let changed = false;
+
+  if (x0 === undefined) { x0 = center.x() } else { center.x(x0); changed = true };
+  if (y0 === undefined) { y0 = center.y() } else { center.y(y0); changed = true };
+
+  if (x0 !== undefined && x1 !== undefined) { center.width(x1 - x0); changed = true };
+  if (y0 !== undefined && y1 !== undefined) { center.height(y1 - y0); changed = true };
+
+  const layer = center.getLayer();
+  if (changed) {
+    layer.batchDraw();
   }
 }
