@@ -27,7 +27,6 @@ const buildGraph = (text) => {
   return { grid, nodes };
 };
 
-// TODO: Display Something for No Matches
 // TODO: It's slow in firefox because of the layout.
 
 // A component which given a 2D text input, and a wordlist displays the
