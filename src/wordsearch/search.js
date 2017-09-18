@@ -41,12 +41,12 @@ export class ArrayGrid {
 
     grid.data = rows;
     grid.maxCols = rows.reduce((acc, val) => {
-        if (val.length > acc) {
-          return val.length;
-        }
+      if (val.length > acc) {
+        return val.length;
+      }
 
-        return acc;
-      }, 0);
+      return acc;
+    }, 0);
 
     grid.data.forEach((row, rowIndex) =>
       row.forEach((item, colIndex) =>
@@ -208,7 +208,7 @@ export function findMatches(words, nodes, allowedEdges) {
   
           // it matches, add to discovered
           discoveredWord.push(currentNode);
-       }
+        }
   
         // we can be here in three possible states:
         // * the word length is zero

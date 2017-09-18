@@ -1,7 +1,6 @@
 // Tests for sortWordSelected.
 
 import { sortWordSelected } from './utils';
-import rbush from 'rbush';
 
 const data = [{
   it: 'should sort diagonal nodes downards and to the right from left to right',
@@ -196,7 +195,7 @@ const data = [{
       "text": "T",
       "boundingRect": {
         "minX": 1338,
-        "minX": 1314,
+        "maxX": 1314,
         "minY": 436,
         "maxY": 453
       }

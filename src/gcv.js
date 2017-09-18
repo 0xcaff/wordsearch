@@ -16,7 +16,7 @@ export const detectText = async (image, KEY) => {
     `https://vision.googleapis.com/v1/images:annotate?key=${KEY}`, {
       method: 'POST',
       body: JSON.stringify({ requests: [request] }),
-  });
+    });
 
   const { responses: [ response ] } = await resp.json();
   const { error, fullTextAnnotation } = response;
