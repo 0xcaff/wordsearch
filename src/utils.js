@@ -1,3 +1,4 @@
+import rbush from 'rbush';
 import knn from 'rbush-knn';
 
 // Flattens annotations from the google cloud vision API into just an array of
@@ -293,51 +294,52 @@ export const getPuzzleFromGrid = (xs, ys, xTolerance, yTolerance, tree) =>
   }));
 
 // Sort nodes from left to right, top to bottom.
-export const sortWordSelected = (selected, tree) => {
+export const sortWordSelected = (selected) => {
   if (selected.size === 0) {
-    throw new TypeError('Nothing selected.');
+    return selected;
   }
 
-  // find the highest, leftest node. That will be the first char.
-  let { center: { x: cx, y: cy } } = Array.from(selected)
-    .reduce((node, currentValue) => {
-      const { boundingRect } = currentValue;
-      const { x, y } = centerOfBounds(boundingRect);
+  const selectedWithCenters = Array.from(selected)
+    .map(node => ({ ...node, center: centerOfBounds(node.boundingRect) }));
 
-      const { center: currentCenter } = node;
-      if (x <= currentCenter.x && y <= currentCenter.y) {
-        // TODO: Logic Error Here
-        // new center
-        return Object.assign({}, currentValue, { center: { x, y } });
-      }
+  const { maxY, minY, maxX, minX } = selectedWithCenters
+    .reduce((acc, { center }) => concatBounds(acc, center), getUnboundedBounds());
 
-      return node;
-    }, { center: { x: Infinity, y: Infinity } });
+  const dy = maxY - minY;
+  const dx = maxX - minX;
 
-  const visited = new Set();
-  const output = [];
+  const ady = Math.abs(dy);
+  const adx = Math.abs(dx);
 
-  const limit = 1;
+  const comparator = adx >= ady ?
+    ({ center: { x: ax } }, { center: { x: bx } }) => ax - bx :
+    ({ center: { y: ay } }, { center: { y: by } }) => ay - by;
 
-  while (visited.size < selected.size) {
-    console.log(output);
-    const neighbors = knn(tree, cx, cy, limit,
-      ({ node }) => selected.has(node) && !visited.has(node));
-
-    if (neighbors.length === 0) {
-      // there is no neighbor
-      throw new TypeError("Couldn't find a nearest neighbor.")
-    }
-
-    const [{ node }] = neighbors;
-
-    output.push(node);
-    visited.add(node);
-
-    const center = centerOfBounds(node.boundingRect);
-    cx = center.x;
-    cy = center.y;
-  }
-
-  return output;
+  const sorted = selectedWithCenters.sort(comparator);
+  return sorted;
 };
+
+// Creates an rbush R-Tree for fast lookups of things in a region.
+export const buildRTree = (annotations) => {
+  const tree = rbush();
+
+  const leaves = annotations.map(node => {
+    const { boundingBox } = node;
+
+    // the bounding box may not be aligned along the xy plane, so convert it
+    // ot be sure.
+    const bbox = boundsOfVertices(boundingBox.vertices);
+
+    // This is nice to have, so let's hold on to it for using during
+    // extraction time.
+    node.boundingRect = bbox;
+
+    const leaf = { node };
+    Object.assign(leaf, bbox);
+
+    return leaf;
+  });
+
+  tree.load(leaves);
+  return tree;
+}

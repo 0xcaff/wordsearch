@@ -1,0 +1,52 @@
+.InputSelection {
+  text-align: center;
+  --size: 0.06;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 100vh;
+  max-width: 40rem;
+  margin: auto;
+
+	font-family: monospace;
+
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.InputSelection > header {
+  font-size: calc(var(--size) * 100vw);
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.InputSelection > main {
+  margin: 0 1em;
+}
+
+.InputSelection > main > div {
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+/* The 40rem is max-width of .InputSelection */
+@media(min-width: 40rem) {
+  .InputSelection > header {
+    font-size: calc(40rem * var(--size));
+  }
+}
+
+.InputSelection > main > div > .Button {
+  flex: 1;
+  white-space: nowrap;
+
+  margin: 1em;
+  max-width: 15em;
+  font-size: x-large;
+}

@@ -1,12 +1,3 @@
-* {
-	box-sizing: border-box;
-}
-
-.App {
-	text-align: center;
-	font-family: monospace;
-}
-
 .App-header {
 	background-color: #222;
 	color: white;
@@ -22,11 +13,6 @@
 
 .container {
 	margin: 1em;
-}
-
-.clickable {
-	text-decoration: underline;
-	cursor: pointer;
 }
 
 .List {
@@ -61,4 +47,3 @@
 		display: none;
 	}
 }
-

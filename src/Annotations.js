@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
-import rbush from 'rbush';
-
-import Button from './Button';
 
 import {
-  withPosition, expandSelection, boundsFromRect, toggleInSet, boundsOfVertices,
-  compareBounds, getPuzzleFromGrid, findGrid, sortWordSelected,
+  withPosition, expandSelection, boundsFromRect, toggleInSet
 } from './utils';
 
 import './Annotations.css';
@@ -18,18 +14,7 @@ const COLORS = {
   SELECTION: '#222',
 };
 
-// TODO: Show tooltip with highlighted character.
-
-// TODO: The selection doesn't work for some puzzles. Investigate.
-
-// TODO: Make the UI Look Nice:
-// * hide bounding boxes
-// * put the stuff here in a pop up dialog
-// * Put the area selector in a box
-// * Loading indicator.
-
-// TODO: Think about making the assumption the area between grid rows and
-// columns are equal.
+// TODO: Desaturate background image when making selections.
 
 // Renders results from a Google Cloud Vision text annotation query. We are
 // using konva to render this view because React was choking on reconciliation
@@ -56,7 +41,7 @@ export default class Annotations extends Component {
   selected = null;
 
   // A mapping of nodes (data) to Lines (view). This allows for surgically
-  // updating a view after changing a value .
+  // updating a view after changing a value.
   elements = null;
 
   // The Konva.Layer which holds the views for the annotation elements. It's
@@ -83,58 +68,86 @@ export default class Annotations extends Component {
   componentDidMount() {
     this.stage = new Konva.Stage({ container: this.domNode });
 
-    this.handleProps(this.props);
+    this.handleProps(this.props, {});
   }
 
   // Called when new props are received, including after the initial render.
-  handleProps(props) {
-    const { image, annotations: rawAnnotations } = props;
-    this.data = rawAnnotations;
+  handleProps(props, oldProps) {
+    const {
+      image,
+      tree,
+      annotations: rawAnnotations,
+      selected = new Set(),
+      overlayShapes = [],
+    } = props;
 
-    // compute dimensions of canvas based on image.
-    const { width: imageWidth, height: imageHeight } = image;
-    const width = Math.min(800, imageWidth);
-    const height = (imageHeight / imageWidth) * width;
+    const {
+      image: oldImage,
+      tree: oldTree,
+      annotations: oldAnnotations,
+      selected: oldSelected,
+      overlayShapes: oldOverlayShapes,
+    } = oldProps;
 
-    // applying these as multipliers to the image size will result in the canvas
-    // size
-    const scaleX = width / imageWidth;
-    const scaleY = height / imageHeight;
+    if (rawAnnotations !== oldAnnotations && tree !== oldTree && image !== oldImage) {
+      this.data = rawAnnotations;
+      this.tree = tree;
 
-    this.selected = new Set();
+      // compute dimensions of canvas based on image.
+      const { width: imageWidth, height: imageHeight } = image;
+      const width = Math.min(800, imageWidth);
+      const height = (imageHeight / imageWidth) * width;
 
-    // setup stage
-    const stage = this.stage;
-    stage.removeChildren();
-    stage.width(width);
-    stage.height(height);
+      // applying these as multipliers to the image size will result in the canvas
+      // size
+      const scaleX = width / imageWidth;
+      const scaleY = height / imageHeight;
 
-    // (re)?create layers
+      this.selected = selected;
 
-    // image layer
-    const imageLayer = new Konva.FastLayer({ scaleX, scaleY });
-    const imageElement = new Konva.Image({ image });
-    imageLayer.add(imageElement);
-    stage.add(imageLayer);
+      // setup stage
+      const stage = this.stage;
+      stage.removeChildren();
+      stage.width(width);
+      stage.height(height);
 
-    this.gridOverlayLayer = new Konva.FastLayer({ scaleX, scaleY });
-    stage.add(this.gridOverlayLayer);
+      // (re)?create layers
 
-    // selection layer (the dashed box is goes here)
-    const selectionLayer = new Konva.FastLayer();
-    this.initSelectionLayer(selectionLayer, scaleX, scaleY);
-    stage.add(selectionLayer);
+      // image layer
+      const imageLayer = new Konva.FastLayer({ scaleX, scaleY });
+      const imageElement = new Konva.Image({ image });
+      imageLayer.add(imageElement);
+      stage.add(imageLayer);
 
-    // annotation layer (colorful bounding boxes go here)
-    const annotationsLayer = this.annotations = new Konva.Layer({ scaleX, scaleY });
-    this.elements = new Map();
-    this.createAnnotations();
-    stage.add(annotationsLayer);
+      this.gridOverlayLayer = new Konva.FastLayer({ scaleX, scaleY });
+      stage.add(this.gridOverlayLayer);
+
+      // selection layer (the dashed box is goes here)
+      const selectionLayer = new Konva.FastLayer();
+      this.initSelectionLayer(selectionLayer, scaleX, scaleY);
+      stage.add(selectionLayer);
+
+      // annotation layer (colorful bounding boxes go here)
+      const annotationsLayer = this.annotations = new Konva.Layer({ scaleX, scaleY });
+      this.elements = new Map();
+      this.createAnnotations();
+      stage.add(annotationsLayer);
+    }
+
+    if (overlayShapes !== oldOverlayShapes) {
+      const layer = this.gridOverlayLayer;
+      overlayShapes.forEach(shape => layer.add(shape));
+      layer.batchDraw();
+    }
+
+    if (selected !== oldSelected) {
+      this.selected = selected;
+      this.updateAllNodes();
+    }
   }
 
   initSelectionLayer(layer, scaleX, scaleY) {
-    const tree = this.tree = Annotations.buildRTree(this.data);
-    const selected = this.selected;
+    const { tree } = this;
 
     const area = new Konva.Rect({
       x: 0,
@@ -143,8 +156,7 @@ export default class Annotations extends Component {
       height: 0,
       stroke: COLORS.SELECTION,
       dash: [10, 10],
-
-      // TODO: use a dash offset to animate this
+      opacity: 0.85,
     });
 
     layer.add(area);
@@ -162,9 +174,9 @@ export default class Annotations extends Component {
     }));
 
     stage.on('contentMouseup', withPosition(({x, y}, {evt}) => {
-      expandSelection(area, {x1: x, y1: y});
+      const { selected } = this;
 
-      // TODO: the selection doesn't work with images much larger than the frame
+      expandSelection(area, {x1: x, y1: y});
 
       // add contained nodes to selection
       const contained = tree.search(boundsFromRect(area, 1 / scaleX, 1 / scaleY));
@@ -186,31 +198,6 @@ export default class Annotations extends Component {
     }));
   }
 
-  // Creates an rbush R-Tree for fast lookups of things in a region.
-  static buildRTree(annotations) {
-    const tree = rbush();
-
-    const leaves = annotations.map(node => {
-      const { boundingBox } = node;
-
-      // the bounding box may not be aligned along the xy plane, so convert it
-      // ot be sure.
-      const bbox = boundsOfVertices(boundingBox.vertices);
-
-      // This is nice to have, so let's hold on to it for using during
-      // extraction time.
-      node.boundingRect = bbox;
-
-      const leaf = { node };
-      Object.assign(leaf, bbox);
-
-      return leaf;
-    });
-
-    tree.load(leaves);
-    return tree;
-  }
-
   createAnnotations() {
     const layer = this.annotations;
 
@@ -223,6 +210,7 @@ export default class Annotations extends Component {
           points: points,
           closed: true,
           stroke: COLORS.DEFAULT,
+          opacity: 0.3,
         });
 
         this.elements.set(node, view);
@@ -255,73 +243,25 @@ export default class Annotations extends Component {
     if (node.hovered) {
       view.stroke(COLORS.HOVERED);
     } else {
-      view.stroke(this.selected.has(node) ? COLORS.SELECTED : COLORS.DEFAULT);
+      const isSelected = this.selected.has(node);
+      view.stroke(isSelected ? COLORS.SELECTED : COLORS.DEFAULT);
+      view.opacity(isSelected ? 1 : 0.3);
     }
   }
 
   // update all nodes
   updateAllNodes() {
+    const { selected } = this;
+    const { onSelectedChanged } = this.props;
+
     this.data.forEach(node => this.updateNode(node));
     this.annotations.batchDraw();
-  }
 
-  selectWord() {
-    // get the selected nodes
-    const selected = Array.from(this.selected.values());
-
-    // TODO: fixme
-    const sorted = sortWordSelected(selected.slice());
-
-    const word = sorted.map(node => node.text).join('');
-    this.selected.clear();
-
-    // update all nodes
-    this.updateAllNodes();
-
-    // TODO: Test this
-
-    // TODO: Do something with result.
-    console.log(word);
-  }
-
-  selectPuzzle() {
-    const { data, tree, selected } = this;
-    const selectedNodes = data.filter(node => selected.has(node));
-
-    const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(selectedNodes);
-
-    // draw estimated grid
-    const layer = this.gridOverlayLayer;
-    layer.removeChildren();
-
-    const xMin = xGridLines[0];
-    const xMax = xGridLines[xGridLines.length - 1];
-
-    const yMin = yGridLines[0];
-    const yMax = yGridLines[yGridLines.length - 1];
-
-    xGridLines.forEach(x =>
-      layer.add(new Konva.Line({
-        points: [x, yMin, x, yMax],
-        stroke: 'black',
-      })
-    ));
-
-    yGridLines.forEach(y =>
-      layer.add(new Konva.Line({
-        points: [xMin, y, xMax, y],
-        stroke: 'black',
-      })
-    ));
-
-    layer.batchDraw();
-
-    const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
-    console.log(output.map(row => row.join('')).join('\n'));
+    onSelectedChanged(selected);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.handleProps(nextProps);
+    this.handleProps(nextProps, this.props);
   }
 
   componentWillUnmount() {
@@ -334,11 +274,6 @@ export default class Annotations extends Component {
         <div
           ref={elem => this.domNode = elem}
           className='canvases' />
-
-        <Button
-          onClick={_ => this.selectPuzzle()}>Select Puzzle</Button>
-        <Button
-          onClick={_ => this.selectWord()}>Select Word</Button>
       </div>
     );
   }

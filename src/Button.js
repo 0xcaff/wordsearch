@@ -9,4 +9,3 @@ const Button = (props) =>
   </span>
 
 export default Button;
-

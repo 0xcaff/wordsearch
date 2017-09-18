@@ -3,8 +3,6 @@ import Node from './Node';
 
 export default class GridNodes extends PureComponent {
   render() {
-    console.log("GridNodes.render");
-
     const { grid, onSelect } = this.props;
 
     // walk over grid and render nodes

@@ -1,0 +1,20 @@
+.TextInput {
+  margin: 0 auto;
+  max-width: 60rem;
+}
+
+.TextInput main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  margin-bottom: 1em;
+}
+
+.TextInput h1 {
+  text-align: center;
+}
+
+.TextInput footer {
+  text-align: center;
+}

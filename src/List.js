@@ -53,41 +53,59 @@ export default class List extends Component {
     onChange(newItems);
   }
 
-  render() {
-    console.log("List.render")
+  removeItem(index) {
+    const { onChange, items: oldItems } = this.props;
 
-    const { itemProps, focused, items } = this.props;
+    const newItems = oldItems.slice();
+    newItems.splice(index, 1);
+
+    onChange(newItems);
+  }
+
+  render() {
+    const { focused, items, itemProps = () => null, onChange } = this.props;
+    const firstFocused = focused && focused[0];
 
     return (
       <div
-        className="List">
+        className={['List', onChange ? 'Updatable' : 'Static'].join(' ')}>
         <ul>
-          { items.map(item =>
+          { items.map((item, i) =>
             <li
               {...itemProps(item)}
-              ref={focused[0] === item ?
+              ref={firstFocused === item ?
                 (elem => elem && elem.scrollIntoView({behavior: 'smooth'})) :
                 undefined
               }
-              className={[focused.includes(item) && 'focused'].filter(e => !!e).join(' ')}
+              className={
+                [focused && focused.includes(item) && 'focused']
+                  .filter(e => !!e).join(' ')
+              }
               key={item}>
-                {item}
+                <span>
+                  { item }
+
+                  { onChange &&
+                    <span
+                      onClick={() => this.removeItem(i)}
+                      className='Remove'>x</span> }
+                </span>
             </li>
           ) }
 
-          <li
-            className="Input"
-            key=""
-            title='Enter Word or Paste Newline Separated Words'>
-            <input
-              onPaste={this.handlePaste}
-              onKeyPress={this.handleEntryKeyPress}
-              type='text'
-              placeholder='Enter Word or Paste Newline Separated Words' />
-          </li>
+          { onChange &&
+            <li
+              className="Input"
+              key=""
+              title='Enter Word or Paste Newline Separated Words'>
+              <input
+                onPaste={this.handlePaste}
+                onKeyPress={this.handleEntryKeyPress}
+                type='text'
+                placeholder='Enter Word or Paste Newline Separated Words' />
+            </li> }
         </ul>
       </div>
     );
   }
 }
-

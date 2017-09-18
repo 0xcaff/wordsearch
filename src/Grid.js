@@ -7,8 +7,6 @@ import './Grid.css';
 
 export default class Grid extends PureComponent {
   render() {
-    console.log("Grid.render");
-
     const { grid, selected, nodeExtras, onSelect, onUnselect } = this.props;
 
     if (!grid) {
