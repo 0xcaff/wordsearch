@@ -293,7 +293,6 @@ export const getPuzzleFromGrid = (xs, ys, xTolerance, yTolerance, tree) =>
     return text;
   }));
 
-// TODO: looks similar to something else
 // Sort nodes from left to right, top to bottom.
 export const sortWordSelected = (selected) => {
   if (selected.size === 0) {
@@ -303,29 +302,11 @@ export const sortWordSelected = (selected) => {
   const selectedWithCenters = Array.from(selected)
     .map(node => ({ ...node, center: centerOfBounds(node.boundingRect) }));
 
-  const { highest, lowest, leftest, rightest } = selectedWithCenters
-    .reduce(({ highest, lowest, leftest, rightest }, { center: { x, y } } ) => {
-      if (y < highest) {
-        highest = y;
-      }
+  const { maxY, minY, maxX, minX } = selectedWithCenters
+    .reduce((acc, { center }) => concatBounds(acc, center), getUnboundedBounds());
 
-      if (x < leftest) {
-        leftest = x;
-      }
-
-      if (y > lowest) {
-        lowest = y
-      }
-
-      if (x > rightest) {
-        rightest = x;
-      }
-
-      return { highest, lowest, leftest, rightest };
-    }, { highest: Infinity, lowest: -Infinity, rightest: -Infinity, leftest: Infinity });
-
-  const dy = highest - lowest;
-  const dx = rightest - leftest;
+  const dy = maxY - minY;
+  const dx = maxX - minX;
 
   const ady = Math.abs(dy);
   const adx = Math.abs(dx);

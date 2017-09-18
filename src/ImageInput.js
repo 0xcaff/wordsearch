@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Konva from 'konva';
 import { Link } from 'react-router-dom';
 
 import List from './List';
@@ -40,6 +41,9 @@ class ImageInput extends Component {
 
     // The set of nodes which are selected on the annotation element.
     selected: undefined,
+
+    // A list of shapes to display over the image.
+    shapes: [],
   };
 
   componentDidMount() {
@@ -104,44 +108,42 @@ class ImageInput extends Component {
 
     const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(selectedNodes);
 
-    // TODO:
-    // const xMin = xGridLines[0];
-    // const xMax = xGridLines[xGridLines.length - 1];
+    const xMin = xGridLines[0];
+    const xMax = xGridLines[xGridLines.length - 1];
 
-    // const yMin = yGridLines[0];
-    // const yMax = yGridLines[yGridLines.length - 1];
+    const yMin = yGridLines[0];
+    const yMax = yGridLines[yGridLines.length - 1];
 
-    // draw estimated grid
-    // const layer = this.gridOverlayLayer;
-    // layer.removeChildren();
-
-    // xGridLines.forEach(x =>
-    //   layer.add(new Konva.Line({
-    //     points: [x, yMin, x, yMax],
-    //     stroke: 'black',
-    //   })
-    // ));
-
-    // yGridLines.forEach(y =>
-    //   layer.add(new Konva.Line({
-    //     points: [xMin, y, xMax, y],
-    //     stroke: 'black',
-    //   })
-    // ));
-
-    // layer.batchDraw();
+    const shapes = [].concat(
+      xGridLines.map(x =>
+        new Konva.Line({
+          points: [x, yMin, x, yMax],
+          stroke: 'black',
+          opacity: 0.1,
+        })
+      ),
+      yGridLines.map(y =>
+        new Konva.Line({
+          points: [xMin, y, xMax, y],
+          stroke: 'black',
+          opacity: 0.1,
+        })
+      ),
+    );
 
     const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
     const text = output.map(row => row.join('')).join('\n');
 
-    this.setState({ selected: new Set() });
+    this.setState({ selected: new Set(), shapes });
 
     return text;
   }
 
   render() {
     const { history } = this.props;
-    const { annotations, image, loading, error, tree, puzzle, words, selected } = this.state;
+    const {
+      annotations, image, loading, error, tree, puzzle, words, selected, shapes
+    } = this.state;
 
     return (
       <div className='ImageInput'>
@@ -165,6 +167,7 @@ class ImageInput extends Component {
                 annotations={annotations}
                 image={image}
                 selected={selected}
+                overlayShapes={shapes}
                 onSelectedChanged={ selected => this.setState({ selected }) } />
 
               { puzzle &&

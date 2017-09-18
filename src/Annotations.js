@@ -16,13 +16,10 @@ const COLORS = {
 
 // TODO: Allow for Toggling Overlays (bounding boxes and grid lines).
 
+// TODO: Desaturate background image when making selections.
 // TODO: Show tooltip with highlighted character.
 
 // TODO: The selection doesn't work for some puzzles. Investigate.
-
-// TODO: Make the UI Look Nice:
-// * hide bounding boxes
-// * Put the area selector in a box
 
 // TODO: Think about making the assumption the area between grid rows and
 // columns are equal.
@@ -89,13 +86,15 @@ export default class Annotations extends Component {
       tree,
       annotations: rawAnnotations,
       selected = new Set(),
+      overlayShapes = [],
     } = props;
 
     const {
       image: oldImage,
       tree: oldTree,
       annotations: oldAnnotations,
-      selected: oldSelected
+      selected: oldSelected,
+      overlayShapes: oldOverlayShapes,
     } = oldProps;
 
     if (rawAnnotations !== oldAnnotations && tree !== oldTree && image !== oldImage) {
@@ -143,6 +142,12 @@ export default class Annotations extends Component {
       stage.add(annotationsLayer);
     }
 
+    if (overlayShapes !== oldOverlayShapes) {
+      const layer = this.gridOverlayLayer;
+      overlayShapes.forEach(shape => layer.add(shape));
+      layer.batchDraw();
+    }
+
     if (selected !== oldSelected) {
       this.selected = selected;
       this.updateAllNodes();
@@ -159,8 +164,7 @@ export default class Annotations extends Component {
       height: 0,
       stroke: COLORS.SELECTION,
       dash: [10, 10],
-
-      // TODO: use a dash offset to animate this
+      opacity: 0.85,
     });
 
     layer.add(area);
@@ -216,6 +220,7 @@ export default class Annotations extends Component {
           points: points,
           closed: true,
           stroke: COLORS.DEFAULT,
+          opacity: 0.3,
         });
 
         this.elements.set(node, view);
@@ -248,7 +253,9 @@ export default class Annotations extends Component {
     if (node.hovered) {
       view.stroke(COLORS.HOVERED);
     } else {
-      view.stroke(this.selected.has(node) ? COLORS.SELECTED : COLORS.DEFAULT);
+      const isSelected = this.selected.has(node);
+      view.stroke(isSelected ? COLORS.SELECTED : COLORS.DEFAULT);
+      view.opacity(isSelected ? 1 : 0.3);
     }
   }
 
