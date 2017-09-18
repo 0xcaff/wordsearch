@@ -1,20 +1,3 @@
-.App-header {
-	background-color: #222;
-	color: white;
-	padding: 20px;
-}
-
-.App-intro {
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
-	font-size: x-large;
-}
-
-.container {
-	margin: 1em;
-}
-
 .List {
 	text-align: start;
 }
@@ -28,12 +11,6 @@
 
 .List li > input {
 	width: 100%;
-}
-
-.WordList {
-	height: 100vh;
-	overflow-y: auto;
-	padding: 1em;
 }
 
 @media print {
