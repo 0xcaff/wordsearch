@@ -22,7 +22,7 @@
 	background: #ddd;
 }
 
-.List.Static li:hover {
+.List.Static li:hover, .List.Static li:focus {
 	background: #ddd;
 }
 

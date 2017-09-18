@@ -136,7 +136,7 @@ class ViewPuzzle extends Component {
   }
 
   render() {
-		const { grid, words, onSelect, onUnselect } = this;
+    const { grid, words, onSelect, onUnselect } = this;
     const { selected, focused } = this.state;
 
     if (!grid || !words) {
@@ -145,49 +145,54 @@ class ViewPuzzle extends Component {
       return null;
     }
 
-		return (
-			<div
-				className='ViewPuzzle'
-				style={{
-			    display: 'flex',
-			    flexWrap: 'wrap',
-			    justifyContent: 'space-around',
-			    breakBefore: 'page',
-			  }}>
-			  <div
-			    style={{
-			      maxWidth: '100vmin', // TODO: using vmin here makes long grids to break
-			      padding: '1em',
-			      alignSelf: 'center',
-			      flexBasis: `${grid.columns()}em`,
-			      flexGrow: 1,
-			    }}>
+    return (
+      <div
+        className='ViewPuzzle'
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-around',
+          breakBefore: 'page',
+        }}>
+        <div
+          style={{
+            maxWidth: '100vmin', // TODO: using vmin here makes long grids to break
+            padding: '1em',
+            alignSelf: 'center',
+            flexBasis: `${grid.columns()}em`,
+            flexGrow: 1,
+          }}>
 
-			    <Grid
-			      grid={grid}
-			      selected={selected}
-			      onSelect={onSelect}
-			      onUnselect={onUnselect} />
-			  </div>
+          <Grid
+            grid={grid}
+            selected={selected}
+            onSelect={onSelect}
+            onUnselect={onUnselect} />
+        </div>
 
-			  <div
-			    className='WordList'
-			    style={{
-			      // TODO: When this element breaks onto a new row, we should set
-			      // flex-grow 1 so it looks nice on smaller screens
-			    }}>
-			    <h3>Words</h3>
-			
-			    <List
-			      items={words}
-			      focused={focused}
-			      itemProps={(item) => ({
-			        onMouseEnter: _ => this.selectMatches(item),
-			        onMouseLeave: _ => this.unSelectMatches(item),
-			      })} />
-			  </div>
-			</div>
-		);
+        <div
+          className='WordList'
+          style={{
+            // TODO: When this element breaks onto a new row, we should set
+            // flex-grow 1 so it looks nice on smaller screens
+          }}>
+          <h3>Words</h3>
+
+          <List
+            items={words}
+            focused={focused}
+            itemProps={(item) => ({
+              onMouseEnter: _ => this.selectMatches(item),
+              onMouseLeave: _ => this.unSelectMatches(item),
+
+              onFocus: _ => this.selectMatches(item),
+              onBlur: _ => this.unSelectMatches(item),
+
+              tabIndex: '0',
+            })} />
+        </div>
+      </div>
+    );
   }
 }
 
