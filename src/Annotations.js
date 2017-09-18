@@ -264,7 +264,6 @@ export default class Annotations extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps, this.props);
     this.handleProps(nextProps, this.props);
   }
 

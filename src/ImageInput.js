@@ -11,7 +11,6 @@ import { detectText } from './gcv';
 import './ImageInput.css';
 
 // TODO: Do user testing to see what users think should be done.
-// TODO: Select Puzzle Region
 
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
@@ -80,6 +79,7 @@ class ImageInput extends Component {
       const tree = buildRTree(annotations);
       this.setState({ annotations, loading: false, image, tree });
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
       this.setState({ loading: false, error: true });
     }
@@ -134,6 +134,8 @@ class ImageInput extends Component {
     const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
     const text = output.map(row => row.join('')).join('\n');
 
+    this.setState({ selected: new Set() });
+
     return text;
   }
 
@@ -155,7 +157,7 @@ class ImageInput extends Component {
 
         { annotations && !loading && !error &&
           <main>
-            <h1>Select Puzzle Region</h1>
+            <h1>{ puzzle ? 'Select Words' : 'Select Puzzle Region' }</h1>
 
             <div className='Content'>
               <Annotations

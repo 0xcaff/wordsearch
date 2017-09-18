@@ -3,8 +3,6 @@ import './Node.css';
 
 export default class Node extends Component {
   render() {
-    console.log("Node.render");
-
     const { node, x, y, mouseEnterNode } = this.props;
 
     return (

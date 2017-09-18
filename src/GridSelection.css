@@ -1,9 +1,4 @@
 .GridMatches {
-	display: contents;
-}
-
-.GridMatches .Match {
 	background: #F57F17;
 	z-index: 1;
 }
-

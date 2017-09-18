@@ -28,8 +28,7 @@ const buildGraph = (text) => {
 };
 
 // TODO: Display Something for No Matches
-// TODO: Make this work in chrome.
-// TODO: Make it fast.
+// TODO: It's slow in firefox because of the layout.
 
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.
@@ -67,15 +66,14 @@ class ViewPuzzle extends Component {
       new Set(Object.keys(Directions))
     );
 
+    this.onSelect = this.onSelect.bind(this);
+    this.onUnselect = this.onSelect.bind(this);
+
     this.words = words;
     this.grid = grid;
   }
 
   onSelect(...selection) {
-    console.log("Selecting", selection.map(selection =>
-      selection.map(node => node.khar).join('')
-    ).join());
-
     const focused = selection.map(nodes =>
       nodes.map(node => node.khar).join('')
     );
@@ -85,10 +83,6 @@ class ViewPuzzle extends Component {
   }
 
   onUnselect(...selection) {
-    console.log("Unselecting", selection.map(selection =>
-      selection.map(node => node.khar).join('')
-    ).join());
-
     this.setState({ focused: [] });
     this.removeSelected(...selection);
   }
@@ -143,7 +137,7 @@ class ViewPuzzle extends Component {
   }
 
   render() {
-		const { grid, words } = this;
+		const { grid, words, onSelect, onUnselect } = this;
     const { selected, focused } = this.state;
 
     if (!grid || !words) {
@@ -173,8 +167,8 @@ class ViewPuzzle extends Component {
 			    <Grid
 			      grid={grid}
 			      selected={selected}
-			      onSelect={(...args) => this.onSelect(...args)}
-			      onUnselect={(...args) => this.onUnselect(...args)} />
+			      onSelect={onSelect}
+			      onUnselect={onUnselect} />
 			  </div>
 
 			  <div

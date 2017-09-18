@@ -4,8 +4,6 @@ import './GridSelection.css';
 // A component which highlights nodes between two points.
 export default class GridSelection extends PureComponent {
   render() {
-    console.log("GridSelection.render");
-
     const { selection, grid, onUnselect } = this.props;
 
     const startNode = selection[0];
@@ -14,22 +12,16 @@ export default class GridSelection extends PureComponent {
     const endNode = selection[selection.length - 1];
     const { x: toX, y: toY } = grid.positionOf(endNode);
 
-    // TODO: Remove Display Contents
-    return (
-      <div
-        className='GridMatches'
-        onMouseLeave={_ => onUnselect(selection)}>
-        { Array.from(tweenPosition(fromX, fromY, toX, toY))
-          .map(({x, y}) =>
-            <div
-              key={`${x},${y}`}
-              className='Match'
-              style={{
-                gridColumnStart: x + 1,
-                gridRowStart: y + 1,
-              }} />
-        ) }
-      </div>
+    return Array.from(tweenPosition(fromX, fromY, toX, toY))
+      .map(({x, y}) =>
+        <div
+          key={`${x},${y}`}
+          className='GridMatches'
+          onMouseLeave={_ => onUnselect(selection)}
+          style={{
+            gridColumnStart: x + 1,
+            gridRowStart: y + 1,
+          }} />
     );
   }
 }

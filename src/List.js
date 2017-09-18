@@ -63,8 +63,6 @@ export default class List extends Component {
   }
 
   render() {
-    console.log("List.render")
-
     const { focused, items, itemProps = () => null, onChange } = this.props;
     const firstFocused = focused && focused[0];
 
