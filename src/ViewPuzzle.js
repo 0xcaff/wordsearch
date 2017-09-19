@@ -7,7 +7,7 @@ import List from './List';
 
 import {
   CharNode, ArrayGrid, connectGrid, findMatches, Directions
-} from './wordsearch/search';
+} from './wordsearch';
 
 const buildGraph = (text) => {
   // get rows
