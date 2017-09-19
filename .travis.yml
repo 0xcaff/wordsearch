@@ -1,0 +1,15 @@
+language: node_js
+sudo: false
+dist: trusty
+
+node_js:
+  - node
+
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+
+script:
+  - yarn test
+  - yarn benchmark
