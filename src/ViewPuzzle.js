@@ -5,27 +5,7 @@ import './ViewPuzzle.css';
 import Grid from './Grid';
 import List from './List';
 
-import {
-  CharNode, ArrayGrid, connectGrid, findMatches, Directions
-} from './wordsearch';
-
-const buildGraph = (text) => {
-  // get rows
-  const rows = text.split(/\r?\n/);
-
-  // create nodes
-  const nodeRows = rows.map(row =>
-    row
-      .split('')
-      .map(khar => new CharNode(khar))
-  );
-
-  // build and connect grid
-  const grid = ArrayGrid.fromArray(nodeRows);
-  const nodes = connectGrid(grid);
-
-  return { grid, nodes };
-};
+import { solve } from './wordsearch';
 
 // TODO: It's slow in firefox because of the layout.
 
@@ -59,17 +39,15 @@ class ViewPuzzle extends Component {
     }
 
     const { state: { words, text } } = location;
-    const { grid, nodes } = buildGraph(text);
 
-    this.matches = findMatches(words, nodes,
-      new Set(Object.keys(Directions))
-    );
+    // get rows
+    const rows = text.split(/\r?\n/);
+    const { matches, grid } = solve(rows, words);
 
     this.onSelect = this.onSelect.bind(this);
     this.onUnselect = this.onSelect.bind(this);
 
-    this.words = words;
-    this.grid = grid;
+    Object.assign(this, { words, matches, grid });
   }
 
   onSelect(...selection) {

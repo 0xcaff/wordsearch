@@ -12,6 +12,7 @@ beforeEach(() => {
   expect(nodeRows).toHaveLength(rows.length);
 
   grid = ArrayGrid.fromArray(nodeRows);
+  expect(grid.nodes).toBeTruthy();
 });
 
 it('should be the correct shape', () => {
@@ -21,10 +22,10 @@ it('should be the correct shape', () => {
 
 it('should have its origin at the top left', () => {
   // check four corners
-  expect(grid.get(0, 0).khar).toBe('T');
-  expect(grid.get(0, 32).khar).toBe('V');
-  expect(grid.get(32, 0).khar).toBe('S');
-  expect(grid.get(32, 32).khar).toBe('Z');
+  expect(grid.get(0, 0).value).toBe('T');
+  expect(grid.get(0, 32).value).toBe('V');
+  expect(grid.get(32, 0).value).toBe('S');
+  expect(grid.get(32, 32).value).toBe('Z');
 });
 
 it('should allow fast lookups', () => {

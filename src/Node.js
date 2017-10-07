@@ -20,7 +20,7 @@ export default class Node extends Component {
         onMouseEnter={_ => mouseEnterNode(node)}>
 
           <div>
-            <span>{node.khar}</span>
+            <span>{node.value}</span>
           </div>
       </div>
     );

@@ -7,8 +7,8 @@ const suite = new Suite();
 
 algorithms.forEach(({ name: algoName, f: findMatches }) => {
   Object.entries(puzzles)
-    .forEach(([ puzzleName, puzzle ]) =>
-      suite.add(`solving ${puzzleName} puzzle using ${algoName} algorithm`, () => solve(puzzle, findMatches))
+    .forEach(([ puzzleName, { words, rows } ]) =>
+      suite.add(`solving ${puzzleName} puzzle using ${algoName} algorithm`, () => solve(rows, words))
     );
 });
 
