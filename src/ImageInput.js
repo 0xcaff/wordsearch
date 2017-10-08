@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import KeyHandler, { KEYPRESS } from 'react-key-handler';
 import Konva from 'konva';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +14,11 @@ import './ImageInput.css';
 
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
+
+const puzzleLineStyle = {
+  stroke: 'black',
+  opacity: 0.1,
+};
 
 class ImageInput extends Component {
   state = {
@@ -53,7 +59,6 @@ class ImageInput extends Component {
     }
 
     const { file } = state;
-
     this.handleFile(file);
   }
 
@@ -87,7 +92,7 @@ class ImageInput extends Component {
     }
   }
 
-  selectWord() {
+  onSelectWord() {
     const { selected } = this.state;
 
     // get the selected nodes
@@ -95,12 +100,13 @@ class ImageInput extends Component {
     const sorted = sortWordSelected(selectedArr);
     const word = sorted.map(node => node.text).join('');
 
-    this.setState({ selected: new Set() });
-
-    return word;
+    this.setState(({ words }) => ({
+      selected: new Set(),
+      words: words.concat(word),
+    }));
   }
 
-  selectPuzzle() {
+  onSelectPuzzle() {
     const { annotations: data, tree, selected } = this.state;
     const selectedNodes = data.filter(node => selected.has(node));
 
@@ -116,15 +122,13 @@ class ImageInput extends Component {
       xGridLines.map(x =>
         new Konva.Line({
           points: [x, yMin, x, yMax],
-          stroke: 'black',
-          opacity: 0.1,
+          ...puzzleLineStyle,
         })
       ),
       yGridLines.map(y =>
         new Konva.Line({
           points: [xMin, y, xMax, y],
-          stroke: 'black',
-          opacity: 0.1,
+          ...puzzleLineStyle,
         })
       ),
     );
@@ -132,9 +136,7 @@ class ImageInput extends Component {
     const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
     const text = output.map(row => row.join('')).join('\n');
 
-    this.setState({ selected: new Set(), shapes });
-
-    return text;
+    this.setState({ selected: new Set(), shapes, puzzle: text });
   }
 
   render() {
@@ -181,23 +183,29 @@ class ImageInput extends Component {
 
             <div className='Buttons'>
               { !puzzle &&
-                <Button onClick={() => this.setState({ puzzle: this.selectPuzzle() })}>
+                <Button onClick={() => this.onSelectPuzzle()}>
                   Select Puzzle
                 </Button>
               }
 
+              { !puzzle &&
+                <ActionKeyHandler onAction={() => this.onSelectPuzzle()} />
+              }
+
               { puzzle &&
-                <Button onClick={() => {
-                  const word = this.selectWord();
-                  this.setState({ words: words.concat(word) });
-                }}>
+                <Button onClick={() => this.onSelectWord()}>
                   Add Word
                 </Button>
               }
 
               { puzzle &&
-                <Button onClick={() => history.push('/input/text',
-                  { text: puzzle, words })}>
+                <ActionKeyHandler onAction={() => this.onSelectWord()} />
+              }
+
+              { puzzle &&
+                <Button onClick={() =>
+                  history.push('/input/text', { text: puzzle, words })
+                }>
 
                   Continue
                 </Button>
@@ -210,6 +218,17 @@ class ImageInput extends Component {
     );
   }
 }
+
+const actionKeys = [ 'Enter', ' ' ];
+
+const ActionKeyHandler = ({ onAction }) =>
+  actionKeys.map(key =>
+    <KeyHandler
+      key={key}
+      keyEventName={KEYPRESS}
+      keyValue={key}
+      onKeyHandle={onAction} />
+  );
 
 export default ImageInput;
 

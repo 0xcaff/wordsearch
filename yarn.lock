@@ -2350,6 +2350,10 @@ exec-sh@^0.2.0:
   dependencies:
     merge "^1.1.3"
 
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+
 exit-hook@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/exit-hook/-/exit-hook-1.1.1.tgz#f05ca233b48c05d54fff07765df8507e95c02ff8"
@@ -4942,7 +4946,7 @@ prop-types@^15.5.4:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
 
-prop-types@^15.6.0:
+prop-types@^15.5.7, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -5103,6 +5107,13 @@ react-error-overlay@^1.0.7:
     react-dev-utils "^3.1.0"
     settle-promise "1.0.0"
     source-map "0.5.6"
+
+react-key-handler@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-key-handler/-/react-key-handler-1.0.0.tgz#311fbbb3cfed29b1ac27273e5bce22100f6a35fd"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.7"
 
 react-router-dom@^4.2.2:
   version "4.2.2"
