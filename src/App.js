@@ -13,13 +13,6 @@ import ViewPuzzle from './ViewPuzzle';
 
 import './App.css';
 
-// TODO: onMouseLeave isn't run sometimes when exiting a node. This causes the
-// highlight to remain until another selection is made.
-
-// TODO: Keyboard Shortcuts
-// * WordList Tabbing + Arrow Keys
-// * Enter to Continue on Image Page
-
 class App extends Component {
   render() {
     return (

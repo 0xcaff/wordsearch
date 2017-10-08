@@ -7,8 +7,6 @@ import List from './List';
 
 import { solve } from './wordsearch';
 
-// TODO: It's slow in firefox because of the layout.
-
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.
 class ViewPuzzle extends Component {
@@ -134,7 +132,7 @@ class ViewPuzzle extends Component {
         }}>
         <div
           style={{
-            maxWidth: '100vmin', // TODO: using vmin here makes long grids to break
+            maxWidth: '100vmin',
             padding: '1em',
             alignSelf: 'center',
             flexBasis: `${grid.columns()}em`,
@@ -149,11 +147,7 @@ class ViewPuzzle extends Component {
         </div>
 
         <div
-          className='WordList'
-          style={{
-            // TODO: When this element breaks onto a new row, we should set
-            // flex-grow 1 so it looks nice on smaller screens
-          }}>
+          className='WordList'>
           <h3>Words</h3>
 
           <List

@@ -12,8 +12,6 @@ const COLORS = {
   SELECTION: '#222',
 };
 
-// TODO: Desaturate background image when making selections.
-
 // Renders results from a Google Cloud Vision text annotation query. We are
 // using konva to render this view because React was choking on reconciliation
 // when the selected nodes were changed. I was having this problem previously
