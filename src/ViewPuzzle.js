@@ -44,16 +44,19 @@ class ViewPuzzle extends Component {
     const { matches, grid } = solve(rows, words);
 
     this.onSelect = this.onSelect.bind(this);
-    this.onUnselect = this.onSelect.bind(this);
+    this.onUnselect = this.onUnselect.bind(this);
 
     Object.assign(this, { words, matches, grid, text });
   }
 
   onSelect(...selection) {
     const focused = selection.map(nodes =>
-      nodes.map(node => node.value).join('')
+      nodes
+        .map(node => node.value)
+        .join('')
     );
-    this.setState({ focused: focused });
+
+    this.setState({ focused });
 
     this.addSelected(...selection);
   }

@@ -17,7 +17,7 @@ export default class GridSelection extends PureComponent {
         <div
           key={`${x},${y}`}
           className='GridMatches'
-          onMouseLeave={_ => onUnselect(selection)}
+          onMouseLeave={() => onUnselect(selection)}
           style={{
             gridColumnStart: x + 1,
             gridRowStart: y + 1,
