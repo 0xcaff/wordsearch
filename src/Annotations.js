@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 
-import { withPosition, boundsFromRect, toggleInSet } from './utils';
+import { withPosition, boundsFromRect, toggleInSet, scale } from './utils';
 
 import './Annotations.css';
 
@@ -23,7 +23,8 @@ export default class Annotations extends Component {
   constructor(props) {
     super(props);
 
-    this.handleProps = this.handleProps.bind(this)
+    this.onResize = this.onResize.bind(this);
+    this.handleProps = this.handleProps.bind(this);
   }
 
   // The konva stage which we will be rendering to. This is populated in
@@ -64,7 +65,35 @@ export default class Annotations extends Component {
   componentDidMount() {
     this.stage = new Konva.Stage({ container: this.domNode });
 
+    window.addEventListener('resize', this.onResize);
     this.handleProps(this.props, {});
+    this.onResize();
+  }
+
+  onResize() {
+    const { image: { width: imageWidth, height: imageHeight } } = this.props;
+
+    const parentSize =
+        [window.innerWidth, window.innerHeight]
+          .map(d => d * 0.90)
+          .map(Math.floor)
+          .reduce((a, b) => Math.min(a, b), Infinity);
+
+    const width = Math.min(imageWidth, parentSize);
+    const height = (imageHeight / imageWidth) * width;
+
+    // applying these as multipliers to the image size will result in the canvas
+    // size
+    const scaleX = width / imageWidth;
+    const scaleY = height / imageHeight;
+
+    const { stage } = this;
+    stage.width(width);
+    stage.height(height);
+    stage.scaleX(scaleX);
+    stage.scaleY(scaleY);
+
+    Object.assign(this, { scaleX, scaleY });
   }
 
   // Called when new props are received, including after the initial render.
@@ -88,43 +117,35 @@ export default class Annotations extends Component {
     if (rawAnnotations !== oldAnnotations && tree !== oldTree && image !== oldImage) {
       this.data = rawAnnotations;
       this.tree = tree;
+      this.selected = selected;
 
       // compute dimensions of canvas based on image.
       const { width: imageWidth, height: imageHeight } = image;
-      const width = Math.min(800, imageWidth);
-      const height = (imageHeight / imageWidth) * width;
-
-      // applying these as multipliers to the image size will result in the canvas
-      // size
-      const scaleX = width / imageWidth;
-      const scaleY = height / imageHeight;
-
-      this.selected = selected;
 
       // setup stage
       const stage = this.stage;
       stage.removeChildren();
-      stage.width(width);
-      stage.height(height);
+      stage.width(imageWidth);
+      stage.height(imageHeight);
 
       // (re)?create layers
 
       // image layer
-      const imageLayer = new Konva.FastLayer({ scaleX, scaleY });
+      const imageLayer = new Konva.FastLayer();
       const imageElement = new Konva.Image({ image });
       imageLayer.add(imageElement);
       stage.add(imageLayer);
 
-      this.gridOverlayLayer = new Konva.FastLayer({ scaleX, scaleY });
+      this.gridOverlayLayer = new Konva.FastLayer();
       stage.add(this.gridOverlayLayer);
 
       // selection layer (the dashed box is goes here)
       const selectionLayer = new Konva.FastLayer();
-      this.initSelectionLayer(selectionLayer, scaleX, scaleY);
+      this.initSelectionLayer(selectionLayer);
       stage.add(selectionLayer);
 
       // annotation layer (colorful bounding boxes go here)
-      const annotationsLayer = this.annotations = new Konva.Layer({ scaleX, scaleY });
+      const annotationsLayer = this.annotations = new Konva.Layer();
       this.elements = new Map();
       this.createAnnotations();
       stage.add(annotationsLayer);
@@ -142,7 +163,7 @@ export default class Annotations extends Component {
     }
   }
 
-  initSelectionLayer(layer, scaleX, scaleY) {
+  initSelectionLayer(layer) {
     const { tree } = this;
 
     const area = new Konva.Rect({
@@ -164,26 +185,31 @@ export default class Annotations extends Component {
     stage.on('contentMousedown contentTouchstart', withPosition(({ x, y }, { evt }) => {
       evt.preventDefault();
 
-      expandSelection(area, {x0: x, y0: y, x1: x, y1: y});
+      const { scaleX, scaleY } = this;
+      const scaled = scale({ x0: x, y0: y, x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
+      expandSelection(area, scaled);
     }));
 
     stage.on('contentMousemove contentTouchmove', withPosition(({ x, y }, { evt }) => {
       evt.preventDefault();
 
+      const { scaleX, scaleY } = this;
       const isActive = evt.buttons === 1 || (evt.touches && evt.touches.length);
       if (isActive) {
-        expandSelection(area, {x1: x, y1: y});
+        const scaled = scale({ x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
+        expandSelection(area, scaled);
       }
     }));
 
     stage.on('contentMouseup contentTouchend', withPosition(({ x, y }, { evt }) => {
       evt.preventDefault();
-      const { selected } = this;
+      const { selected, scaleX, scaleY } = this;
 
-      expandSelection(area, {x1: x, y1: y});
+      const scaled = scale({ x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
+      expandSelection(area, scaled);
 
       // add contained nodes to selection
-      const contained = tree.search(boundsFromRect(area, 1 / scaleX, 1 / scaleY));
+      const contained = tree.search(boundsFromRect(area, 1, 1));
 
       // hide selection area
       area.width(0);
@@ -269,6 +295,7 @@ export default class Annotations extends Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
     this.stage.destroy();
   }
 

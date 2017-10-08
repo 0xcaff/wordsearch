@@ -1,4 +1,6 @@
-import { stddev, getSymbols, boundsOfVertices, mean, required, findExtrema } from './utils';
+import {
+  stddev, getSymbols, boundsOfVertices, mean, required, findExtrema, scale
+} from './utils';
 
 const example = {
   pages: [{
@@ -109,4 +111,22 @@ it('should throw if arguments are not specified', () => {
     const { test = required('test') } = { test: 'here is a string' };
 
   }).not.toThrow();
+});
+
+it('scales correctly', () => {
+  const { x0, x1, y0, y1 } = scale({ x0: 3, x1: 6, y0: 9, y1: 12 }, 2, 3);
+
+  expect(x0).toBe(6);
+  expect(x1).toBe(12);
+  expect(y0).toBe(27);
+  expect(y1).toBe(36);
+});
+
+it('scales partial input correctly', () => {
+  const { x0, x1, y0, y1 } = scale({ x0: 3, y0: 4 }, 2, 3);
+
+  expect(x0).toBe(6);
+  expect(x1).toBeUndefined();
+  expect(y0).toBe(12);
+  expect(y1).toBeUndefined();
 });
