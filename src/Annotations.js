@@ -161,15 +161,23 @@ export default class Annotations extends Component {
 
     // attach listeners to stage so we receive all mouse events, (even consumed
     // ones).
-    stage.on('contentMousedown', withPosition(({x, y}) => {
+    stage.on('contentMousedown contentTouchstart', withPosition(({ x, y }, { evt }) => {
+      evt.preventDefault();
+
       expandSelection(area, {x0: x, y0: y, x1: x, y1: y});
     }));
 
-    stage.on('contentMousemove', withPosition(({x, y}, {evt}) => {
-      evt.buttons === 1 && expandSelection(area, {x1: x, y1: y});
+    stage.on('contentMousemove contentTouchmove', withPosition(({ x, y }, { evt }) => {
+      evt.preventDefault();
+
+      const isActive = evt.buttons === 1 || (evt.touches && evt.touches.length);
+      if (isActive) {
+        expandSelection(area, {x1: x, y1: y});
+      }
     }));
 
-    stage.on('contentMouseup', withPosition(({x, y}, {evt}) => {
+    stage.on('contentMouseup contentTouchend', withPosition(({ x, y }, { evt }) => {
+      evt.preventDefault();
       const { selected } = this;
 
       expandSelection(area, {x1: x, y1: y});
