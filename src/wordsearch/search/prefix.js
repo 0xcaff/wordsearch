@@ -10,7 +10,9 @@ export function findMatches(words, grid, directions) {
   const rows = grid.rows();
 
   const prefixLength = Math.min(
-    words.reduce(Math.min, Infinity),
+    words
+      .map(d => d.length)
+      .reduce((a, b) => Math.min(a, b), Infinity),
     5,
   );
 
