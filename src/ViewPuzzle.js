@@ -4,6 +4,7 @@ import './ViewPuzzle.css';
 
 import Grid from './Grid';
 import List from './List';
+import Button from './Button';
 
 import { solve } from './wordsearch';
 
@@ -45,7 +46,7 @@ class ViewPuzzle extends Component {
     this.onSelect = this.onSelect.bind(this);
     this.onUnselect = this.onSelect.bind(this);
 
-    Object.assign(this, { words, matches, grid });
+    Object.assign(this, { words, matches, grid, text });
   }
 
   onSelect(...selection) {
@@ -112,8 +113,9 @@ class ViewPuzzle extends Component {
   }
 
   render() {
-    const { grid, words, onSelect, onUnselect } = this;
+    const { grid, words, onSelect, onUnselect, text } = this;
     const { selected, focused } = this.state;
+    const { history } = this.props;
 
     if (!grid || !words) {
       // Short circuit if transitioning to a new page because insufficient
@@ -162,6 +164,13 @@ class ViewPuzzle extends Component {
 
               tabIndex: '0',
             })} />
+
+          <div className='BackButton'>
+            <Button
+              onClick={ (e) => history.push('/input/text', { text, words }) }>
+                Back to Editor
+            </Button>
+          </div>
         </div>
       </div>
     );
