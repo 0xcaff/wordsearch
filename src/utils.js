@@ -60,10 +60,10 @@ export function dims(rect) {
 
 export function scale({ x0, y0, x1, y1 }, scaleX, scaleY) {
   return {
-    x0: x0 * scaleX,
-    y0: y0 * scaleY,
-    x1: x1 * scaleX,
-    y1: y1 * scaleY,
+    x0: x0 && x0 * scaleX,
+    y0: y0 && y0 * scaleY,
+    x1: x1 && x1 * scaleX,
+    y1: y1 && y1 * scaleY,
   };
 }
 

@@ -1,11 +1,12 @@
+.Annotations {
+  border: 1px solid black;
+  overflow: hidden;
+}
+
 .Annotations .canvases {
-	max-width: 800px;
 	margin: 0 auto;
-	border: 1px solid black;
-	box-sizing: content-box;
 }
 
 .Annotations .konvajs-content {
 	margin: 0 auto;
 }
-
