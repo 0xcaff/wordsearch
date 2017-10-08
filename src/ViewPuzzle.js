@@ -52,7 +52,7 @@ class ViewPuzzle extends Component {
 
   onSelect(...selection) {
     const focused = selection.map(nodes =>
-      nodes.map(node => node.khar).join('')
+      nodes.map(node => node.value).join('')
     );
     this.setState({ focused: focused });
 
