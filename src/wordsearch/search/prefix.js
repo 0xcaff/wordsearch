@@ -9,7 +9,11 @@ export function findMatches(words, grid, directions) {
   const cols = grid.columns();
   const rows = grid.rows();
 
-  const prefixLength = 2;
+  const prefixLength = Math.min(
+    words.reduce(Math.min, Infinity),
+    5,
+  );
+
   const prefixTable = new Map();
 
   // build prefix table
@@ -69,7 +73,7 @@ export function findMatches(words, grid, directions) {
     const prefixKey = word.substring(0, prefixLength);
     const prefixes = prefixTable.get(prefixKey);
 
-    // TODO: If the word shorter than the prefix, no match is found.
+    // If the word shorter than the prefix, no match is found.
 
     for (const prefix of prefixes) {
       const [ firstNode, secondNode ] = prefix;

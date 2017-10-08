@@ -100,10 +100,13 @@ it('finds the extrema of a function', () => {
 
 it('should throw if arguments are not specified', () => {
   expect(() => {
+    // eslint-disable-next-line no-unused-vars
     const { test = required('test') } = { };
   }).toThrow();
 
   expect(() => {
+    // eslint-disable-next-line no-unused-vars
     const { test = required('test') } = { test: 'here is a string' };
+
   }).not.toThrow();
 });

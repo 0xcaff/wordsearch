@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { Suite } from 'benchmark';
 import { solve } from '../';
 import algorithms from './algorithms';
