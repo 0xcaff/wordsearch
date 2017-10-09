@@ -29,6 +29,6 @@
   margin: 1em 0;
 }
 
-.ImageInput > main > .Buttons > .Button {
+.ImageInput > main > .Buttons > .Button, .ImageInput > main > .Buttons > .ToggleButton {
   margin: 0 1em;
 }

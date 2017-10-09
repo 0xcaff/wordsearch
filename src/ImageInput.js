@@ -6,7 +6,10 @@ import { Link } from 'react-router-dom';
 import List from './List';
 import Loading from './Loading';
 import Button from './Button';
+import ToggleButton from './ToggleButton';
 import Annotations from './Annotations';
+import TouchEnabled from './TouchEnabled';
+
 import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from './utils';
 import { detectText } from './gcv';
 
@@ -48,6 +51,9 @@ class ImageInput extends Component {
 
     // A list of shapes to display over the image.
     shapes: [],
+
+    // Whether or not the selection is in an inverted mode.
+    invertSelection: false,
   };
 
   componentDidMount() {
@@ -142,7 +148,8 @@ class ImageInput extends Component {
   render() {
     const { history } = this.props;
     const {
-      annotations, image, loading, error, tree, puzzle, words, selected, shapes
+      annotations, image, loading, error, tree, puzzle, words, selected, shapes,
+      invertSelection,
     } = this.state;
 
     return (
@@ -168,6 +175,7 @@ class ImageInput extends Component {
                 image={image}
                 selected={selected}
                 overlayShapes={shapes}
+                invertSelection={invertSelection}
                 onSelectedChanged={ selected => this.setState({ selected }) } />
 
               { puzzle &&
@@ -210,6 +218,15 @@ class ImageInput extends Component {
                   Continue
                 </Button>
               }
+
+              <TouchEnabled>
+                <ToggleButton
+                  onChange={invertSelection => this.setState({ invertSelection })}
+                  active={invertSelection}>
+
+                  Invert Selection
+                </ToggleButton>
+              </TouchEnabled>
             </div>
           </main>
         }
