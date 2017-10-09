@@ -6,10 +6,10 @@ import {
   Redirect,
 } from 'react-router-dom'
 
-import InputSelection from './InputSelection';
-import ImageInput from './ImageInput';
-import TextInput from './TextInput';
-import ViewPuzzle from './ViewPuzzle';
+import InputSelection from './routes/InputSelection';
+import ImageInput from './routes/ImageInput';
+import TextInput from './routes/TextInput';
+import ViewPuzzle from './routes/ViewPuzzle';
 
 import './App.css';
 

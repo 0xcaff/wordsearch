@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Button from './Button';
-import InputButton from './InputButton';
-import puzzles from './wordsearch/data';
+import Button from '../components/Button';
+import InputButton from '../components/InputButton';
+import puzzles from '../wordsearch/data';
 
 import './InputSelection.css';
 

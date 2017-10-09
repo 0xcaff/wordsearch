@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import './ViewPuzzle.css';
 
-import Grid from './Grid';
-import List from './List';
-import Button from './Button';
+import Grid from '../components/grid/Grid';
+import List from '../components/List';
+import Button from '../components/Button';
 
-import { solve } from './wordsearch';
+import { solve } from '../wordsearch';
 
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.
