@@ -104,6 +104,7 @@ export default class Annotations extends Component {
       annotations: rawAnnotations,
       selected = new Set(),
       overlayShapes = [],
+      invertSelection,
     } = props;
 
     const {
@@ -112,7 +113,12 @@ export default class Annotations extends Component {
       annotations: oldAnnotations,
       selected: oldSelected,
       overlayShapes: oldOverlayShapes,
+      invertSelection: oldInvertSelection,
     } = oldProps;
+
+    if (oldInvertSelection !== invertSelection) {
+      this.invertSelection = invertSelection;
+    }
 
     if (rawAnnotations !== oldAnnotations && tree !== oldTree && image !== oldImage) {
       Object.assign(this, { data: rawAnnotations, tree, selected });
@@ -199,7 +205,7 @@ export default class Annotations extends Component {
 
     stage.on('contentMouseup contentTouchend', withPosition(({ x, y }, { evt }) => {
       evt.preventDefault();
-      const { selected, scaleX, scaleY } = this;
+      const { selected, scaleX, scaleY, invertSelection } = this;
 
       const scaled = scale({ x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
       expandSelection(area, scaled);
@@ -212,13 +218,11 @@ export default class Annotations extends Component {
       area.height(0);
 
       // inverse selection with ctrl, otherwise replace
-      if (!evt.ctrlKey) {
+      if (!evt.ctrlKey && !invertSelection) {
         selected.clear();
       }
 
-      contained.forEach(({ node }) => {
-        toggleInSet(selected, node);
-      });
+      contained.forEach(({ node }) => toggleInSet(selected, node));
 
       this.updateAllNodes();
     }));
