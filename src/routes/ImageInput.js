@@ -64,31 +64,16 @@ class ImageInput extends Component {
       return;
     }
 
-    const { file } = state;
-    this.handleFile(file);
+    this.handleState(state);
   }
 
-  async onImageChange(event) {
-    if (
-      !event || !event.target || !event.target.files ||
-      !event.target.files.length) {
-
-      return;
-    }
-
-    const [ file ] = event.target.files;
-    await this.handleFile(file);
-  }
-
-  async handleFile(file) {
+  async handleState(state) {
     try {
       this.setState({ error: false, loading: true });
 
-      const encoded = btoa(await read(file));
+      const { encoded, image } = await extractFromState(state);
 
       const annotations = await detectText(encoded, KEY);
-      const image = await imageFromFile(file);
-
       const tree = buildRTree(annotations);
       this.setState({ annotations, loading: false, image, tree });
     } catch (e) {
@@ -258,12 +243,48 @@ function read(file) {
   });
 }
 
-function imageFromFile(file) {
+function imageFromSrc(src) {
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => resolve(image);
     image.onerror = (err) => reject(err);
 
-    image.src = URL.createObjectURL(file);
+    image.src = src;
   });
 }
+
+function drawOnCanvas(image) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  Object.assign(canvas, {
+    width: image.naturalWidth || image.width,
+    height: image.naturalHeight || image.height,
+  });
+
+  ctx.drawImage(image, 0, 0);
+
+  return canvas;
+}
+
+const toBlob = (canvas) =>
+  new Promise(resolve =>
+    canvas.toBlob(blob => resolve(blob)));
+
+const extractFromState = async ({ file, image: imageUrl }) => {
+  if (file) {
+    const encoded = btoa(await read(file));
+    const image = await imageFromSrc(URL.createObjectURL(file));
+
+    return { encoded, image };
+  } else if (imageUrl) {
+    const image = await imageFromSrc(imageUrl);
+    const canvas = drawOnCanvas(image);
+    const blob = await toBlob(canvas);
+    const encoded = btoa(await read(blob));
+
+    return { encoded, image };
+  } else {
+    throw new TypeError('Invalid State Object');
+  }
+};

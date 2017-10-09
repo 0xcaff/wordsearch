@@ -1,10 +1,10 @@
 import React from 'react';
 import './Button.css';
 
+import { randomHex } from '../processing/utils';
+
 const ToggleButton = ({ onChange, active, children }) => {
-  const id =
-    Math.floor(Math.random() * 0x10000)
-      .toString(16);
+  const id = randomHex();
 
   return (
     <span className='ToggleButton'>

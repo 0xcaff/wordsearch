@@ -1,5 +1,5 @@
 import {
-  stddev, getSymbols, boundsOfVertices, mean, required, findExtrema, scale
+  stddev, getSymbols, boundsOfVertices, mean, required, findExtrema, scale, join
 } from './utils';
 
 const example = {
@@ -129,4 +129,10 @@ it('scales partial input correctly', () => {
   expect(x1).toBeUndefined();
   expect(y0).toBe(12);
   expect(y1).toBeUndefined();
+});
+
+it('should join things', () => {
+  const joined = join([1, 2, 3], Infinity);
+
+  expect(joined).toEqual([1, Infinity, 2, Infinity, 3]);
 });

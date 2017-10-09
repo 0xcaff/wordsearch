@@ -11,4 +11,3 @@ const puzzles = {
 };
 
 export default puzzles;
-

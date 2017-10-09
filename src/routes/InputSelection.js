@@ -3,6 +3,10 @@ import React from 'react';
 import Button from '../components/Button';
 import InputButton from '../components/InputButton';
 import puzzles from '../wordsearch/data';
+import images from './images';
+
+import { join } from '../processing/utils';
+import { unique } from '../processing/reactUtils';
 
 import './InputSelection.css';
 
@@ -40,9 +44,11 @@ const InputSelection = (props) => {
         </div>
 
         <DemoPuzzles
-          puzzles={puzzles}
-          onClickPuzzle={ ({ rows, words }) => history.push('/view',
-            { text: rows.join('\n'), words }) } />
+          onClickPuzzle={
+            ({ rows, words }) =>
+              history.push('/view', { text: rows.join('\n'), words })
+          }
+          onClickImage={ image => history.push('/input/image', { image }) } />
       </main>
     </div>
   );
@@ -51,30 +57,33 @@ const InputSelection = (props) => {
 export default InputSelection;
 
 const DemoPuzzles = (props) => {
-  const { puzzles, onClickPuzzle } = props;
+  const { onClickPuzzle, onClickImage } = props;
 
-  const formatted = Object.entries(puzzles)
-    .reduce((acc, [name, puzzle], idx, arr) => {
-      const element = <span
-        key={name}
+  const commaElem = <span>, </span>;
+  const textArr = Object.entries(puzzles)
+    .map(([ name, puzzle ]) =>
+      <span
         className='clickable'
         onClick={_ => onClickPuzzle(puzzle)}>
-          {name}
+          { name }
       </span>
+    );
 
-      acc.push(element);
+  const textPuzzles = unique(join(textArr, commaElem));
 
-      if (idx < arr.length - 1) {
-        // add after all elements but last
-        acc.push(<span key={`${name}-${idx}`}>, </span>);
-      }
+  const imagesArr = images.map(({ name, image }) =>
+    <span
+      className='clickable'
+      onClick={_ => onClickImage(image)}>
+      { name }
+    </span>
+  );
 
-      return acc;
-    }, []);
+  const imagePuzzles = unique(join(imagesArr, commaElem));
 
   return (
     <p className='DemoPuzzles'>
-      Or try one of these puzzles: { formatted }.
+      Try one of these puzzles: { textPuzzles }, or one of these images: { imagePuzzles }.
     </p>
   );
 }
