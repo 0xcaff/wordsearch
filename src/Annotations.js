@@ -115,9 +115,7 @@ export default class Annotations extends Component {
     } = oldProps;
 
     if (rawAnnotations !== oldAnnotations && tree !== oldTree && image !== oldImage) {
-      this.data = rawAnnotations;
-      this.tree = tree;
-      this.selected = selected;
+      Object.assign(this, { data: rawAnnotations, tree, selected });
 
       // compute dimensions of canvas based on image.
       const { width: imageWidth, height: imageHeight } = image;
@@ -164,7 +162,7 @@ export default class Annotations extends Component {
   }
 
   initSelectionLayer(layer) {
-    const { tree } = this;
+    const { tree, stage } = this;
 
     const area = new Konva.Rect({
       x: 0,
@@ -177,8 +175,6 @@ export default class Annotations extends Component {
     });
 
     layer.add(area);
-
-    const stage = this.stage;
 
     // attach listeners to stage so we receive all mouse events, (even consumed
     // ones).
