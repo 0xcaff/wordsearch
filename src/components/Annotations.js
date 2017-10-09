@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 
-import { withPosition, boundsFromRect, toggleInSet, scale } from './utils';
+import { withPosition, boundsFromRect, toggleInSet, scale } from '../processing/utils';
 
 import './Annotations.css';
 

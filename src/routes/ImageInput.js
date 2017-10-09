@@ -3,15 +3,15 @@ import KeyHandler, { KEYPRESS } from 'react-key-handler';
 import Konva from 'konva';
 import { Link } from 'react-router-dom';
 
-import List from './List';
-import Loading from './Loading';
-import Button from './Button';
-import ToggleButton from './ToggleButton';
-import Annotations from './Annotations';
-import TouchEnabled from './TouchEnabled';
+import List from '../components/List';
+import Loading from '../components/Loading';
+import Button from '../components/Button';
+import ToggleButton from '../components/ToggleButton';
+import Annotations from '../components/Annotations';
+import TouchEnabled from '../components/TouchEnabled';
 
-import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from './utils';
-import { detectText } from './gcv';
+import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from '../processing/utils';
+import { detectText } from '../processing/gcv';
 
 import './ImageInput.css';
 

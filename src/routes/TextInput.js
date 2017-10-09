@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import TextEntry from './TextEntry';
-import List from './List';
-import Button from './Button';
+import TextEntry from '../components/TextEntry';
+import List from '../components/List';
+import Button from '../components/Button';
 
 import './TextInput.css';
 
