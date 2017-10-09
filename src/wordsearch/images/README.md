@@ -21,3 +21,14 @@ listed below:
 * frozen
   http://momslifeboat.com/frozen-movie-review/
 
+* the
+  http://cnlohr.blogspot.com/2014/02/to-make-terrible-wordsearches.html
+
+* autumn word find
+  http://www.activityshelter.com/word-search-for-kids/
+
+* triceratops
+  http://www.greatlittleminds.com/pages/word-search/dinosaur-word-search.html
+
+* amphibian
+  https://www.exploringnature.org/db/view/3726
