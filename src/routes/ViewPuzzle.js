@@ -43,12 +43,16 @@ class ViewPuzzle extends Component {
     const rows = text.split(/\r?\n/);
     const { matches, grid } = solve(rows, words);
 
+    // Bind methods once in the constructor to prevent re-rendering in pure
+    // child components.
     this.onSelect = this.onSelect.bind(this);
-    this.onUnselect = this.onUnselect.bind(this);
+    this.clearSelected = this.clearSelected.bind(this);
 
     Object.assign(this, { words, matches, grid, text });
   }
 
+  // Called when a grid node is moused over with a list of list of nodes to
+  // select.
   onSelect(...selection) {
     const focused = selection.map(nodes =>
       nodes
@@ -56,16 +60,10 @@ class ViewPuzzle extends Component {
         .join('')
     );
 
-    this.setState({ focused });
-
-    this.addSelected(...selection);
+    this.setState({ focused, selected: selection });
   }
 
-  onUnselect(...selection) {
-    this.setState({ focused: [] });
-    this.removeSelected(...selection);
-  }
-
+  // Called when a word in the word list is moused over.
   selectMatches(word) {
     if (!this.matches) {
       // the matches haven't been found yet
@@ -78,45 +76,15 @@ class ViewPuzzle extends Component {
       return;
     }
 
-    this.addSelected(...matches);
+    this.setState({ selected: matches });
   }
 
-  unSelectMatches(word) {
-    if (!this.matches) {
-      // the matches haven't been found yet
-      return;
-    }
-
-    const matches = this.matches[word];
-    if (!matches) {
-      // no match, show some feedback
-      return;
-    }
-
-    this.removeSelected(...matches);
-  }
-
-  // [a, b, c], [d, e, f]
-  addSelected(...selection) {
-    if (!selection || !selection.length) {
-      return;
-    }
-
-    // replace with new selection
-    this.setState({ selected: selection });
-  }
-
-  removeSelected(...selection) {
-    if (!selection || !selection.length) {
-      return;
-    }
-
-    // always clear all selected items
+  clearSelected() {
     this.setState({ selected: [] });
   }
 
   render() {
-    const { grid, words, onSelect, onUnselect, text } = this;
+    const { grid, words, onSelect, text, clearSelected } = this;
     const { selected, focused } = this.state;
     const { history } = this.props;
 
@@ -148,7 +116,7 @@ class ViewPuzzle extends Component {
             grid={grid}
             selected={selected}
             onSelect={onSelect}
-            onUnselect={onUnselect} />
+            onMouseLeave={clearSelected} />
         </div>
 
         <div
@@ -160,10 +128,10 @@ class ViewPuzzle extends Component {
             focused={focused}
             itemProps={(item) => ({
               onMouseEnter: _ => this.selectMatches(item),
-              onMouseLeave: _ => this.unSelectMatches(item),
+              onMouseLeave: this.clearSelected,
 
               onFocus: _ => this.selectMatches(item),
-              onBlur: _ => this.unSelectMatches(item),
+              onBlur: this.clearSelected,
 
               tabIndex: '0',
             })} />
