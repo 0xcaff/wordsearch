@@ -4,7 +4,7 @@ import './GridSelection.css';
 // A component which highlights nodes between two points.
 export default class GridSelection extends PureComponent {
   render() {
-    const { selection, grid, onUnselect } = this.props;
+    const { selection, grid } = this.props;
 
     const startNode = selection[0];
     const { x: fromX, y: fromY } = grid.positionOf(startNode);
@@ -17,7 +17,6 @@ export default class GridSelection extends PureComponent {
         <div
           key={`${x},${y}`}
           className='GridMatches'
-          onMouseLeave={() => onUnselect(selection)}
           style={{
             gridColumnStart: x + 1,
             gridRowStart: y + 1,

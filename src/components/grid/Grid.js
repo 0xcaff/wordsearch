@@ -7,7 +7,7 @@ import './Grid.css';
 
 export default class Grid extends PureComponent {
   render() {
-    const { grid, selected, nodeExtras, onSelect, onUnselect } = this.props;
+    const { grid, selected, nodeExtras, onSelect, onMouseLeave } = this.props;
 
     if (!grid) {
       return null;
@@ -16,6 +16,7 @@ export default class Grid extends PureComponent {
     return (
       <div
         className='Grid'
+        onMouseLeave={onMouseLeave}
         style={{
           gridTemplateColumns: `repeat(${grid.columns()}, minmax(1em, 2em))`
         }}>
@@ -29,8 +30,7 @@ export default class Grid extends PureComponent {
           <GridSelection
             key={`match${i}`}
             grid={grid}
-            selection={selection}
-            onUnselect={onUnselect} />
+            selection={selection} />
         ) }
       </div>
     );
