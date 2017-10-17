@@ -18,7 +18,8 @@ export default class Grid extends PureComponent {
         className='Grid'
         onMouseLeave={onMouseLeave}
         style={{
-          gridTemplateColumns: `repeat(${grid.columns()}, minmax(1em, 2em))`
+          gridAutoColumns: 'minmax(1em, 2em)',
+          margin: '0 auto',
         }}>
 
         <GridNodes
