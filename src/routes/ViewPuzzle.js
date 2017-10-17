@@ -114,7 +114,7 @@ class ViewPuzzle extends Component {
             content: {
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
+              justifyContent: 'space-around',
               overflowY: 'auto',
             },
             sidebar: {

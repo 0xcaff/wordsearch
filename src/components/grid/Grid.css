@@ -1,5 +1,4 @@
 .Grid {
-	display: grid;
-	justify-content: center;
+	display: inline-grid;
 	cursor: default;
 }
