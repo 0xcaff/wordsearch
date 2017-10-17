@@ -63,7 +63,7 @@ export default class List extends Component {
   }
 
   render() {
-    const { focused, items, itemProps = () => null, onChange } = this.props;
+    const { focused, items, itemProps = () => null, onChange, scrollFocusedIntoView } = this.props;
     const firstFocused = focused && focused[0];
 
     return (
@@ -73,8 +73,8 @@ export default class List extends Component {
           { items.map((item, i) =>
             <li
               {...itemProps(item)}
-              ref={firstFocused === item ?
-                (elem => elem && elem.scrollIntoView({behavior: 'smooth'})) :
+              ref={firstFocused === item && scrollFocusedIntoView ?
+                (elem => elem && elem.scrollIntoView({ behavior: 'smooth' })) :
                 undefined
               }
               className={

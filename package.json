@@ -12,6 +12,7 @@
     "react-dom": "^16.0.0",
     "react-key-handler": "^1.0.0",
     "react-router-dom": "^4.2.2",
+    "react-sidebar": "^2.3.2",
     "smoothscroll-polyfill": "^0.3.6"
   },
   "devDependencies": {

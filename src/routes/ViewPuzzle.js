@@ -5,6 +5,7 @@ import './ViewPuzzle.css';
 import Grid from '../components/grid/Grid';
 import List from '../components/List';
 import Button from '../components/Button';
+import ResponsiveTwoPane from '../components/ResponsiveTwoPane';
 
 import { solve } from '../wordsearch';
 
@@ -47,6 +48,7 @@ class ViewPuzzle extends Component {
     // child components.
     this.onSelect = this.onSelect.bind(this);
     this.clearSelected = this.clearSelected.bind(this);
+    this.selectMatches = this.selectMatches.bind(this);
 
     Object.assign(this, { words, matches, grid, text });
   }
@@ -84,7 +86,7 @@ class ViewPuzzle extends Component {
   }
 
   render() {
-    const { grid, words, onSelect, text, clearSelected } = this;
+    const { grid, words, onSelect, text, clearSelected, selectMatches } = this;
     const { selected, focused } = this.state;
     const { history } = this.props;
 
@@ -94,58 +96,104 @@ class ViewPuzzle extends Component {
       return null;
     }
 
-    return (
-      <div
-        className='ViewPuzzle'
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-around',
-          breakBefore: 'page',
-        }}>
-        <div
-          style={{
-            maxWidth: '100vmin',
-            padding: '1em',
-            alignSelf: 'center',
-            flexBasis: `${grid.columns()}em`,
-            flexGrow: 1,
-          }}>
+    const sidebar =
+      <WordList
+        words={words}
+        focused={focused}
+        onBackClicked={ () => history.push('/input/text', { text, words }) }
+        onSelectWord={selectMatches}
+        onUnselectWord={clearSelected} />
 
-          <Grid
+    return (
+      <ResponsiveTwoPane
+        sidebar={sidebar}
+        options={{
+          pullRight: true,
+          rootClassName: 'ViewPuzzle',
+          styles: {
+            content: {
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              overflowY: 'auto',
+            },
+            sidebar: {
+              padding: '1em 2em',
+
+              // Above the node content and overlays. See
+              // components/grid/Node.css and components/grid/GridSelection.css
+              zIndex: 15,
+              background: 'white',
+            },
+            overlay: {
+              // Less than sidebar and more than compnents/grid/Node.css and
+              // components/grid/GridSelection.css
+              zIndex: 14,
+            },
+            dragHandle: {
+              // Same level as overlay.
+              zIndex: 14,
+            }
+          }
+        }}>
+          <Content
             grid={grid}
             selected={selected}
             onSelect={onSelect}
-            onMouseLeave={clearSelected} />
-        </div>
+            clearSelected={clearSelected} />
 
-        <div
-          className='WordList'>
-          <h3>Words</h3>
-
-          <List
-            items={words}
-            focused={focused}
-            itemProps={(item) => ({
-              onMouseEnter: _ => this.selectMatches(item),
-              onMouseLeave: this.clearSelected,
-
-              onFocus: _ => this.selectMatches(item),
-              onBlur: this.clearSelected,
-
-              tabIndex: '0',
-            })} />
-
-          <div className='BackButton'>
-            <Button
-              onClick={ (e) => history.push('/input/text', { text, words }) }>
-                Back to Editor
-            </Button>
-          </div>
-        </div>
-      </div>
+      </ResponsiveTwoPane>
     );
   }
 }
+
+const WordList = ({
+  words, focused, onBackClicked, onSelectWord, onUnselectWord, sidebarOpen,
+  sidebarDocked,
+}) =>
+  <div
+    className='WordList'>
+    <h3>Words</h3>
+
+    <List
+      items={words}
+      scrollFocusedIntoView={sidebarOpen || sidebarDocked}
+      focused={focused}
+      itemProps={(item) => ({
+        onMouseEnter: _ => onSelectWord(item),
+        onMouseLeave: _ => onUnselectWord(item),
+
+        onFocus: _ => onSelectWord(item),
+        onBlur: _ => onUnselectWord(item),
+
+        tabIndex: '0',
+      })} />
+
+    <div className='BackButton'>
+      <Button
+        onClick={ onBackClicked }>
+          Back to Editor
+      </Button>
+    </div>
+  </div>
+
+const Content = ({
+  grid, selected, onSelect, clearSelected, onSetSidebarOpen, sidebarOpen,
+  sidebarDocked,
+}) => [ <Grid
+    key='grid'
+    grid={grid}
+    selected={selected}
+    onSelect={onSelect}
+    onMouseLeave={clearSelected} />,
+
+  !sidebarOpen && !sidebarDocked &&
+    <span
+      key='expand'
+      className='Expand clickable'
+      onClick={ () => onSetSidebarOpen(true) } >
+        {"<<"}
+    </span>
+];
 
 export default ViewPuzzle;
