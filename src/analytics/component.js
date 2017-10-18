@@ -1,4 +1,5 @@
 import { withRouter } from 'react-router'
+import './snippet';
 
 const isDev = process.env.NODE_ENV === 'development';
 if (isDev) {
@@ -6,6 +7,10 @@ if (isDev) {
 }
 
 export default withRouter(({ location, history }) => {
+  if (process.env.NODE_ENV === 'test') {
+    return null;
+  }
+
   // Track Current Page
   window.analytics.page({
     isDev,
