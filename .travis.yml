@@ -28,7 +28,7 @@ script:
 
 before_deploy:
   - yarn build
-  - ln -s build/index.html build/200.html
+  - cp build/index.html build/200.html
 
 deploy:
   provider: surge
