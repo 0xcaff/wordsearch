@@ -14,3 +14,13 @@ script:
   - yarn lint
   - yarn test
   - yarn benchmark
+
+before_deploy:
+  - yarn build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci
+  local_dir: ./build
+  fqdn: solver.0xcaff.me
