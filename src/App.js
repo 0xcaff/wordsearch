@@ -10,7 +10,7 @@ import InputSelection from './routes/InputSelection';
 import ImageInput from './routes/ImageInput';
 import TextInput from './routes/TextInput';
 import ViewPuzzle from './routes/ViewPuzzle';
-import Analytics from './analytics';
+import Analytics from './analytics/component';
 
 import './App.css';
 
