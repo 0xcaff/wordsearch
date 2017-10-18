@@ -2,6 +2,17 @@ language: node_js
 sudo: false
 dist: trusty
 
+addons:
+  apt:
+    packages:
+      # Dependencies Needed for Canvas https://github.com/Automattic/node-canvas
+      - libcairo2-dev
+      - libjpeg8-dev
+      - libpango1.0-dev
+      - libgif-dev
+      - build-essential
+      - g++
+
 node_js:
   - node
 
