@@ -28,10 +28,10 @@ script:
 
 before_deploy:
   - yarn build
+  - ln -s build/index.html build/200.html
 
 deploy:
-  provider: pages
+  provider: surge
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci
-  local_dir: ./build
-  fqdn: solver.0xcaff.me
+  project: ./build
+  domain: solver.0xcaff.me
