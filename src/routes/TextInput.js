@@ -10,10 +10,11 @@ class TextInput extends Component {
   constructor(props) {
     super(props);
 
-    const { location: {
-      state: { text, words } = { text: '', words: [] }
-    } } = props;
+    const {
+      location: { state: { rows, words } = { rows: [], words: [] } },
+    } = props;
 
+    const text = rows.join('\n');
     this.state = { text, words };
   }
 
@@ -40,7 +41,7 @@ class TextInput extends Component {
 
         <footer>
           <Button
-            onClick={() => history.push('/view', { text, words })}>
+            onClick={() => history.push('/view', { rows: text.split('\n'), words })}>
               Solve Puzzle!
           </Button>
         </footer>

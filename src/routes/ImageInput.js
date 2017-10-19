@@ -15,6 +15,8 @@ import { detectText } from '../processing/gcv';
 
 import './ImageInput.css';
 
+import { imagesDict } from './images';
+
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 
@@ -41,7 +43,7 @@ class ImageInput extends Component {
     tree: null,
 
     // The puzzle text.
-    puzzle: '',
+    puzzleRows: null,
 
     // The list of selected words.
     words: [],
@@ -57,14 +59,19 @@ class ImageInput extends Component {
   };
 
   componentDidMount() {
-    const { location: { state }, history } = this.props;
+    const {
+      location: { state },
+      history,
+      match: { params: { example } },
+    } = this.props;
 
-    if (!state) {
+    const normalizedState = normalizeState(state, example);
+    if (!normalizedState) {
       history.push('/');
       return;
     }
 
-    this.handleState(state);
+    this.handleState(normalizedState);
   }
 
   async handleState(state) {
@@ -125,16 +132,16 @@ class ImageInput extends Component {
     );
 
     const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
-    const text = output.map(row => row.join('')).join('\n');
+    const rows = output.map(row => row.join(''));
 
-    this.setState({ selected: new Set(), shapes, puzzle: text });
+    this.setState({ selected: new Set(), shapes, puzzleRows: rows });
   }
 
   render() {
     const { history } = this.props;
     const {
-      annotations, image, loading, error, tree, puzzle, words, selected, shapes,
-      invertSelection,
+      annotations, image, loading, error, tree, puzzleRows, words, selected,
+      shapes, invertSelection,
     } = this.state;
 
     return (
@@ -151,7 +158,7 @@ class ImageInput extends Component {
 
         { annotations && !loading && !error &&
           <main>
-            <h1>{ puzzle ? 'Select Words' : 'Select Puzzle Region' }</h1>
+            <h1>{ puzzleRows ? 'Select Words' : 'Select Puzzle Region' }</h1>
 
             <div className='Content'>
               <Annotations
@@ -163,7 +170,7 @@ class ImageInput extends Component {
                 invertSelection={invertSelection}
                 onSelectedChanged={ selected => this.setState({ selected }) } />
 
-              { puzzle &&
+              { puzzleRows &&
                 <div className='Words'>
                   <h2>Words</h2>
 
@@ -175,29 +182,29 @@ class ImageInput extends Component {
             </div>
 
             <div className='Buttons'>
-              { !puzzle &&
+              { !puzzleRows &&
                 <Button onClick={() => this.onSelectPuzzle()}>
                   Select Puzzle
                 </Button>
               }
 
-              { !puzzle &&
+              { !puzzleRows &&
                 <ActionKeyHandler onAction={() => this.onSelectPuzzle()} />
               }
 
-              { puzzle &&
+              { puzzleRows &&
                 <Button onClick={() => this.onSelectWord()}>
                   Add Word
                 </Button>
               }
 
-              { puzzle &&
+              { puzzleRows &&
                 <ActionKeyHandler onAction={() => this.onSelectWord()} />
               }
 
-              { puzzle &&
+              { puzzleRows &&
                 <Button onClick={() =>
-                  history.push('/input/text', { text: puzzle, words })
+                  history.push('/input/text', { rows: puzzleRows, words })
                 }>
 
                   Continue
@@ -288,3 +295,11 @@ const extractFromState = async ({ file, image: imageUrl }) => {
     throw new TypeError('Invalid State Object');
   }
 };
+
+const normalizeState = (state, exampleName) => {
+  if (state) {
+    return state;
+  } else if (exampleName && imagesDict[exampleName]) {
+    return imagesDict[exampleName];
+  }
+}

@@ -25,8 +25,8 @@ class App extends Component {
             <Route exact path='/' component={InputSelection} />
 
             <Route exact path='/input/text' component={TextInput} />
-            <Route exact path='/input/image' component={ImageInput} />
-            <Route exact path='/view' component={ViewPuzzle} />
+            <Route exact path='/input/image/:example?' component={ImageInput} />
+            <Route exact path='/view/:example?' component={ViewPuzzle} />
 
             {/* Redirect any non-matching routes to the exact root. */}
             <Redirect from='/' to='/' />

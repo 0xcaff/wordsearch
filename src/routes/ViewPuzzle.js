@@ -9,6 +9,8 @@ import ResponsiveTwoPane from '../components/ResponsiveTwoPane';
 
 import { solve } from '../wordsearch';
 
+import puzzles from '../wordsearch/data';
+
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.
 class ViewPuzzle extends Component {
@@ -32,16 +34,19 @@ class ViewPuzzle extends Component {
   constructor(props) {
     super(props);
 
-    const { location, history } = props;
-    if (!location.state) {
-      history.replace('/');
+    const {
+      location: { state },
+      history,
+      match: { params: { example } }
+    } = props;
+
+    const normalizedState = normalizeState(state, example);
+    if (!normalizedState) {
+      history.push('/');
       return;
     }
 
-    const { state: { words, text } } = location;
-
-    // get rows
-    const rows = text.split(/\r?\n/);
+    const { rows, words } = normalizedState;
     const { matches, grid } = solve(rows, words);
 
     // Bind methods once in the constructor to prevent re-rendering in pure
@@ -50,7 +55,7 @@ class ViewPuzzle extends Component {
     this.clearSelected = this.clearSelected.bind(this);
     this.selectMatches = this.selectMatches.bind(this);
 
-    Object.assign(this, { words, matches, grid, text });
+    Object.assign(this, { words, matches, grid, rows });
   }
 
   // Called when a grid node is moused over with a list of list of nodes to
@@ -86,7 +91,7 @@ class ViewPuzzle extends Component {
   }
 
   render() {
-    const { grid, words, onSelect, text, clearSelected, selectMatches } = this;
+    const { grid, words, onSelect, rows, clearSelected, selectMatches } = this;
     const { selected, focused } = this.state;
     const { history } = this.props;
 
@@ -100,7 +105,7 @@ class ViewPuzzle extends Component {
       <WordList
         words={words}
         focused={focused}
-        onBackClicked={ () => history.push('/input/text', { text, words }) }
+        onBackClicked={ () => history.push('/input/text', { rows, words }) }
         onSelectWord={selectMatches}
         onUnselectWord={clearSelected} />
 
@@ -195,5 +200,13 @@ const Content = ({
         {"<<"}
     </span>
 ];
+
+const normalizeState = (state, example) => {
+  if (state) {
+    return state;
+  } else if (example && puzzles[example]) {
+    return puzzles[example];
+  }
+}
 
 export default ViewPuzzle;

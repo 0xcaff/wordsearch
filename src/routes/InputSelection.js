@@ -2,8 +2,9 @@ import React from 'react';
 
 import Button from '../components/Button';
 import InputButton from '../components/InputButton';
+
 import puzzles from '../wordsearch/data';
-import images from './images';
+import { images } from './images';
 
 import { join } from '../processing/utils';
 import { unique } from '../processing/reactUtils';
@@ -44,11 +45,9 @@ const InputSelection = (props) => {
         </div>
 
         <DemoPuzzles
-          onClickPuzzle={
-            ({ rows, words }) =>
-              history.push('/view', { text: rows.join('\n'), words })
-          }
-          onClickImage={ image => history.push('/input/image', { image }) } />
+          onClickPuzzle={ name => history.push(`/view/${name}`) }
+          onClickImage={ name => history.push(`/input/image/${name}`) } />
+
       </main>
     </div>
   );
@@ -61,20 +60,20 @@ const DemoPuzzles = (props) => {
 
   const commaElem = <span>, </span>;
   const textArr = Object.entries(puzzles)
-    .map(([ name, puzzle ]) =>
+    .map(([ name ]) =>
       <span
         className='clickable'
-        onClick={_ => onClickPuzzle(puzzle)}>
+        onClick={_ => onClickPuzzle(name)}>
           { name }
       </span>
     );
 
   const textPuzzles = unique(join(textArr, commaElem));
 
-  const imagesArr = images.map(({ name, image }) =>
+  const imagesArr = images.map(({ name }) =>
     <span
       className='clickable'
-      onClick={_ => onClickImage(image)}>
+      onClick={_ => onClickImage(name)}>
       { name }
     </span>
   );
