@@ -23,9 +23,9 @@
   </a>
 </p>
 
-Wordsearches are basically higher dimensional string search. This is the perfect
-job for computers. This wordsearch solver makes it easy to input wordsearches,
-solve them and view the results interactively.
+Wordsearches are basically higher dimensional string search. Solving them is the
+perfect job for computers. This wordsearch solver makes it easy to input
+wordsearches, solve them and view the results interactively.
 
 How it Works
 ------------
@@ -63,4 +63,4 @@ Demo
 
 TODO: Make a demo video.
 
-[view]: https://solver.0xcaff.me/screenshots/view.png
+[view]: ./assets/screenshots/view.png
