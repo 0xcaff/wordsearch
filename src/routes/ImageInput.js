@@ -15,7 +15,7 @@ import { detectText } from '../processing/gcv';
 
 import './ImageInput.css';
 
-import { imagesDict } from './images';
+import { dict as imagesDict } from './images';
 
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;

@@ -8,12 +8,10 @@ export const images = [
   { name: 'autumn', image: autumn },
 ];
 
-export const imagesDict = images.reduce(
+export const dict = images.reduce(
   (acc, { name, ...value }) => {
     acc[name] = value;
 
     return acc;
   }, {},
 );
-
-export default images;
