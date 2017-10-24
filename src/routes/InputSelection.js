@@ -48,6 +48,13 @@ const InputSelection = (props) => {
           onClickPuzzle={ name => history.push(`/view/${name}`) }
           onClickImage={ name => history.push(`/input/image/${name}`) } />
 
+        <a
+          style={{ fontSize: 'small', lineHeight: '2em' }}
+          className='clickable'
+          href='https://github.com/0xcaff/wordsearch'>
+          Fork Me On Github!
+        </a>
+
       </main>
     </div>
   );
