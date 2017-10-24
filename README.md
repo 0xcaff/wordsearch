@@ -1,6 +1,6 @@
 <h1 align='center'>
   <a href='https://solver.0xcaff.me'>
-    <img src='./assets/favicon.png' height='128' />
+    <img src='./public/favicon.png' height='128' />
   </a>
 
   <br />
