@@ -5272,8 +5272,8 @@ react-error-overlay@^1.0.7:
     source-map "0.5.6"
 
 react-key-handler@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-key-handler/-/react-key-handler-1.0.0.tgz#311fbbb3cfed29b1ac27273e5bce22100f6a35fd"
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-key-handler/-/react-key-handler-1.0.1.tgz#1fc0f4f4855f506a192c2cbe9fe8cb78fc553191"
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.7"
