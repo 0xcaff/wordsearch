@@ -12,7 +12,6 @@ beforeEach(() => {
   expect(nodeRows).toHaveLength(rows.length);
 
   grid = ArrayGrid.fromArray(nodeRows);
-  expect(grid.nodes).toBeTruthy();
 });
 
 it('should be the correct shape', () => {
