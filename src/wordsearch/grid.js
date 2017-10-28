@@ -10,8 +10,6 @@ export class ArrayGrid {
     this.maxCols = 0;
 
     this.positions = new Map();
-
-    this.nodes = [];
   }
 
   // Create an instance from a 2D, row major, uniform column sized array.
@@ -30,11 +28,16 @@ export class ArrayGrid {
     grid.data.forEach((row, rowIndex) =>
       row.forEach((item, colIndex) => {
         grid.positions.set(item, {x: colIndex, y: rowIndex})
-        grid.nodes.push(item);
       })
     );
 
     return grid;
+  }
+
+  // Creates a grid array from existing data.
+  static fromData({ data, maxCols, positions }) {
+    const grid = new ArrayGrid();
+    return Object.assign(grid, { data, maxCols, positions });
   }
 
   // If x or y are invalid, returns undefined.
@@ -77,9 +80,8 @@ export class ArrayGrid {
       }
     }
 
-    this.positions.set(thing, {x: x, y: y});
+    this.positions.set(thing, { x, y });
     row[y] = thing;
-    this.nodes.push(thing);
   }
 
   // The number of rows this grid has.
