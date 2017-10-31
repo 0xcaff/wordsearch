@@ -9,8 +9,8 @@ import ResponsiveTwoPane from '../components/ResponsiveTwoPane';
 
 import SolverWorker from '../processing/solver.worker';
 
-import puzzles from '../wordsearch/data';
-import { ArrayGrid } from '../wordsearch';
+import { puzzles } from 'wordsearch-algo';
+import { ArrayGrid } from 'wordsearch-algo';
 
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.

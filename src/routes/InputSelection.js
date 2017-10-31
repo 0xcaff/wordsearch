@@ -3,7 +3,7 @@ import React from 'react';
 import Button from '../components/Button';
 import InputButton from '../components/InputButton';
 
-import puzzles from '../wordsearch/data';
+import { puzzles } from 'wordsearch-algo';
 import { images } from './images';
 
 import { join } from '../processing/utils';
