@@ -24,7 +24,6 @@ cache:
 script:
   - yarn lint
   - yarn test
-  - yarn benchmark
 
 before_deploy:
   - yarn build

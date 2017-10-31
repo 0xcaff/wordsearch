@@ -1,6 +1,6 @@
 /* global self:false */
 
-import { solve } from '../wordsearch';
+import { solve } from 'wordsearch-algo';
 import { getSingleMessage } from './worker';
 
 async function main() {
