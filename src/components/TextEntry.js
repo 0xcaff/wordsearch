@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Editor, EditorState, ContentState, CompositeDecorator } from 'draft-js';
 
-import 'draft-js/dist/Draft.css';
-import './TextEntry.css'
+import { editor as editorClass, block as blockClass, khar as charClass } from './TextEntry.css'
 
 export default class TextEntry extends Component {
   constructor(props) {
@@ -31,7 +30,7 @@ export default class TextEntry extends Component {
   }
 
   blockStyleFn(contentBlock) {
-    return 'Block';
+    return blockClass;
   }
 
   render() {
@@ -39,7 +38,7 @@ export default class TextEntry extends Component {
     const { placeholder } = this.props;
 
     return (
-      <div className='TextEntry'>
+      <div className={editorClass}>
         <Editor
           placeholder={placeholder}
           stripPastedStyles={true}
@@ -60,4 +59,4 @@ const eachCharStrategy = (contentBlock, callback, contentState) => {
 };
 
 const HandleSpan = (props) =>
-  <span className='Char'>{ props.children }</span>
+  <span className={charClass}>{ props.children }</span>

@@ -1,27 +1,29 @@
-.TextEntry {
+@import 'draft-js/dist/Draft.css';
+
+.editor {
   padding: 1em;
   border: 1px solid black;
 
   min-width: 15em;
 }
 
-.TextEntry .DraftEditor-root {
+.editor :global(.DraftEditor-root) {
   overflow-x: auto;
 }
 
-.TextEntry .Char {
+.editor :global(.public-DraftEditorPlaceholder-root) {
+  color: #444;
+}
+
+.block > div {
+  white-space: nowrap;
+}
+
+.khar {
   width: 2em;
   height: 2em;
 
   display: inline-grid;
   align-items: center;
   justify-items: center;
-}
-
-.TextEntry .public-DraftEditorPlaceholder-root {
-  color: #444;
-}
-
-.TextEntry .Block > div {
-  white-space: nowrap;
 }
