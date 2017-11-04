@@ -4,7 +4,7 @@ import {
   header as headerClass, expand as expandClass, backButton as backButtonClass,
 } from './ViewPuzzle.css';
 
-import { clickable } from '../components/clickable.css';
+import { clickable } from '../components/shared.css';
 
 import Grid from '../components/grid/Grid';
 import List from '../components/List';

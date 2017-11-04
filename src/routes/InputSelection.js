@@ -14,7 +14,7 @@ import {
   buttonContainer, button, demos, githubLink
 } from './InputSelection.css';
 
-import { clickable } from '../components/clickable.css';
+import { clickable } from '../components/shared.css';
 
 // First component the user sees when the visit the site. It decides which input
 // method to use to get the wordsearch (text or image).

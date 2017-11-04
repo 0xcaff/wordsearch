@@ -13,7 +13,11 @@ import TouchEnabled from '../components/TouchEnabled';
 import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from '../processing/utils';
 import { detectText } from '../processing/gcv';
 
-import './ImageInput.css';
+import { centered as centeredClass, clickable as clickableClass } from '../components/shared.css';
+import {
+  error as errorClass, header as headerClass, content as contentClass,
+  buttonContainer as buttonContainerClass,
+} from './ImageInput.css';
 
 import { dict as imagesDict } from './images';
 
@@ -145,22 +149,27 @@ class ImageInput extends Component {
     } = this.state;
 
     return (
-      <div className='ImageInput'>
-        { loading && <Loading /> }
+      <div>
+        { loading && <div className={centeredClass}>
+            <Loading />
+          </div>
+        }
 
         { error &&
-          <div className='Error'>
+          <div className={errorClass}>
             <span>
-              Something Went Wrong :( <Link className='clickable' to='/'>Go Back</Link>
+              Something Went Wrong :( <Link className={clickableClass} to='/'>Go Back</Link>
             </span>
           </div>
         }
 
         { annotations && !loading && !error &&
           <main>
-            <h1>{ puzzleRows ? 'Select Words' : 'Select Puzzle Region' }</h1>
+            <h1 className={headerClass}>
+              { puzzleRows ? 'Select Words' : 'Select Puzzle Region' }
+            </h1>
 
-            <div className='Content'>
+            <div className={contentClass}>
               <Annotations
                 tree={tree}
                 annotations={annotations}
@@ -171,7 +180,7 @@ class ImageInput extends Component {
                 onSelectedChanged={ selected => this.setState({ selected }) } />
 
               { puzzleRows &&
-                <div className='Words'>
+                <div className={headerClass}>
                   <h2>Words</h2>
 
                   <List
@@ -181,7 +190,7 @@ class ImageInput extends Component {
               }
             </div>
 
-            <div className='Buttons'>
+            <div className={buttonContainerClass}>
               { !puzzleRows &&
                 <Button onClick={() => this.onSelectPuzzle()}>
                   Select Puzzle
