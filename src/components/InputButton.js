@@ -1,18 +1,17 @@
 import React from 'react';
-import './Button.css';
+import { inputButton, button } from './Button.css';
 
-const ButtonInput = (props) =>
-  <label
-    className='ButtonInput Button'>
-    { props.children }
+const ButtonInput = ({ children, className, onChange }) => {
+  return (
+    <label
+      className={[className, inputButton, button].join(' ')}>
+      { children }
 
-    <input
-      type='file'
-      {...(
-        Object.entries(props)
-          .filter(([key, value]) => key !== 'children')
-          .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {})
-      )} />
-  </label>
+      <input
+        type='file'
+        onChange={onChange} />
+    </label>
+  );
+}
 
 export default ButtonInput;
