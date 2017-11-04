@@ -4,7 +4,10 @@ import TextEntry from '../components/TextEntry';
 import List from '../components/List';
 import Button from '../components/Button';
 
-import './TextInput.css';
+import {
+  component as componentClass, content as contentClass, header as headerClass,
+  footer as footerClass
+} from './TextInput.css';
 
 class TextInput extends Component {
   constructor(props) {
@@ -23,12 +26,12 @@ class TextInput extends Component {
     const { text, words } = this.state;
 
     return (
-      <div className='TextInput'>
-        <header>
+      <div className={componentClass}>
+        <header className={headerClass}>
           <h1>Input Wordsearch Text</h1>
         </header>
 
-        <main>
+        <main className={contentClass}>
           <TextEntry
             value={text}
             placeholder="Enter puzzle"
@@ -39,7 +42,7 @@ class TextInput extends Component {
             onChange={newItems => this.setState({ words: newItems })} />
         </main>
 
-        <footer>
+        <footer className={footerClass}>
           <Button
             onClick={() => history.push('/view', { rows: text.split('\n'), words })}>
               Solve Puzzle!
