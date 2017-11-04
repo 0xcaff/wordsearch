@@ -1,13 +1,13 @@
 import React from 'react';
-import './Button.css';
+import { toggleButton } from './Button.css';
 
 import { randomHex } from '../processing/utils';
 
-const ToggleButton = ({ onChange, active, children }) => {
+const ToggleButton = ({ onChange, active, children, className }) => {
   const id = randomHex();
 
   return (
-    <span className='ToggleButton'>
+    <span className={[ className, toggleButton ].join(' ')}>
       <input
         id={id}
         type='checkbox'

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
-import './ViewPuzzle.css';
+import {
+  header as headerClass, expand as expandClass, backButton as backButtonClass,
+} from './ViewPuzzle.css';
+
+import { clickable } from '../components/shared.css';
 
 import Grid from '../components/grid/Grid';
 import List from '../components/List';
@@ -182,9 +186,8 @@ const WordList = ({
   words, focused, onBackClicked, onSelectWord, onUnselectWord, sidebarOpen,
   sidebarDocked,
 }) =>
-  <div
-    className='WordList'>
-    <h3>Words</h3>
+  <div>
+    <h3 className={headerClass}>Words</h3>
 
     <List
       items={words}
@@ -200,8 +203,9 @@ const WordList = ({
         tabIndex: '0',
       })} />
 
-    <div className='BackButton'>
+    <div>
       <Button
+        className={backButtonClass}
         onClick={ onBackClicked }>
           Back to Editor
       </Button>
@@ -221,7 +225,7 @@ const Content = ({
   !sidebarOpen && !sidebarDocked &&
     <span
       key='expand'
-      className='Expand clickable'
+      className={[clickable, expandClass].join(' ')}
       onClick={ () => onSetSidebarOpen(true) } >
         {"<<"}
     </span>

@@ -1,9 +1,9 @@
-.TextInput {
+.component {
   margin: 0 auto;
   max-width: 60rem;
 }
 
-.TextInput main {
+.content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -12,11 +12,11 @@
   margin-bottom: 1em;
 }
 
-.TextInput h1 {
+.header {
   text-align: center;
 }
 
-.TextInput footer {
+.footer {
   text-align: center;
   margin-bottom: 2em;
 }

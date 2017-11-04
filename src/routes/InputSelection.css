@@ -1,4 +1,4 @@
-.InputSelection {
+.component {
   text-align: center;
   --size: 0.06;
 
@@ -15,18 +15,18 @@
   padding-bottom: 2em;
 }
 
-.InputSelection > header {
+.header {
   font-size: calc(var(--size) * 100vw);
 
   text-align: center;
   text-transform: uppercase;
 }
 
-.InputSelection > main {
+.content {
   margin: 0 1em;
 }
 
-.InputSelection > main > div {
+.buttonContainer {
   display: flex;
   margin: 0 auto;
   width: 100%;
@@ -37,12 +37,12 @@
 
 /* The 40rem is max-width of .InputSelection */
 @media(min-width: 40rem) {
-  .InputSelection > header {
+  .header {
     font-size: calc(40rem * var(--size));
   }
 }
 
-.InputSelection > main > div > .Button {
+.button {
   flex: 1;
   white-space: nowrap;
 
@@ -51,6 +51,11 @@
   font-size: x-large;
 }
 
-.DemoPuzzles {
+.demos {
   line-height: 1.5em;
+}
+
+.githubLink {
+  font-size: small;
+  line-height: 2em;
 }

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import './GridSelection.css';
+import { component as componentClass } from './GridSelection.css';
 
 // A component which highlights nodes between two points.
 export default class GridSelection extends PureComponent {
@@ -16,7 +16,7 @@ export default class GridSelection extends PureComponent {
       .map(({x, y}) =>
         <div
           key={`${x},${y}`}
-          className='GridMatches'
+          className={componentClass}
           style={{
             gridColumnStart: x + 1,
             gridRowStart: y + 1,

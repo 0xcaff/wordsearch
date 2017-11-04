@@ -1,14 +1,14 @@
-.ViewPuzzle .WordList h3 {
+.header {
   text-align: center;
 }
 
-.ViewPuzzle .BackButton .Button {
+.backButton {
   margin-left: 40px;
   margin-top: 2em;
   margin-bottom: 2em;
 }
 
-.ViewPuzzle .Expand {
+.expand {
   position: absolute;
   right: 0;
   top: 0;

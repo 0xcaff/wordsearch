@@ -4,12 +4,6 @@ body {
   font-family: monospace;
 }
 
-.clickable {
-  text-decoration: underline;
-  cursor: pointer;
-  color: black;
-}
-
 * {
 	box-sizing: border-box;
 }

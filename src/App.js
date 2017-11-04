@@ -10,8 +10,6 @@ import { asyncComponent } from './components/Loadable';
 
 import Analytics from './analytics/component';
 
-import './App.css';
-
 class App extends Component {
   render() {
     return (

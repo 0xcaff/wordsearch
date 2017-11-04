@@ -1,31 +1,20 @@
-.ImageInput .Loading, .ImageInput .Error {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 100vh;
-}
-
-.ImageInput .Error {
+.error {
+  composes: centered from '../components/shared.css';
   font-size: x-large;
 }
 
-.ImageInput > main > h1 {
+.header {
   text-align: center;
 }
 
-.ImageInput .Content {
+.content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: start;
 }
 
-.ImageInput .Words > h2 {
-  text-align: center;
-}
-
-.ImageInput > main > .Buttons {
+.buttonContainer {
   text-align: center;
   margin: 1em 0;
 }
