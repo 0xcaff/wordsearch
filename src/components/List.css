@@ -45,9 +45,3 @@
 	from { background: #F57F17; }
 	to { background: #ddd; }
 }
-
-@media print {
-  .listItem > .listItemInput {
-    display: none;
-  }
-}
