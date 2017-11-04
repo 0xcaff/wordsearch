@@ -10,6 +10,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-key-handler": "^1.0.0",
+    "react-loadable": "^5.3.1",
     "react-router-dom": "^4.2.2",
     "react-sidebar": "^2.3.2",
     "smoothscroll-polyfill": "^0.3.6",
@@ -21,6 +22,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.0.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-react-app": "^3.0.0",
     "babel-runtime": "6.23.0",
     "canvas": "^1.6.0",
@@ -90,6 +92,9 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "syntax-dynamic-import"
     ]
   },
   "eslintConfig": {

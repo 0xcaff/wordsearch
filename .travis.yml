@@ -24,9 +24,9 @@ cache:
 script:
   - yarn lint
   - yarn test
+  - yarn build
 
 before_deploy:
-  - yarn build
   - cp build/index.html build/200.html
 
 deploy:

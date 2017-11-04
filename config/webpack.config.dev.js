@@ -159,6 +159,11 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]',
         },
       },
+      // Process Worker Files
+      {
+        test: /\.worker\.js$/,
+        use: require.resolve('worker-loader'),
+      },
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
@@ -206,10 +211,6 @@ module.exports = {
             },
           },
         ],
-      },
-      {
-        test: /\.worker\.js$/,
-        use: require.resolve('worker-loader'),
       },
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "file" loader exclusion list.
