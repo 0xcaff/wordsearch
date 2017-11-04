@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import './List.css';
+import {
+  focused as focusedClass, list as listClass, listItem, listItemContent,
+  listItemInput, removeButton, updatable, nonUpdatable,
+} from './List.css';
 
 export default class List extends Component {
   constructor(props) {
@@ -68,7 +71,7 @@ export default class List extends Component {
 
     return (
       <div
-        className={['List', onChange ? 'Updatable' : 'Static'].join(' ')}>
+        className={[onChange ? updatable : nonUpdatable, listClass].join(' ')}>
         <ul>
           { items.map((item, i) =>
             <li
@@ -77,28 +80,32 @@ export default class List extends Component {
                 (elem => elem && elem.scrollIntoView({ behavior: 'smooth' })) :
                 undefined
               }
-              className={
-                [focused && focused.includes(item) && 'focused']
-                  .filter(e => !!e).join(' ')
-              }
+
+              className={[
+                focused && focused.includes(item) && focusedClass,
+                listItem,
+              ].filter(e => !!e).join(' ')}
+
               key={item}>
-                <span>
+                <span className={listItemContent}>
                   { item }
 
                   { onChange &&
                     <span
                       onClick={() => this.removeItem(i)}
-                      className='Remove'>x</span> }
+                      className={removeButton}>x</span> }
                 </span>
             </li>
           ) }
 
           { onChange &&
             <li
-              className="Input"
+              className={listItem}
               key=""
               title='Enter Word or Paste Newline Separated Words'>
+
               <input
+                className={listItemInput}
                 onPaste={this.handlePaste}
                 onKeyPress={this.handleEntryKeyPress}
                 type='text'
