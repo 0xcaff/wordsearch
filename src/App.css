@@ -1,3 +1,5 @@
+/* TODO: Remove Me */
+
 .App > .Loading {
   display: flex;
   justify-content: center;
@@ -6,10 +8,3 @@
   height: 100vh;
 }
 
-@media print {
-	.WordList {
-		width: 100%;
-		height: auto;
-		overflow-y: visible;
-	}
-}
