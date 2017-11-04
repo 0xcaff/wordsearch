@@ -1,12 +1,12 @@
-.Annotations {
+.component {
   border: 1px solid black;
   overflow: hidden;
 }
 
-.Annotations .canvases {
+.canvasContainer {
 	margin: 0 auto;
 }
 
-.Annotations .konvajs-content {
+.canvasContainer :global(.konvajs-content) {
 	margin: 0 auto;
 }

@@ -3,7 +3,7 @@ import Konva from 'konva';
 
 import { withPosition, boundsFromRect, toggleInSet, scale } from '../processing/utils';
 
-import './Annotations.css';
+import { component as componentClass, canvasContainer } from './Annotations.css';
 
 const COLORS = {
   SELECTED: 'orange',
@@ -301,10 +301,10 @@ export default class Annotations extends Component {
 
   render() {
     return (
-      <div className='Annotations'>
+      <div className={componentClass}>
         <div
           ref={elem => this.domNode = elem}
-          className='canvases' />
+          className={canvasContainer} />
       </div>
     );
   }
