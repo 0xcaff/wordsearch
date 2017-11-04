@@ -6,10 +6,8 @@ import {
   Redirect,
 } from 'react-router-dom'
 
-import InputSelection from './routes/InputSelection';
-import ImageInput from './routes/ImageInput';
-import TextInput from './routes/TextInput';
-import ViewPuzzle from './routes/ViewPuzzle';
+import { asyncComponent } from './components/Loadable';
+
 import Analytics from './analytics/component';
 
 import './App.css';
@@ -18,15 +16,38 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <div className='App'>
           <Analytics />
+
           <Switch>
 
-            <Route exact path='/' component={InputSelection} />
+            <Route
+              path='/'
+              component={ asyncComponent(() =>
+                import(/* webpackChunkName: "home" */ './routes/InputSelection')
+              )}
+              exact />
 
-            <Route exact path='/input/text' component={TextInput} />
-            <Route exact path='/input/image/:example?' component={ImageInput} />
-            <Route exact path='/view/:example?' component={ViewPuzzle} />
+            <Route
+              path='/input/text'
+              component={ asyncComponent(() =>
+                import(/* webpackChunkName: "text" */ './routes/TextInput')
+              )}
+              exact />
+
+            <Route
+              path='/input/image/:example?'
+              component={ asyncComponent(() =>
+                import(/* webpackChunkName: "image" */ './routes/ImageInput')
+              )}
+              exact />
+
+            <Route
+              path='/view/:example?'
+              component={ asyncComponent(() =>
+                import(/* webpackChunkName: "view" */ './routes/ViewPuzzle')
+              )}
+              exact />
 
             {/* Redirect any non-matching routes to the exact root. */}
             <Redirect from='/' to='/' />

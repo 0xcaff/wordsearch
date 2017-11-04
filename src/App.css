@@ -1,3 +1,11 @@
+.App > .Loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+}
+
 .List {
 	text-align: start;
 }
