@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import GridSelection from './GridSelection';
 import GridNodes from './GridNodes';
 
-import './Grid.css';
+import { component as componentClass } from './Grid.css';
 
 export default class Grid extends PureComponent {
   render() {
@@ -15,12 +15,8 @@ export default class Grid extends PureComponent {
 
     return (
       <div
-        className='Grid'
-        onMouseLeave={onMouseLeave}
-        style={{
-          gridAutoColumns: 'minmax(1em, 2em)',
-          margin: '0 auto',
-        }}>
+        className={componentClass}
+        onMouseLeave={onMouseLeave}>
 
         <GridNodes
           grid={grid}

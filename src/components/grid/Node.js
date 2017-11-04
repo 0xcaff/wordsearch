@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import './Node.css';
+import {
+  node as nodeClass, partOf as partOfClass, container as containerClass,
+  content as contentClass,
+} from './Node.css';
 
 export default class Node extends Component {
   render() {
@@ -8,8 +11,8 @@ export default class Node extends Component {
     return (
       <div
         className={[
-          "Node",
-          node.partOf.length && 'partOf',
+          nodeClass,
+          node.partOf.length && partOfClass,
         ].filter(t => !!t).join(' ')}
 
         style={{
@@ -19,8 +22,8 @@ export default class Node extends Component {
 
         onMouseEnter={_ => mouseEnterNode(node)}>
 
-          <div>
-            <span>{node.value}</span>
+          <div className={containerClass}>
+            <span className={contentClass}>{node.value}</span>
           </div>
       </div>
     );

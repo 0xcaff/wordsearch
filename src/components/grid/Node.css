@@ -1,17 +1,29 @@
-.Node {
+.square {
 	/* Responsive square */
 	position: relative;
 	height: 100%;
 	width: 100%;
 }
 
-.Node:before {
+.square:before {
 	content: "";
 	display: block;
 	padding-bottom: 100%;
 }
 
-.Node > div {
+.node {
+  composes: square;
+}
+
+.node:hover {
+	background: #ddd;
+}
+
+.partOf {
+	background: #ffeb3b;
+}
+
+.container {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -23,19 +35,10 @@
 	height: 100%;
 }
 
-.Node > div > span {
+.content {
 	align-self: center;
 	justify-self: center;
 
 	/* Needs to be above the the selection and partOf background */
 	z-index: 10;
 }
-
-.Node.partOf {
-	background: #ffeb3b;
-}
-
-.Node:hover {
-	background: #ddd;
-}
-
