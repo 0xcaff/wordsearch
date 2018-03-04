@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import GridSelection from './GridSelection';
-import GridNodes from './GridNodes';
+import GridSelection from "./GridSelection";
+import GridNodes from "./GridNodes";
 
-import { component as componentClass } from './Grid.css';
+import { component as componentClass } from "./Grid.css";
 
 export default class Grid extends PureComponent {
   render() {
@@ -14,21 +14,12 @@ export default class Grid extends PureComponent {
     }
 
     return (
-      <div
-        className={componentClass}
-        onMouseLeave={onMouseLeave}>
+      <div className={componentClass} onMouseLeave={onMouseLeave}>
+        <GridNodes grid={grid} extras={nodeExtras} onSelect={onSelect} />
 
-        <GridNodes
-          grid={grid}
-          extras={nodeExtras}
-          onSelect={onSelect} />
-
-        { selected.map((selection, i) =>
-          <GridSelection
-            key={`match${i}`}
-            grid={grid}
-            selection={selection} />
-        ) }
+        {selected.map((selection, i) => (
+          <GridSelection key={`match${i}`} grid={grid} selection={selection} />
+        ))}
       </div>
     );
   }

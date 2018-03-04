@@ -1,7 +1,7 @@
-import { Component } from 'react';
+import { Component } from "react";
 
 let isTouchEnabled = false;
-window.addEventListener('touchstart', () => {
+window.addEventListener("touchstart", () => {
   isTouchEnabled = true;
 });
 
@@ -17,11 +17,11 @@ export default class TouchEnabled extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('touchstart', this.onTouchStart);
+    window.addEventListener("touchstart", this.onTouchStart);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('touchstart', this.onTouchStart);
+    window.removeEventListener("touchstart", this.onTouchStart);
   }
 
   onTouchStart() {

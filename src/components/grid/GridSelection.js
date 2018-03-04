@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { component as componentClass } from './GridSelection.css';
+import React, { PureComponent } from "react";
+import { component as componentClass } from "./GridSelection.css";
 
 // A component which highlights nodes between two points.
 export default class GridSelection extends PureComponent {
@@ -12,36 +12,36 @@ export default class GridSelection extends PureComponent {
     const endNode = selection[selection.length - 1];
     const { x: toX, y: toY } = grid.positionOf(endNode);
 
-    return Array.from(tweenPosition(fromX, fromY, toX, toY))
-      .map(({x, y}) =>
-        <div
-          key={`${x},${y}`}
-          className={componentClass}
-          style={{
-            gridColumnStart: x + 1,
-            gridRowStart: y + 1,
-          }} />
-    );
+    return Array.from(tweenPosition(fromX, fromY, toX, toY)).map(({ x, y }) => (
+      <div
+        key={`${x},${y}`}
+        className={componentClass}
+        style={{
+          gridColumnStart: x + 1,
+          gridRowStart: y + 1
+        }}
+      />
+    ));
   }
 }
 
 // Yields values from {x: fromX, y: fromY} to {x: toX, y: toY} inclusive.
-export function *tweenPosition(fromX, fromY, toX, toY) {
+export function* tweenPosition(fromX, fromY, toX, toY) {
   const dy = toY - fromY;
   const dx = toX - fromX;
 
   let x = fromX;
   let y = fromY;
 
-  while(x !== toX || y !== toY) {
-    yield {x: x, y: y};
+  while (x !== toX || y !== toY) {
+    yield { x: x, y: y };
 
     // push by one
     x = moveTowards(x, toX);
     y = moveTowards(y, toY);
   }
 
-  yield {x: dx ? x++ : x, y: dy ? y++ : y};
+  yield { x: dx ? x++ : x, y: dy ? y++ : y };
 }
 
 function moveTowards(number, towards) {
@@ -53,4 +53,3 @@ function moveTowards(number, towards) {
 
   return number;
 }
-

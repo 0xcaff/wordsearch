@@ -6,7 +6,8 @@
   <br />
   <br />
 
-  The Wordsearch Solver
+The Wordsearch Solver
+
 </h1>
 
 <h3 align='center'>
@@ -27,26 +28,25 @@ Solving a wordsearch is basically two dimensional string search. This wordsearch
 solver makes it easy to input wordsearches, solve them and view the results
 interactively.
 
-How it Works
-------------
+## How it Works
 
 There are two ways to enter a puzzle into this solver.
 
-1. Using a text input. The puzzle and words are entered into text boxes. DraftJS
-   is used for the puzzle text box to ensure that the area around each letter is
-   a square instead of a rectangle for easier input.
+1.  Using a text input. The puzzle and words are entered into text boxes. DraftJS
+    is used for the puzzle text box to ensure that the area around each letter is
+    a square instead of a rectangle for easier input.
 
-   ![text-input][text-input]
+    ![text-input][text-input]
 
-2. Using an image selector. After an image is selected, it is sent to the google
-   cloud vision api which returns a list of letters in the image and their
-   bounding boxes. The user is prompted to select the region of the puzzle and
-   the regions of each of the words in the image. The selected letters from the
-   puzzle are arranged into a grid of letters using a kernel density estimator
-   to find the rows and columns making up the puzzle, then finding the
-   letters nearest to grid intersections.
+2.  Using an image selector. After an image is selected, it is sent to the google
+    cloud vision api which returns a list of letters in the image and their
+    bounding boxes. The user is prompted to select the region of the puzzle and
+    the regions of each of the words in the image. The selected letters from the
+    puzzle are arranged into a grid of letters using a kernel density estimator
+    to find the rows and columns making up the puzzle, then finding the
+    letters nearest to grid intersections.
 
-   ![image-input][image-input]
+    ![image-input][image-input]
 
 Now that the puzzle and the words to find have been imported we have enough
 information to send to the wordsearch solver algorithm.

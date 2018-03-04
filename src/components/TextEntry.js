@@ -1,7 +1,16 @@
-import React, { Component } from 'react';
-import { Editor, EditorState, ContentState, CompositeDecorator } from 'draft-js';
+import React, { Component } from "react";
+import {
+  Editor,
+  EditorState,
+  ContentState,
+  CompositeDecorator
+} from "draft-js";
 
-import { editor as editorClass, block as blockClass, khar as charClass } from './TextEntry.css'
+import {
+  editor as editorClass,
+  block as blockClass,
+  khar as charClass
+} from "./TextEntry.css";
 
 export default class TextEntry extends Component {
   constructor(props) {
@@ -44,7 +53,8 @@ export default class TextEntry extends Component {
           stripPastedStyles={true}
           editorState={editorState}
           onChange={this.onChange}
-          blockStyleFn={this.blockStyleFn} />
+          blockStyleFn={this.blockStyleFn}
+        />
       </div>
     );
   }
@@ -58,5 +68,4 @@ const eachCharStrategy = (contentBlock, callback, contentState) => {
   }
 };
 
-const HandleSpan = (props) =>
-  <span className={charClass}>{ props.children }</span>
+const HandleSpan = props => <span className={charClass}>{props.children}</span>;

@@ -45,6 +45,7 @@
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.5",
+    "prettier": "^1.11.1",
     "promise": "7.1.1",
     "react-dev-utils": "^3.0.0",
     "react-error-overlay": "^1.0.7",
@@ -57,16 +58,20 @@
     "whatwg-fetch": "2.0.3",
     "worker-loader": "^1.1.0"
   },
+  "config": {
+    "prettierFiles": "{*,**/*}.{js,json} README.md"
+  },
   "scripts": {
+    "fix-style": "prettier --write $npm_package_config_prettierFiles",
+    "check-style":
+      "prettier --list-different $npm_package_config_prettierFiles",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "lint": "eslint src/ --ext js"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
+    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
     "setupFiles": [
       "<rootDir>/config/polyfills.js",
       "<rootDir>/config/mocks.js"
@@ -82,32 +87,20 @@
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     }
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      "syntax-dynamic-import"
-    ]
+    "presets": ["react-app"],
+    "plugins": ["syntax-dynamic-import"]
   },
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
-      "no-warning-comments": [
-        "warn"
-      ],
-      "no-console": "warn",
-      "indent": [
-        "error",
-        2
-      ]
+      "no-warning-comments": ["warn"],
+      "no-console": "warn"
     }
   }
 }

@@ -1,6 +1,6 @@
 // Wrapper for the Google Cloud Vision API.
 
-import { getSymbols } from './utils';
+import { getSymbols } from "./utils";
 
 // Returns a list of symbols and their bounding boxes. All document structure
 // infered by GCV is removed.
@@ -9,16 +9,18 @@ import { getSymbols } from './utils';
 export const detectText = async (image, KEY) => {
   const request = {
     image: { content: image },
-    features: [{ type: 'DOCUMENT_TEXT_DETECTION' }],
+    features: [{ type: "DOCUMENT_TEXT_DETECTION" }]
   };
 
   const resp = await fetch(
-    `https://vision.googleapis.com/v1/images:annotate?key=${KEY}`, {
-      method: 'POST',
-      body: JSON.stringify({ requests: [request] }),
-    });
+    `https://vision.googleapis.com/v1/images:annotate?key=${KEY}`,
+    {
+      method: "POST",
+      body: JSON.stringify({ requests: [request] })
+    }
+  );
 
-  const { responses: [ response ] } = await resp.json();
+  const { responses: [response] } = await resp.json();
   const { error, fullTextAnnotation } = response;
 
   if (error) {

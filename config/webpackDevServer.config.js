@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const errorOverlayMiddleware = require('react-error-overlay/middleware');
-const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
-const config = require('./webpack.config.dev');
-const paths = require('./paths');
+const errorOverlayMiddleware = require("react-error-overlay/middleware");
+const noopServiceWorkerMiddleware = require("react-dev-utils/noopServiceWorkerMiddleware");
+const config = require("./webpack.config.dev");
+const paths = require("./paths");
 
-const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
-const host = process.env.HOST || '0.0.0.0';
+const protocol = process.env.HTTPS === "true" ? "https" : "http";
+const host = process.env.HOST || "0.0.0.0";
 
 module.exports = function(proxy, allowedHost) {
   return {
@@ -26,13 +26,13 @@ module.exports = function(proxy, allowedHost) {
     // So we will disable the host check normally, but enable it if you have
     // specified the `proxy` setting. Finally, we let you override it if you
     // really know what you're doing with a special environment variable.
-    disableHostCheck: !proxy ||
-      process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
+    disableHostCheck:
+      !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true",
     // Enable gzip compression of generated files.
     compress: true,
     // Silence WebpackDevServer's own logs since they're generally not useful.
     // It will still show compile warnings and errors with this setting.
-    clientLogLevel: 'none',
+    clientLogLevel: "none",
     // By default WebpackDevServer serves physical files from current directory
     // in addition to all the virtual build products that it serves from memory.
     // This is confusing because those files won’t automatically be available in
@@ -65,16 +65,16 @@ module.exports = function(proxy, allowedHost) {
     // Reportedly, this avoids CPU overload on some systems.
     // https://github.com/facebookincubator/create-react-app/issues/293
     watchOptions: {
-      ignored: /node_modules/,
+      ignored: /node_modules/
     },
     // Enable HTTPS if the HTTPS environment variable is set to 'true'
-    https: protocol === 'https',
+    https: protocol === "https",
     host: host,
     overlay: false,
     historyApiFallback: {
       // Paths with dots should still use the history fallback.
       // See https://github.com/facebookincubator/create-react-app/issues/387.
-      disableDotRule: true,
+      disableDotRule: true
     },
     public: allowedHost,
     proxy,
@@ -87,6 +87,6 @@ module.exports = function(proxy, allowedHost) {
       // it used the same host and port.
       // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
       app.use(noopServiceWorkerMiddleware());
-    },
+    }
   };
 };
