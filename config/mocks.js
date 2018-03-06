@@ -1,12 +1,11 @@
 Object.defineProperties(window, {
   matchMedia: {
-    value: () => ({ matches: true })
+    value: () => ({ matches: true }),
   },
   requestAnimationFrame: {
-    value: cb =>
-      setTimeout(() => {
-        const time = performance.now();
-        cb(time);
-      }, 0)
-  }
+    value: (cb) => setTimeout(() => {
+      const time = performance.now();
+      cb(time);
+    }, 0),
+  },
 });

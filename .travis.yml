@@ -22,7 +22,6 @@ cache:
     - "node_modules"
 
 script:
-  - yarn check-style
   - yarn lint
   - yarn test
   - yarn build

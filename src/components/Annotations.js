@@ -1,23 +1,15 @@
-import React, { Component } from "react";
-import Konva from "konva";
+import React, { Component } from 'react';
+import Konva from 'konva';
 
-import {
-  withPosition,
-  boundsFromRect,
-  toggleInSet,
-  scale
-} from "../processing/utils";
+import { withPosition, boundsFromRect, toggleInSet, scale } from '../processing/utils';
 
-import {
-  component as componentClass,
-  canvasContainer
-} from "./Annotations.css";
+import { component as componentClass, canvasContainer } from './Annotations.css';
 
 const COLORS = {
-  SELECTED: "orange",
-  HOVERED: "red",
-  DEFAULT: "black",
-  SELECTION: "#222"
+  SELECTED: 'orange',
+  HOVERED: 'red',
+  DEFAULT: 'black',
+  SELECTION: '#222',
 };
 
 // Renders results from a Google Cloud Vision text annotation query. We are
@@ -73,7 +65,7 @@ export default class Annotations extends Component {
   componentDidMount() {
     this.stage = new Konva.Stage({ container: this.domNode });
 
-    window.addEventListener("resize", this.onResize);
+    window.addEventListener('resize', this.onResize);
     this.handleProps(this.props, {});
     this.onResize();
   }
@@ -81,13 +73,14 @@ export default class Annotations extends Component {
   onResize() {
     const { image: { width: imageWidth, height: imageHeight } } = this.props;
 
-    const parentSize = [window.innerWidth, window.innerHeight]
-      .map(d => d * 0.9)
-      .map(Math.floor)
-      .reduce((a, b) => Math.min(a, b), Infinity);
+    const parentSize =
+        [window.innerWidth, window.innerHeight]
+          .map(d => d * 0.90)
+          .map(Math.floor)
+          .reduce((a, b) => Math.min(a, b), Infinity);
 
     const width = Math.min(imageWidth, parentSize);
-    const height = imageHeight / imageWidth * width;
+    const height = (imageHeight / imageWidth) * width;
 
     // applying these as multipliers to the image size will result in the canvas
     // size
@@ -111,7 +104,7 @@ export default class Annotations extends Component {
       annotations: rawAnnotations,
       selected = new Set(),
       overlayShapes = [],
-      invertSelection
+      invertSelection,
     } = props;
 
     const {
@@ -120,18 +113,14 @@ export default class Annotations extends Component {
       annotations: oldAnnotations,
       selected: oldSelected,
       overlayShapes: oldOverlayShapes,
-      invertSelection: oldInvertSelection
+      invertSelection: oldInvertSelection,
     } = oldProps;
 
     if (oldInvertSelection !== invertSelection) {
       this.invertSelection = invertSelection;
     }
 
-    if (
-      rawAnnotations !== oldAnnotations &&
-      tree !== oldTree &&
-      image !== oldImage
-    ) {
+    if (rawAnnotations !== oldAnnotations && tree !== oldTree && image !== oldImage) {
       Object.assign(this, { data: rawAnnotations, tree, selected });
 
       // compute dimensions of canvas based on image.
@@ -160,7 +149,7 @@ export default class Annotations extends Component {
       stage.add(selectionLayer);
 
       // annotation layer (colorful bounding boxes go here)
-      const annotationsLayer = (this.annotations = new Konva.Layer());
+      const annotationsLayer = this.annotations = new Konva.Layer();
       this.elements = new Map();
       this.createAnnotations();
       stage.add(annotationsLayer);
@@ -188,104 +177,88 @@ export default class Annotations extends Component {
       height: 0,
       stroke: COLORS.SELECTION,
       dash: [10, 10],
-      opacity: 0.85
+      opacity: 0.85,
     });
 
     layer.add(area);
 
     // attach listeners to stage so we receive all mouse events, (even consumed
     // ones).
-    stage.on(
-      "contentMousedown contentTouchstart",
-      withPosition(({ x, y }, { evt }) => {
-        evt.preventDefault();
+    stage.on('contentMousedown contentTouchstart', withPosition(({ x, y }, { evt }) => {
+      evt.preventDefault();
 
-        const { scaleX, scaleY } = this;
-        const scaled = scale(
-          { x0: x, y0: y, x1: x, y1: y },
-          1 / scaleX,
-          1 / scaleY
-        );
-        expandSelection(area, scaled);
-      })
-    );
+      const { scaleX, scaleY } = this;
+      const scaled = scale({ x0: x, y0: y, x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
+      expandSelection(area, scaled);
+    }));
 
-    stage.on(
-      "contentMousemove contentTouchmove",
-      withPosition(({ x, y }, { evt }) => {
-        evt.preventDefault();
+    stage.on('contentMousemove contentTouchmove', withPosition(({ x, y }, { evt }) => {
+      evt.preventDefault();
 
-        const { scaleX, scaleY } = this;
-        const isActive =
-          evt.buttons === 1 || (evt.touches && evt.touches.length);
-        if (isActive) {
-          const scaled = scale({ x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
-          expandSelection(area, scaled);
-        }
-      })
-    );
-
-    stage.on(
-      "contentMouseup contentTouchend",
-      withPosition(({ x, y }, { evt }) => {
-        evt.preventDefault();
-        const { selected, scaleX, scaleY, invertSelection } = this;
-
+      const { scaleX, scaleY } = this;
+      const isActive = evt.buttons === 1 || (evt.touches && evt.touches.length);
+      if (isActive) {
         const scaled = scale({ x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
         expandSelection(area, scaled);
+      }
+    }));
 
-        // add contained nodes to selection
-        const contained = tree.search(boundsFromRect(area, 1, 1));
+    stage.on('contentMouseup contentTouchend', withPosition(({ x, y }, { evt }) => {
+      evt.preventDefault();
+      const { selected, scaleX, scaleY, invertSelection } = this;
 
-        // hide selection area
-        area.width(0);
-        area.height(0);
+      const scaled = scale({ x1: x, y1: y }, 1 / scaleX, 1 / scaleY);
+      expandSelection(area, scaled);
 
-        // inverse selection with ctrl, otherwise replace
-        if (!evt.ctrlKey && !invertSelection) {
-          selected.clear();
-        }
+      // add contained nodes to selection
+      const contained = tree.search(boundsFromRect(area, 1, 1));
 
-        contained.forEach(({ node }) => toggleInSet(selected, node));
+      // hide selection area
+      area.width(0);
+      area.height(0);
 
-        this.updateAllNodes();
-      })
-    );
+      // inverse selection with ctrl, otherwise replace
+      if (!evt.ctrlKey && !invertSelection) {
+        selected.clear();
+      }
+
+      contained.forEach(({ node }) => toggleInSet(selected, node));
+
+      this.updateAllNodes();
+    }));
   }
 
   createAnnotations() {
     const layer = this.annotations;
 
-    const elements = this.data.map(node => {
-      const { boundingBox: bbox } = node;
+    const elements = this.data.map(
+      node => {
+        const { boundingBox: bbox } = node;
 
-      const points = bbox.vertices.reduce(
-        (acc, { x, y }) => acc.concat(x, y),
-        []
-      );
-      const view = new Konva.Line({
-        points: points,
-        closed: true,
-        stroke: COLORS.DEFAULT,
-        opacity: 0.3
+        const points = bbox.vertices.reduce((acc, {x, y}) => acc.concat(x, y), []);
+        const view = new Konva.Line({
+          points: points,
+          closed: true,
+          stroke: COLORS.DEFAULT,
+          opacity: 0.3,
+        });
+
+        this.elements.set(node, view);
+
+        view.on('mouseenter', _ => {
+          node.hovered = true;
+          this.updateNode(node);
+          layer.batchDraw();
+        });
+
+        view.on('mouseleave', _ => {
+          node.hovered = false;
+          this.updateNode(node);
+          layer.batchDraw();
+        });
+
+        return view;
       });
-
-      this.elements.set(node, view);
-
-      view.on("mouseenter", _ => {
-        node.hovered = true;
-        this.updateNode(node);
-        layer.batchDraw();
-      });
-
-      view.on("mouseleave", _ => {
-        node.hovered = false;
-        this.updateNode(node);
-        layer.batchDraw();
-      });
-
-      return view;
-    });
 
     layer.add(...elements);
   }
@@ -322,14 +295,16 @@ export default class Annotations extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.onResize);
+    window.removeEventListener('resize', this.onResize);
     this.stage.destroy();
   }
 
   render() {
     return (
       <div className={componentClass}>
-        <div ref={elem => (this.domNode = elem)} className={canvasContainer} />
+        <div
+          ref={elem => this.domNode = elem}
+          className={canvasContainer} />
       </div>
     );
   }
@@ -340,27 +315,11 @@ export default class Annotations extends Component {
 function expandSelection(center, { x0, y0, x1, y1 }) {
   let changed = false;
 
-  if (x0 === undefined) {
-    x0 = center.x();
-  } else {
-    center.x(x0);
-    changed = true;
-  }
-  if (y0 === undefined) {
-    y0 = center.y();
-  } else {
-    center.y(y0);
-    changed = true;
-  }
+  if (x0 === undefined) { x0 = center.x() } else { center.x(x0); changed = true };
+  if (y0 === undefined) { y0 = center.y() } else { center.y(y0); changed = true };
 
-  if (x0 !== undefined && x1 !== undefined) {
-    center.width(x1 - x0);
-    changed = true;
-  }
-  if (y0 !== undefined && y1 !== undefined) {
-    center.height(y1 - y0);
-    changed = true;
-  }
+  if (x0 !== undefined && x1 !== undefined) { center.width(x1 - x0); changed = true };
+  if (y0 !== undefined && y1 !== undefined) { center.height(y1 - y0); changed = true };
 
   const layer = center.getLayer();
   if (changed) {

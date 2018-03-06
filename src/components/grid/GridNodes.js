@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react";
-import Node from "./Node";
+import React, { PureComponent } from 'react';
+import Node from './Node';
 
 export default class GridNodes extends PureComponent {
   render() {
@@ -23,12 +23,11 @@ export default class GridNodes extends PureComponent {
             x={x}
             y={y}
             node={node}
-            mouseEnterNode={node => onSelect(...node.partOf)}
-          />
+            mouseEnterNode={node => onSelect(...node.partOf)} />
         );
       }
     }
 
     return nodes;
   }
-}
+};

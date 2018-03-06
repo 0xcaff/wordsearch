@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Sidebar from "react-sidebar";
+import React, { Component } from 'react';
+import Sidebar from 'react-sidebar';
 
 const mql = window.matchMedia(`(min-width: 800px)`);
 
@@ -36,21 +36,17 @@ class ResponsiveTwoPane extends Component {
     const { sidebar, children, options } = this.props;
     const { open, docked } = this.state;
 
-    const childProps = {
-      onSetSidebarOpen,
-      sidebarOpen: open,
-      sidebarDocked: docked
-    };
+    const childProps = { onSetSidebarOpen, sidebarOpen: open, sidebarDocked: docked };
 
     return (
       <Sidebar
-        sidebar={React.cloneElement(sidebar, childProps)}
+        sidebar={ React.cloneElement(sidebar, childProps) }
         open={open}
         docked={docked}
         onSetOpen={this.onSetSidebarOpen}
-        {...options}
-      >
-        {React.cloneElement(children, childProps)}
+        { ...options }>
+
+        { React.cloneElement(children, childProps) }
       </Sidebar>
     );
   }

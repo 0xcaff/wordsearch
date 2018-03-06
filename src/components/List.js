@@ -1,14 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
-  focused as focusedClass,
-  list as listClass,
-  listItem,
-  listItemContent,
-  listItemInput,
-  removeButton,
-  updatable,
-  nonUpdatable
-} from "./List.css";
+  focused as focusedClass, list as listClass, listItem, listItemContent,
+  listItemInput, removeButton, updatable, nonUpdatable,
+} from './List.css';
 
 export default class List extends Component {
   constructor(props) {
@@ -19,10 +13,7 @@ export default class List extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (
-      this.props.items !== nextProps.items ||
-      this.props.focused !== nextProps.focused
-    );
+    return this.props.items !== nextProps.items || this.props.focused !== nextProps.focused;
   }
 
   handleEntryKeyPress(evt) {
@@ -44,7 +35,9 @@ export default class List extends Component {
   handlePaste(event) {
     event.preventDefault();
 
-    const lines = event.clipboardData.getData("text/plain").split(/\r?\n/);
+    const lines = event.clipboardData
+      .getData('text/plain')
+      .split(/\r?\n/);
 
     this.addItems(...lines);
   }
@@ -55,7 +48,8 @@ export default class List extends Component {
     const { onChange, items: oldItems } = this.props;
 
     // collect only new items
-    const filteredItems = items.filter(item => !oldItems.includes(item));
+    const filteredItems = items
+      .filter(item => !oldItems.includes(item));
 
     const newItems = oldItems.concat(filteredItems);
 
@@ -72,66 +66,51 @@ export default class List extends Component {
   }
 
   render() {
-    const {
-      focused,
-      items,
-      itemProps = () => null,
-      onChange,
-      scrollFocusedIntoView
-    } = this.props;
+    const { focused, items, itemProps = () => null, onChange, scrollFocusedIntoView } = this.props;
     const firstFocused = focused && focused[0];
 
     return (
       <div
-        className={[onChange ? updatable : nonUpdatable, listClass].join(" ")}
-      >
+        className={[onChange ? updatable : nonUpdatable, listClass].join(' ')}>
         <ul>
-          {items.map((item, i) => (
+          { items.map((item, i) =>
             <li
               {...itemProps(item)}
-              ref={
-                firstFocused === item && scrollFocusedIntoView
-                  ? elem => elem && elem.scrollIntoView({ behavior: "smooth" })
-                  : undefined
+              ref={firstFocused === item && scrollFocusedIntoView ?
+                (elem => elem && elem.scrollIntoView({ behavior: 'smooth' })) :
+                undefined
               }
+
               className={[
                 focused && focused.includes(item) && focusedClass,
-                listItem
-              ]
-                .filter(e => !!e)
-                .join(" ")}
-              key={item}
-            >
-              <span className={listItemContent}>
-                {item}
+                listItem,
+              ].filter(e => !!e).join(' ')}
 
-                {onChange && (
-                  <span
-                    onClick={() => this.removeItem(i)}
-                    className={removeButton}
-                  >
-                    x
-                  </span>
-                )}
-              </span>
+              key={item}>
+                <span className={listItemContent}>
+                  { item }
+
+                  { onChange &&
+                    <span
+                      onClick={() => this.removeItem(i)}
+                      className={removeButton}>x</span> }
+                </span>
             </li>
-          ))}
+          ) }
 
-          {onChange && (
+          { onChange &&
             <li
               className={listItem}
               key=""
-              title="Enter Word or Paste Newline Separated Words"
-            >
+              title='Enter Word or Paste Newline Separated Words'>
+
               <input
                 className={listItemInput}
                 onPaste={this.handlePaste}
                 onKeyPress={this.handleEntryKeyPress}
-                type="text"
-                placeholder="Enter Word or Paste Newline Separated Words"
-              />
-            </li>
-          )}
+                type='text'
+                placeholder='Enter Word or Paste Newline Separated Words' />
+            </li> }
         </ul>
       </div>
     );

@@ -1,10 +1,10 @@
-import rbush from "rbush";
-import knn from "rbush-knn";
+import rbush from 'rbush';
+import knn from 'rbush-knn';
 
 // Flattens annotations from the google cloud vision API into just an array of
 // the discovered letters. The structure GCV assumes is incorrect. It assumes
 // document while we need a grid.
-export function getSymbols(parent, innerPropName = "pages") {
+export function getSymbols(parent, innerPropName = 'pages') {
   const things = parent[innerPropName];
 
   // find next inner prop
@@ -18,35 +18,32 @@ export function getSymbols(parent, innerPropName = "pages") {
   const nextInnerPropName = innerPropNames[nextPropIndex];
 
   // things aren't leaf nodes, traverse further down
-  return things.reduce(
-    (acc, thing) => acc.concat(getSymbols(thing, nextInnerPropName)),
-    []
-  );
+  return things.reduce((acc, thing) =>
+    acc.concat(getSymbols(thing, nextInnerPropName)), []);
 }
 
-const innerPropNames = ["pages", "blocks", "paragraphs", "words", "symbols"]; // , 'text'];
+const innerPropNames = ['pages', 'blocks', 'paragraphs', 'words', 'symbols']; // , 'text'];
 
-export const withPosition = inner => evt => inner(getPosition(evt), evt);
+export const withPosition = (inner) => evt => inner(getPosition(evt), evt);
 
-export const getPosition = evt =>
+export const getPosition = (evt) =>
   (evt.target || evt.currentTarget).getStage().getPointerPosition();
 
-export const concatBounds = ({ minX, minY, maxX, maxY }, { x, y }) => ({
+export const concatBounds = ({ minX, minY, maxX, maxY }, {x, y}) => ({
   minX: Math.min(minX, x),
   minY: Math.min(minY, y),
   maxX: Math.max(maxX, x),
-  maxY: Math.max(maxY, y)
+  maxY: Math.max(maxY, y),
 });
 
 export const getUnboundedBounds = _ => ({
   minX: Infinity,
   minY: Infinity,
   maxX: -Infinity,
-  maxY: -Infinity
+  maxY: -Infinity,
 });
 
-export const boundsOfVertices = vertices =>
-  vertices.reduce(
+export const boundsOfVertices = (vertices) => vertices.reduce(
     (oldBounds, vert) => concatBounds(oldBounds, vert),
     getUnboundedBounds()
   );
@@ -58,7 +55,7 @@ export function dims(rect) {
   const x1 = x0 + rect.width();
   const y1 = y0 + rect.height();
 
-  return { x0, x1, y0, y1 };
+  return {x0, x1, y0, y1};
 }
 
 export function scale({ x0, y0, x1, y1 }, scaleX, scaleY) {
@@ -66,7 +63,7 @@ export function scale({ x0, y0, x1, y1 }, scaleX, scaleY) {
     x0: x0 && x0 * scaleX,
     y0: y0 && y0 * scaleY,
     x1: x1 && x1 * scaleX,
-    y1: y1 && y1 * scaleY
+    y1: y1 && y1 * scaleY,
   };
 }
 
@@ -75,7 +72,7 @@ const dimsToBounds = ({ x0, y0, x1, y1 }) => ({
   minX: Math.min(x0, x1),
   minY: Math.min(y0, y1),
   maxX: Math.max(x0, x1),
-  maxY: Math.max(y0, y1)
+  maxY: Math.max(y0, y1),
 });
 
 // Converts a konva rect into a rbush bounds.
@@ -116,7 +113,7 @@ export function compareBounds(a, b) {
 export function centerOfBounds({ minX, minY, maxX, maxY }) {
   return {
     x: (maxX - minX) / 2 + minX,
-    y: (maxY - minY) / 2 + minY
+    y: (maxY - minY) / 2 + minY,
   };
 }
 
@@ -143,11 +140,10 @@ export function stddev(...values) {
   return { dev, mean: m };
 }
 
-export const mean = (...values) =>
-  values.reduce((acc, val) => acc + val / values.length, 0);
+export const mean = (...values) => values.reduce((acc, val) => acc + (val/values.length), 0);
 
 function getKernelDensityEstimator(values, bandwidth, kernel = gaussianKernel) {
-  return x => {
+  return (x) => {
     const n = values.length;
     const h = bandwidth;
 
@@ -161,10 +157,10 @@ function getKernelDensityEstimator(values, bandwidth, kernel = gaussianKernel) {
 }
 
 export function findExtrema({
-  f = required("f"),
-  start = required("start"),
-  end = required("end"),
-  stepSize = required("stepSize")
+  f = required('f'),
+  start = required('start'),
+  end = required('end'),
+  stepSize = required('stepSize'),
 }) {
   const mins = [];
   const maxes = [];
@@ -211,49 +207,40 @@ export function estimateExtrema({ values, bandwidth }) {
     end,
 
     // stepSize: deviation / (end - start),
-    stepSize: bandwidth
+    stepSize: bandwidth,
   });
 }
 
-const exp = to => Math.E ** to;
+const exp = (to) => Math.E ** to;
 const gaussianKernel = (x, h) => exp(-(x ** 2) / (2 * h ** 2));
 
 // Gets elements from an array returning undefined if i is out of the array bounds.
-const getPossiblyUnbounded = (array, i) =>
-  i >= 0 && i < array.length ? array[i] : undefined;
+const getPossiblyUnbounded = (array, i) => i >= 0 && i < array.length ? array[i] : undefined;
 
-const required = name => {
-  throw new TypeError(`${name} is a required parameter`);
-};
+const required = (name) => { throw new TypeError(`${name} is a required parameter`) };
 
 // Given an array of selected nodes, finds the grid lines the nodes are on and
 // the average height and width of the bounding boxes.
-export const findGrid = selected => {
+export const findGrid = (selected) => {
   const centers = selected.map(node => centerOfBounds(node.boundingRect));
 
   const xs = centers.map(ctr => ctr.x);
   const ys = centers.map(ctr => ctr.y);
 
-  const avgHeight = mean(
-    ...selected.map(({ boundingRect: { maxY, minY } }) => maxY - minY)
-  );
+  const avgHeight = mean(...selected.map(
+    ({ boundingRect: { maxY, minY }}) => maxY - minY));
 
-  const avgWidth = mean(
-    ...selected.map(({ boundingRect: { maxX, minX } }) => maxX - minX)
-  );
+  const avgWidth = mean(...selected.map(
+    ({ boundingRect: { maxX, minX }}) => maxX - minX));
 
   const { maxes: xGridLines } = estimateExtrema({
-    values: xs,
-    bandwidth: avgWidth / 2
-  });
+    values: xs, bandwidth: avgWidth / 2 });
 
   const { maxes: yGridLines } = estimateExtrema({
-    values: ys,
-    bandwidth: avgHeight / 2
-  });
+    values: ys, bandwidth: avgHeight / 2 });
 
   return { avgHeight, avgWidth, xGridLines, yGridLines };
-};
+}
 
 // Given a grid, tolerances and a rbush tree, find the nodes nearest to the grid
 // intersections.
@@ -266,46 +253,40 @@ export const findGrid = selected => {
 // intersection and center of the letter bounding box.
 // tree: A rbush tree to find the nodes nearest to grid intersections.
 export const getPuzzleFromGrid = (xs, ys, xTolerance, yTolerance, tree) =>
-  ys.map(y =>
-    xs.map(x => {
-      const limit = 1;
+  ys.map(y => xs.map(x => {
+    const limit = 1;
 
-      const neighbors = knn(tree, x, y, limit);
-      if (neighbors.length === 0) {
-        return " ";
-      }
+    const neighbors = knn(tree, x, y, limit);
+    if (neighbors.length === 0) {
+      return ' ';
+    }
 
-      const [{ node }] = neighbors;
-      const { x: cx, y: cy } = centerOfBounds(node.boundingRect);
+    const [{ node }] = neighbors;
+    const { x: cx, y: cy } = centerOfBounds(node.boundingRect);
 
-      const dx = Math.abs(cx - x);
-      const dy = Math.abs(cy - y);
+    const dx = Math.abs(cx - x);
+    const dy = Math.abs(cy - y);
 
-      if (dx > xTolerance || dy > yTolerance) {
-        // nothing within tolerance
-        return " ";
-      }
+    if (dx > xTolerance || dy > yTolerance) {
+      // nothing within tolerance
+      return ' ';
+    }
 
-      const { text } = node;
-      return text;
-    })
-  );
+    const { text } = node;
+    return text;
+  }));
 
 // Sort nodes from left to right, top to bottom.
-export const sortWordSelected = selected => {
+export const sortWordSelected = (selected) => {
   if (selected.size === 0) {
     return selected;
   }
 
-  const selectedWithCenters = Array.from(selected).map(node => ({
-    ...node,
-    center: centerOfBounds(node.boundingRect)
-  }));
+  const selectedWithCenters = Array.from(selected)
+    .map(node => ({ ...node, center: centerOfBounds(node.boundingRect) }));
 
-  const { maxY, minY, maxX, minX } = selectedWithCenters.reduce(
-    (acc, { center }) => concatBounds(acc, center),
-    getUnboundedBounds()
-  );
+  const { maxY, minY, maxX, minX } = selectedWithCenters
+    .reduce((acc, { center }) => concatBounds(acc, center), getUnboundedBounds());
 
   const dy = maxY - minY;
   const dx = maxX - minX;
@@ -313,17 +294,16 @@ export const sortWordSelected = selected => {
   const ady = Math.abs(dy);
   const adx = Math.abs(dx);
 
-  const comparator =
-    adx >= ady
-      ? ({ center: { x: ax } }, { center: { x: bx } }) => ax - bx
-      : ({ center: { y: ay } }, { center: { y: by } }) => ay - by;
+  const comparator = adx >= ady ?
+    ({ center: { x: ax } }, { center: { x: bx } }) => ax - bx :
+    ({ center: { y: ay } }, { center: { y: by } }) => ay - by;
 
   const sorted = selectedWithCenters.sort(comparator);
   return sorted;
 };
 
 // Creates an rbush R-Tree for fast lookups of things in a region.
-export const buildRTree = annotations => {
+export const buildRTree = (annotations) => {
   const tree = rbush();
 
   const leaves = annotations.map(node => {
@@ -345,7 +325,7 @@ export const buildRTree = annotations => {
 
   tree.load(leaves);
   return tree;
-};
+}
 
 export const join = (input, btwn) =>
   input.reduce((acc, val, idx, arr) => {
@@ -358,5 +338,4 @@ export const join = (input, btwn) =>
     return addedVal;
   }, []);
 
-export const randomHex = () =>
-  Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16);
+export const randomHex = () => Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16);

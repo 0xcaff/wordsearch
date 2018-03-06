@@ -1,22 +1,20 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import {
-  header as headerClass,
-  expand as expandClass,
-  backButton as backButtonClass
-} from "./ViewPuzzle.css";
+  header as headerClass, expand as expandClass, backButton as backButtonClass,
+} from './ViewPuzzle.css';
 
-import { clickable } from "../components/shared.css";
+import { clickable } from '../components/shared.css';
 
-import Grid from "../components/grid/Grid";
-import List from "../components/List";
-import Button from "../components/Button";
-import ResponsiveTwoPane from "../components/ResponsiveTwoPane";
+import Grid from '../components/grid/Grid';
+import List from '../components/List';
+import Button from '../components/Button';
+import ResponsiveTwoPane from '../components/ResponsiveTwoPane';
 
-import SolverWorker from "../processing/solver.worker";
+import SolverWorker from '../processing/solver.worker';
 
-import { puzzles } from "wordsearch-algo";
-import { ArrayGrid } from "wordsearch-algo";
+import { puzzles } from 'wordsearch-algo';
+import { ArrayGrid } from 'wordsearch-algo';
 
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.
@@ -35,7 +33,7 @@ class ViewPuzzle extends Component {
     focused: [],
 
     // Nodes which are selected.
-    selected: []
+    selected: [],
   };
 
   constructor(props) {
@@ -49,7 +47,7 @@ class ViewPuzzle extends Component {
 
     const normalizedState = normalizeState(state, example);
     if (!normalizedState) {
-      history.push("/");
+      history.push('/');
       return;
     }
 
@@ -57,7 +55,7 @@ class ViewPuzzle extends Component {
 
     // Start Solving
     const worker = new SolverWorker();
-    worker.postMessage([rows, words]);
+    worker.postMessage([ rows, words ]);
 
     // Bind methods once in the constructor to prevent re-rendering in pure
     // child components.
@@ -72,13 +70,13 @@ class ViewPuzzle extends Component {
   componentDidMount() {
     const { worker } = this;
 
-    worker.addEventListener("message", this.onSolved);
+    worker.addEventListener('message', this.onSolved);
   }
 
   componentWillUnmount() {
     const { worker } = this;
 
-    worker.removeEventListener("message", this.onSolved);
+    worker.removeEventListener('message', this.onSolved);
   }
 
   onSolved(event) {
@@ -92,7 +90,9 @@ class ViewPuzzle extends Component {
   // select.
   onSelect(...selection) {
     const focused = selection.map(nodes =>
-      nodes.map(node => node.value).join("")
+      nodes
+        .map(node => node.value)
+        .join('')
     );
 
     this.setState({ focused, selected: selection });
@@ -131,69 +131,61 @@ class ViewPuzzle extends Component {
       return null;
     }
 
-    const sidebar = (
+    const sidebar =
       <WordList
         words={words}
         focused={focused}
-        onBackClicked={() => history.push("/input/text", { rows, words })}
+        onBackClicked={ () => history.push('/input/text', { rows, words }) }
         onSelectWord={selectMatches}
-        onUnselectWord={clearSelected}
-      />
-    );
+        onUnselectWord={clearSelected} />
 
     return (
       <ResponsiveTwoPane
         sidebar={sidebar}
         options={{
           pullRight: true,
-          rootClassName: "ViewPuzzle",
+          rootClassName: 'ViewPuzzle',
           styles: {
             content: {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              overflowY: "auto"
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              overflowY: 'auto',
             },
             sidebar: {
-              padding: "1em 2em",
+              padding: '1em 2em',
 
               // Above the node content and overlays. See
               // components/grid/Node.css and components/grid/GridSelection.css
               zIndex: 15,
-              background: "white"
+              background: 'white',
             },
             overlay: {
               // Less than sidebar and more than compnents/grid/Node.css and
               // components/grid/GridSelection.css
-              zIndex: 14
+              zIndex: 14,
             },
             dragHandle: {
               // Same level as overlay.
-              zIndex: 14
+              zIndex: 14,
             }
           }
-        }}
-      >
-        <Content
-          grid={grid}
-          selected={selected}
-          onSelect={onSelect}
-          clearSelected={clearSelected}
-        />
+        }}>
+          <Content
+            grid={grid}
+            selected={selected}
+            onSelect={onSelect}
+            clearSelected={clearSelected} />
+
       </ResponsiveTwoPane>
     );
   }
 }
 
 const WordList = ({
-  words,
-  focused,
-  onBackClicked,
-  onSelectWord,
-  onUnselectWord,
-  sidebarOpen,
-  sidebarDocked
-}) => (
+  words, focused, onBackClicked, onSelectWord, onUnselectWord, sidebarOpen,
+  sidebarDocked,
+}) =>
   <div>
     <h3 className={headerClass}>Words</h3>
 
@@ -201,52 +193,42 @@ const WordList = ({
       items={words}
       scrollFocusedIntoView={sidebarOpen || sidebarDocked}
       focused={focused}
-      itemProps={item => ({
+      itemProps={(item) => ({
         onMouseEnter: _ => onSelectWord(item),
         onMouseLeave: _ => onUnselectWord(item),
 
         onFocus: _ => onSelectWord(item),
         onBlur: _ => onUnselectWord(item),
 
-        tabIndex: "0"
-      })}
-    />
+        tabIndex: '0',
+      })} />
 
     <div>
-      <Button className={backButtonClass} onClick={onBackClicked}>
-        Back to Editor
+      <Button
+        className={backButtonClass}
+        onClick={ onBackClicked }>
+          Back to Editor
       </Button>
     </div>
   </div>
-);
 
 const Content = ({
-  grid,
-  selected,
-  onSelect,
-  clearSelected,
-  onSetSidebarOpen,
-  sidebarOpen,
-  sidebarDocked
-}) => [
-  <Grid
-    key="grid"
+  grid, selected, onSelect, clearSelected, onSetSidebarOpen, sidebarOpen,
+  sidebarDocked,
+}) => [ <Grid
+    key='grid'
     grid={grid}
     selected={selected}
     onSelect={onSelect}
-    onMouseLeave={clearSelected}
-  />,
+    onMouseLeave={clearSelected} />,
 
-  !sidebarOpen &&
-    !sidebarDocked && (
-      <span
-        key="expand"
-        className={[clickable, expandClass].join(" ")}
-        onClick={() => onSetSidebarOpen(true)}
-      >
+  !sidebarOpen && !sidebarDocked &&
+    <span
+      key='expand'
+      className={[clickable, expandClass].join(' ')}
+      onClick={ () => onSetSidebarOpen(true) } >
         {"<<"}
-      </span>
-    )
+    </span>
 ];
 
 const normalizeState = (state, example) => {
@@ -255,6 +237,6 @@ const normalizeState = (state, example) => {
   } else if (example && puzzles[example]) {
     return puzzles[example];
   }
-};
+}
 
 export default ViewPuzzle;

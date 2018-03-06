@@ -1,42 +1,32 @@
-import React, { Component } from "react";
-import KeyHandler, { KEYPRESS } from "react-key-handler";
-import Konva from "konva";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import KeyHandler, { KEYPRESS } from 'react-key-handler';
+import Konva from 'konva';
+import { Link } from 'react-router-dom';
 
-import List from "../components/List";
-import Loading from "../components/Loading";
-import Button from "../components/Button";
-import ToggleButton from "../components/ToggleButton";
-import Annotations from "../components/Annotations";
-import TouchEnabled from "../components/TouchEnabled";
+import List from '../components/List';
+import Loading from '../components/Loading';
+import Button from '../components/Button';
+import ToggleButton from '../components/ToggleButton';
+import Annotations from '../components/Annotations';
+import TouchEnabled from '../components/TouchEnabled';
 
+import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from '../processing/utils';
+import { detectText } from '../processing/gcv';
+
+import { centered as centeredClass, clickable as clickableClass } from '../components/shared.css';
 import {
-  buildRTree,
-  findGrid,
-  sortWordSelected,
-  getPuzzleFromGrid
-} from "../processing/utils";
-import { detectText } from "../processing/gcv";
+  error as errorClass, header as headerClass, content as contentClass,
+  buttonContainer as buttonContainerClass,
+} from './ImageInput.css';
 
-import {
-  centered as centeredClass,
-  clickable as clickableClass
-} from "../components/shared.css";
-import {
-  error as errorClass,
-  header as headerClass,
-  content as contentClass,
-  buttonContainer as buttonContainerClass
-} from "./ImageInput.css";
-
-import { dict as imagesDict } from "./images";
+import { dict as imagesDict } from './images';
 
 // Google Cloud Vision API Key.
 const KEY = `AIzaSyCTrUlRdIIURdW3LMl6yOcCyqooK9qbJR0`;
 
 const puzzleLineStyle = {
-  stroke: "black",
-  opacity: 0.1
+  stroke: 'black',
+  opacity: 0.1,
 };
 
 class ImageInput extends Component {
@@ -69,19 +59,19 @@ class ImageInput extends Component {
     shapes: [],
 
     // Whether or not the selection is in an inverted mode.
-    invertSelection: false
+    invertSelection: false,
   };
 
   componentDidMount() {
     const {
       location: { state },
       history,
-      match: { params: { example } }
+      match: { params: { example } },
     } = this.props;
 
     const normalizedState = normalizeState(state, example);
     if (!normalizedState) {
-      history.push("/");
+      history.push('/');
       return;
     }
 
@@ -110,11 +100,11 @@ class ImageInput extends Component {
     // get the selected nodes
     const selectedArr = Array.from(selected);
     const sorted = sortWordSelected(selectedArr);
-    const word = sorted.map(node => node.text).join("");
+    const word = sorted.map(node => node.text).join('');
 
     this.setState(({ words }) => ({
       selected: new Set(),
-      words: words.concat(word)
+      words: words.concat(word),
     }));
   }
 
@@ -122,9 +112,7 @@ class ImageInput extends Component {
     const { annotations: data, tree, selected } = this.state;
     const selectedNodes = data.filter(node => selected.has(node));
 
-    const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(
-      selectedNodes
-    );
+    const { avgHeight, avgWidth, xGridLines, yGridLines } = findGrid(selectedNodes);
 
     const xMin = xGridLines[0];
     const xMax = xGridLines[xGridLines.length - 1];
@@ -133,30 +121,22 @@ class ImageInput extends Component {
     const yMax = yGridLines[yGridLines.length - 1];
 
     const shapes = [].concat(
-      xGridLines.map(
-        x =>
-          new Konva.Line({
-            points: [x, yMin, x, yMax],
-            ...puzzleLineStyle
-          })
+      xGridLines.map(x =>
+        new Konva.Line({
+          points: [x, yMin, x, yMax],
+          ...puzzleLineStyle,
+        })
       ),
-      yGridLines.map(
-        y =>
-          new Konva.Line({
-            points: [xMin, y, xMax, y],
-            ...puzzleLineStyle
-          })
-      )
+      yGridLines.map(y =>
+        new Konva.Line({
+          points: [xMin, y, xMax, y],
+          ...puzzleLineStyle,
+        })
+      ),
     );
 
-    const output = getPuzzleFromGrid(
-      xGridLines,
-      yGridLines,
-      avgWidth,
-      avgHeight,
-      tree
-    );
-    const rows = output.map(row => row.join(""));
+    const output = getPuzzleFromGrid(xGridLines, yGridLines, avgWidth, avgHeight, tree);
+    const rows = output.map(row => row.join(''));
 
     this.setState({ selected: new Set(), shapes, puzzleRows: rows });
   }
@@ -164,126 +144,109 @@ class ImageInput extends Component {
   render() {
     const { history } = this.props;
     const {
-      annotations,
-      image,
-      loading,
-      error,
-      tree,
-      puzzleRows,
-      words,
-      selected,
-      shapes,
-      invertSelection
+      annotations, image, loading, error, tree, puzzleRows, words, selected,
+      shapes, invertSelection,
     } = this.state;
 
     return (
       <div>
-        {loading && (
-          <div className={centeredClass}>
+        { loading && <div className={centeredClass}>
             <Loading />
           </div>
-        )}
+        }
 
-        {error && (
+        { error &&
           <div className={errorClass}>
             <span>
-              Something Went Wrong :({" "}
-              <Link className={clickableClass} to="/">
-                Go Back
-              </Link>
+              Something Went Wrong :( <Link className={clickableClass} to='/'>Go Back</Link>
             </span>
           </div>
-        )}
+        }
 
-        {annotations &&
-          !loading &&
-          !error && (
-            <main>
-              <h1 className={headerClass}>
-                {puzzleRows ? "Select Words" : "Select Puzzle Region"}
-              </h1>
+        { annotations && !loading && !error &&
+          <main>
+            <h1 className={headerClass}>
+              { puzzleRows ? 'Select Words' : 'Select Puzzle Region' }
+            </h1>
 
-              <div className={contentClass}>
-                <Annotations
-                  tree={tree}
-                  annotations={annotations}
-                  image={image}
-                  selected={selected}
-                  overlayShapes={shapes}
-                  invertSelection={invertSelection}
-                  onSelectedChanged={selected => this.setState({ selected })}
-                />
+            <div className={contentClass}>
+              <Annotations
+                tree={tree}
+                annotations={annotations}
+                image={image}
+                selected={selected}
+                overlayShapes={shapes}
+                invertSelection={invertSelection}
+                onSelectedChanged={ selected => this.setState({ selected }) } />
 
-                {puzzleRows && (
-                  <div className={headerClass}>
-                    <h2>Words</h2>
+              { puzzleRows &&
+                <div className={headerClass}>
+                  <h2>Words</h2>
 
-                    <List
-                      items={words}
-                      onChange={newValue => this.setState({ words: newValue })}
-                    />
-                  </div>
-                )}
-              </div>
+                  <List
+                    items={words}
+                    onChange={ newValue => this.setState({ words: newValue }) } />
+                </div>
+              }
+            </div>
 
-              <div className={buttonContainerClass}>
-                {!puzzleRows && (
-                  <Button onClick={() => this.onSelectPuzzle()}>
-                    Select Puzzle
-                  </Button>
-                )}
+            <div className={buttonContainerClass}>
+              { !puzzleRows &&
+                <Button onClick={() => this.onSelectPuzzle()}>
+                  Select Puzzle
+                </Button>
+              }
 
-                {!puzzleRows && (
-                  <ActionKeyHandler onAction={() => this.onSelectPuzzle()} />
-                )}
+              { !puzzleRows &&
+                <ActionKeyHandler onAction={() => this.onSelectPuzzle()} />
+              }
 
-                {puzzleRows && (
-                  <Button onClick={() => this.onSelectWord()}>Add Word</Button>
-                )}
+              { puzzleRows &&
+                <Button onClick={() => this.onSelectWord()}>
+                  Add Word
+                </Button>
+              }
 
-                {puzzleRows && (
-                  <ActionKeyHandler onAction={() => this.onSelectWord()} />
-                )}
+              { puzzleRows &&
+                <ActionKeyHandler onAction={() => this.onSelectWord()} />
+              }
 
-                {puzzleRows && (
-                  <Button
-                    onClick={() =>
-                      history.push("/input/text", { rows: puzzleRows, words })
-                    }
-                  >
-                    Continue
-                  </Button>
-                )}
+              { puzzleRows &&
+                <Button onClick={() =>
+                  history.push('/input/text', { rows: puzzleRows, words })
+                }>
 
-                <TouchEnabled>
-                  <ToggleButton
-                    onChange={invertSelection =>
-                      this.setState({ invertSelection })
-                    }
-                    active={invertSelection}
-                  >
-                    Invert Selection
-                  </ToggleButton>
-                </TouchEnabled>
-              </div>
-            </main>
-          )}
+                  Continue
+                </Button>
+              }
+
+              <TouchEnabled>
+                <ToggleButton
+                  onChange={invertSelection => this.setState({ invertSelection })}
+                  active={invertSelection}>
+
+                  Invert Selection
+                </ToggleButton>
+              </TouchEnabled>
+            </div>
+          </main>
+        }
+
       </div>
     );
   }
 }
 
-const actionKeys = ["Enter", " "];
+const actionKeys = [ 'Enter', ' ' ];
 
 const ActionKeyHandler = ({ onAction }) =>
-  actionKeys.map(key => (
+  actionKeys.map(key =>
     <KeyHandler
       key={key}
       keyEventName={KEYPRESS}
       keyValue={key}
-      onKeyHandle={onAction}
-    />
-  ));
+      onKeyHandle={onAction} />
+  );
 
 export default ImageInput;
 
@@ -292,7 +255,7 @@ function read(file) {
     const reader = new FileReader();
     reader.readAsBinaryString(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = err => reject(err);
+    reader.onerror = (err) => reject(err);
   });
 }
 
@@ -300,19 +263,19 @@ function imageFromSrc(src) {
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => resolve(image);
-    image.onerror = err => reject(err);
+    image.onerror = (err) => reject(err);
 
     image.src = src;
   });
 }
 
 function drawOnCanvas(image) {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
 
   Object.assign(canvas, {
     width: image.naturalWidth || image.width,
-    height: image.naturalHeight || image.height
+    height: image.naturalHeight || image.height,
   });
 
   ctx.drawImage(image, 0, 0);
@@ -320,8 +283,9 @@ function drawOnCanvas(image) {
   return canvas;
 }
 
-const toBlob = canvas =>
-  new Promise(resolve => canvas.toBlob(blob => resolve(blob)));
+const toBlob = (canvas) =>
+  new Promise(resolve =>
+    canvas.toBlob(blob => resolve(blob)));
 
 const extractFromState = async ({ file, image: imageUrl }) => {
   if (file) {
@@ -337,7 +301,7 @@ const extractFromState = async ({ file, image: imageUrl }) => {
 
     return { encoded, image };
   } else {
-    throw new TypeError("Invalid State Object");
+    throw new TypeError('Invalid State Object');
   }
 };
 
@@ -347,4 +311,4 @@ const normalizeState = (state, exampleName) => {
   } else if (exampleName && imagesDict[exampleName]) {
     return imagesDict[exampleName];
   }
-};
+}
