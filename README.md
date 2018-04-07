@@ -14,8 +14,8 @@
 </h3>
 
 <p align='center'>
-  <a href='https://travis-ci.org/0xcaff/wordsearch'>
-    <img src='https://travis-ci.org/0xcaff/wordsearch.svg?branch=master' />
+  <a href='https://circleci.com/gh/0xcaff/wordsearch'>
+    <img src='https://circleci.com/gh/0xcaff/wordsearch.svg?style=svg' />
   </a>
 
   <a href='https://solver.0xcaff.me'>
