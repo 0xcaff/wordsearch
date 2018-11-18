@@ -14,8 +14,6 @@ import {
 
 import { clickable } from '../components/shared.module.css';
 
-// First component the user sees when the visit the site. It decides which input
-// method to use to get the wordsearch (text or image).
 const InputSelection = (props) => {
   const { history } = props;
 
