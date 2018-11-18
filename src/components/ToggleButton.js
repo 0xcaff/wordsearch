@@ -1,5 +1,5 @@
 import React from 'react';
-import { toggleButton } from './Button.css';
+import { toggleButton } from './Button.module.css';
 
 import { randomHex } from '../processing/utils';
 

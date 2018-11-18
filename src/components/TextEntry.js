@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Editor, EditorState, ContentState, CompositeDecorator } from 'draft-js';
 
-import { editor as editorClass, block as blockClass, khar as charClass } from './TextEntry.css'
+import { editor as editorClass, block as blockClass, khar as charClass } from './TextEntry.module.css'
 
 export default class TextEntry extends Component {
   constructor(props) {

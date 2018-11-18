@@ -7,7 +7,7 @@ import Button from '../components/Button';
 import {
   component as componentClass, content as contentClass, header as headerClass,
   footer as footerClass
-} from './TextInput.css';
+} from './TextInput.module.css';
 
 class TextInput extends Component {
   constructor(props) {

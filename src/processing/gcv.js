@@ -1,6 +1,6 @@
 // Wrapper for the Google Cloud Vision API.
 
-import { getSymbols } from './utils';
+import { getSymbols } from './spatialUtils';
 
 // Returns a list of symbols and their bounding boxes. All document structure
 // infered by GCV is removed.

@@ -6,15 +6,15 @@ import InputButton from '../components/InputButton';
 import { puzzles } from 'wordsearch-algo';
 import { images } from './images';
 
-import { join } from '../processing/utils';
+import { join } from "../processing/utils";
 import { unique } from '../processing/reactUtils';
 
 import {
   component as componentClass, header as headerClass, content as contentClass,
   buttonContainer, button, demos, githubLink
-} from './InputSelection.css';
+} from './InputSelection.module.css';
 
-import { clickable } from '../components/shared.css';
+import { clickable } from '../components/shared.module.css';
 
 // First component the user sees when the visit the site. It decides which input
 // method to use to get the wordsearch (text or image).

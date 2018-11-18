@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 
-import { withPosition, boundsFromRect, toggleInSet, scale } from '../processing/utils';
+import { withPosition, boundsFromRect, toggleInSet, scale } from '../processing/spatialUtils';
 
-import { component as componentClass, canvasContainer } from './Annotations.css';
+import { component as componentClass, canvasContainer } from './Annotations.module.css';
 
 const COLORS = {
   SELECTED: 'orange',

@@ -1,5 +1,5 @@
 .error {
-  composes: centered from '../components/shared.css';
+  composes: centered from '../components/shared.module.css';
   font-size: x-large;
 }
 

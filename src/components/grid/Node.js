@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   node as nodeClass, partOf as partOfClass, container as containerClass,
   content as contentClass,
-} from './Node.css';
+} from './Node.module.css';
 
 export default class Node extends Component {
   render() {

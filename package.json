@@ -3,112 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "draft-js": "^0.10.1",
-    "konva": "^1.6.3",
-    "rbush": "^2.0.1",
-    "rbush-knn": "^2.0.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-key-handler": "^1.0.0",
-    "react-loadable": "^5.3.1",
-    "react-router-dom": "^4.2.2",
-    "react-sidebar": "^2.3.2",
-    "smoothscroll-polyfill": "^0.3.6",
+    "draft-js": "^0.10.5",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1",
+    "react-sidebar": "^3.0.2",
     "wordsearch-algo": "^0.1.0"
   },
-  "devDependencies": {
-    "autoprefixer": "7.1.0",
-    "babel-core": "6.24.1",
-    "babel-eslint": "7.2.3",
-    "babel-jest": "20.0.3",
-    "babel-loader": "7.0.0",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-preset-react-app": "^3.0.0",
-    "babel-runtime": "6.23.0",
-    "canvas": "^1.6.0",
-    "case-sensitive-paths-webpack-plugin": "1.1.4",
-    "chalk": "1.1.3",
-    "css-loader": "0.28.1",
-    "dotenv": "4.0.0",
-    "eslint": "3.19.0",
-    "eslint-config-react-app": "^1.0.4",
-    "eslint-loader": "1.7.1",
-    "eslint-plugin-flowtype": "2.33.0",
-    "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jsx-a11y": "5.0.3",
-    "eslint-plugin-react": "7.0.1",
-    "extract-text-webpack-plugin": "2.1.0",
-    "file-loader": "0.11.1",
-    "fs-extra": "3.0.1",
-    "html-webpack-plugin": "2.28.0",
-    "jest": "20.0.3",
-    "object-assign": "4.1.1",
-    "postcss-flexbugs-fixes": "3.0.0",
-    "postcss-loader": "2.0.5",
-    "promise": "7.1.1",
-    "react-dev-utils": "^3.0.0",
-    "react-error-overlay": "^1.0.7",
-    "style-loader": "0.17.0",
-    "surge": "^0.20.1",
-    "sw-precache-webpack-plugin": "0.9.1",
-    "url-loader": "0.5.8",
-    "webpack": "2.6.1",
-    "webpack-dev-server": "2.4.5",
-    "webpack-manifest-plugin": "1.1.0",
-    "whatwg-fetch": "2.0.3",
-    "worker-loader": "^1.1.0"
-  },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
-    "lint": "eslint src/ --ext js"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js",
-      "<rootDir>/config/mocks.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.js?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
-    ],
-    "testEnvironment": "node",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    }
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      "syntax-dynamic-import"
-    ]
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app",
-    "rules": {
-      "no-warning-comments": [
-        "warn"
-      ],
-      "no-console": "warn",
-      "indent": [
-        "error",
-        2
-      ]
-    }
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "surge": "^0.20.1"
   }
 }

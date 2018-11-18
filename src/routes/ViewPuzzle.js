@@ -2,28 +2,22 @@ import React, { Component } from 'react';
 
 import {
   header as headerClass, expand as expandClass, backButton as backButtonClass,
-} from './ViewPuzzle.css';
+} from './ViewPuzzle.module.css';
 
-import { clickable } from '../components/shared.css';
+import { clickable } from '../components/shared.module.css';
 
 import Grid from '../components/grid/Grid';
 import List from '../components/List';
 import Button from '../components/Button';
 import ResponsiveTwoPane from '../components/ResponsiveTwoPane';
 
-import SolverWorker from '../processing/solver.worker';
-
-import { puzzles } from 'wordsearch-algo';
-import { ArrayGrid } from 'wordsearch-algo';
+import { solve, puzzles } from 'wordsearch-algo';
 
 // A component which given a 2D text input, and a wordlist displays the
 // wordsearch, solves it and displays the results.
 class ViewPuzzle extends Component {
   // A list of words for which we are searching.
   words = [];
-
-  // A list of nodes in the puzzle. This is used by the search algorithm.
-  // nodes = [];
 
   // A Grid used to render the puzzle.
   grid = null;
@@ -52,43 +46,14 @@ class ViewPuzzle extends Component {
     }
 
     const { rows, words } = normalizedState;
+    const { matches, grid } = solve(rows, words);
 
-    // Start Solving
-    const worker = new SolverWorker();
-    worker.postMessage([ rows, words ]);
-
-    // Bind methods once in the constructor to prevent re-rendering in pure
-    // child components.
-    this.onSelect = this.onSelect.bind(this);
-    this.clearSelected = this.clearSelected.bind(this);
-    this.selectMatches = this.selectMatches.bind(this);
-    this.onSolved = this.onSolved.bind(this);
-
-    Object.assign(this, { words, rows, worker });
-  }
-
-  componentDidMount() {
-    const { worker } = this;
-
-    worker.addEventListener('message', this.onSolved);
-  }
-
-  componentWillUnmount() {
-    const { worker } = this;
-
-    worker.removeEventListener('message', this.onSolved);
-  }
-
-  onSolved(event) {
-    const { data: { matches, grid: rawGrid } } = event;
-    const grid = ArrayGrid.fromData(rawGrid);
-
-    this.setState({ matches, grid });
+    Object.assign(this, { words, matches, grid, rows });
   }
 
   // Called when a grid node is moused over with a list of list of nodes to
   // select.
-  onSelect(...selection) {
+  onSelect = (...selection) => {
     const focused = selection.map(nodes =>
       nodes
         .map(node => node.value)
@@ -99,30 +64,26 @@ class ViewPuzzle extends Component {
   }
 
   // Called when a word in the word list is moused over.
-  selectMatches(word) {
-    const { matches } = this.state;
-
-    if (!matches) {
+  selectMatches = (word) => {
+    if (!this.matches) {
       // the matches haven't been found yet
       return;
     }
 
-    const results = matches[word];
-    if (!results) {
-      // no match, show some feedback
+    const matches = this.matches[word];
+    if (!matches) {
+        // no match, show some feedback
       return;
     }
 
-    this.setState({ selected: results });
+    this.setState({ selected: matches });
   }
 
-  clearSelected() {
-    this.setState({ selected: [] });
-  }
+  clearSelected = () => this.setState({ selected: [] });
 
   render() {
-    const { words, onSelect, rows, clearSelected, selectMatches } = this;
-    const { selected, focused, grid } = this.state;
+    const { grid, words, onSelect, rows, clearSelected, selectMatches } = this;
+    const { selected, focused } = this.state;
     const { history } = this.props;
 
     if (!grid || !words) {

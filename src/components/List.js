@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   focused as focusedClass, list as listClass, listItem, listItemContent,
   listItemInput, removeButton, updatable, nonUpdatable,
-} from './List.css';
+} from './List.module.css';
 
 export default class List extends Component {
   constructor(props) {

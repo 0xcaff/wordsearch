@@ -10,14 +10,14 @@ import ToggleButton from '../components/ToggleButton';
 import Annotations from '../components/Annotations';
 import TouchEnabled from '../components/TouchEnabled';
 
-import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from '../processing/utils';
+import { buildRTree, findGrid, sortWordSelected, getPuzzleFromGrid } from '../processing/spatialUtils';
 import { detectText } from '../processing/gcv';
 
-import { centered as centeredClass, clickable as clickableClass } from '../components/shared.css';
+import { centered as centeredClass, clickable as clickableClass } from '../components/shared.module.css';
 import {
   error as errorClass, header as headerClass, content as contentClass,
   buttonContainer as buttonContainerClass,
-} from './ImageInput.css';
+} from './ImageInput.module.css';
 
 import { dict as imagesDict } from './images';
 

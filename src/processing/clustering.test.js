@@ -1,4 +1,4 @@
-import { estimateExtrema } from './utils';
+import { estimateExtrema } from './spatialUtils';
 
 const estimates = ({ f0r, dim }) =>
   `estimates clusters for the ${f0r} puzzle in the ${dim}-dimension`;

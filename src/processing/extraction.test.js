@@ -2,7 +2,7 @@
 // together.
 
 import rbush from 'rbush';
-import { findGrid, getPuzzleFromGrid } from './utils';
+import { findGrid, getPuzzleFromGrid } from './spatialUtils';
 
 // Removes the leading and trailing newline from the output string.
 const trim = (str) => {

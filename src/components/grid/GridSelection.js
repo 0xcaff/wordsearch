@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { component as componentClass } from './GridSelection.css';
+import { component as componentClass } from './GridSelection.module.css';
 
 // A component which highlights nodes between two points.
 export default class GridSelection extends PureComponent {

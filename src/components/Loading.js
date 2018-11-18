@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { loadingText } from './Loading.css';
+import { loadingText } from './Loading.module.css';
 
 const Loading = () =>
   <svg

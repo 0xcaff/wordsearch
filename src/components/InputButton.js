@@ -1,5 +1,5 @@
 import React from 'react';
-import { inputButton, button } from './Button.css';
+import { inputButton, button } from './Button.module.css';
 
 const ButtonInput = ({ children, className, onChange }) =>
   <label

@@ -1,6 +1,6 @@
 // Tests for sortWordSelected.
 
-import { sortWordSelected } from './utils';
+import { sortWordSelected } from './spatialUtils';
 
 const data = [{
   it: 'should sort diagonal nodes downards and to the right from left to right',

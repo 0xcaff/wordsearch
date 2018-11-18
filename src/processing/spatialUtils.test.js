@@ -1,6 +1,6 @@
 import {
   stddev, getSymbols, boundsOfVertices, mean, required, findExtrema, scale, join
-} from './utils';
+} from './spatialUtils';
 
 const example = {
   pages: [{

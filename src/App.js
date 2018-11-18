@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -6,13 +6,23 @@ import {
   Redirect,
 } from 'react-router-dom'
 
-import { asyncComponent } from './components/Loadable';
-
+import { centered } from './components/shared.module.css';
 import Analytics from './analytics/component';
+import Loading from "./components/Loading";
+
+const InputSelection = lazy(() => import("./routes/InputSelection"));
+const TextInput = lazy(() => import("./routes/TextInput"));
+// const ImageInput = lazy(() => import("./routes/ImageInput"));
+const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
 
 class App extends Component {
   render() {
     return (
+      <Suspense fallback={
+        <div className={centered}>
+          <Loading />
+        </div>
+      }>
       <Router>
         <div className='App'>
           <Analytics />
@@ -21,30 +31,24 @@ class App extends Component {
 
             <Route
               path='/'
-              component={ asyncComponent(() =>
-                import(/* webpackChunkName: "home" */ './routes/InputSelection')
-              )}
+              render={props => <InputSelection {...props} />}
               exact />
 
             <Route
               path='/input/text'
-              component={ asyncComponent(() =>
-                import(/* webpackChunkName: "text" */ './routes/TextInput')
-              )}
+              render={props => <TextInput {...props} />}
               exact />
 
+            {/*
             <Route
               path='/input/image/:example?'
-              component={ asyncComponent(() =>
-                import(/* webpackChunkName: "image" */ './routes/ImageInput')
-              )}
+              component={ImageInput}
               exact />
+            */}
 
             <Route
               path='/view/:example?'
-              component={ asyncComponent(() =>
-                import(/* webpackChunkName: "view" */ './routes/ViewPuzzle')
-              )}
+              render={props => <ViewPuzzle {...props} />}
               exact />
 
             {/* Redirect any non-matching routes to the exact root. */}
@@ -52,6 +56,7 @@ class App extends Component {
           </Switch>
         </div>
       </Router>
+      </Suspense>
     );
   }
 }

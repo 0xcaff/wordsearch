@@ -1,5 +1,5 @@
 import React from 'react';
-import { button } from './Button.css';
+import { button } from './Button.module.css';
 
 const Button = ({ onClick, className, children }) =>
   <span

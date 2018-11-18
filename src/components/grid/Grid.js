@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import GridSelection from './GridSelection';
 import GridNodes from './GridNodes';
 
-import { component as componentClass } from './Grid.css';
+import { component as componentClass } from './Grid.module.css';
 
 export default class Grid extends PureComponent {
   render() {
