@@ -1,10 +1,8 @@
 import React from 'react';
 
 import Button from '../components/Button';
-import InputButton from '../components/InputButton';
 
 import { puzzles } from 'wordsearch-algo';
-import { images } from './images';
 
 import { join } from "../processing/utils";
 import { unique } from '../processing/reactUtils';
@@ -29,22 +27,6 @@ const InputSelection = (props) => {
 
       <main className={contentClass}>
         <div className={buttonContainer}>
-          <InputButton
-            className={button}
-            onChange={event => {
-              if (
-                !event || !event.target || !event.target.files ||
-                !event.target.files.length) {
-
-                return;
-              }
-
-              const [ file ] = event.target.files;
-              history.push('/input/image', { file });
-            }}>
-              Select from Image
-          </InputButton>
-
           <Button
             className={button}
             onClick={() => history.push('/input/text')}>
@@ -54,8 +36,7 @@ const InputSelection = (props) => {
         </div>
 
         <DemoPuzzles
-          onClickPuzzle={ name => history.push(`/view/${name}`) }
-          onClickImage={ name => history.push(`/input/image/${name}`) } />
+          onClickPuzzle={ name => history.push(`/view/${name}`) } />
 
         <a
           className={githubLink}
@@ -71,7 +52,7 @@ const InputSelection = (props) => {
 export default InputSelection;
 
 const DemoPuzzles = (props) => {
-  const { onClickPuzzle, onClickImage } = props;
+  const { onClickPuzzle } = props;
 
   const commaElem = <span>, </span>;
   const textArr = Object.entries(puzzles)
@@ -85,19 +66,9 @@ const DemoPuzzles = (props) => {
 
   const textPuzzles = unique(join(textArr, commaElem));
 
-  const imagesArr = images.map(({ name }) =>
-    <span
-      className={clickable}
-      onClick={_ => onClickImage(name)}>
-      { name }
-    </span>
-  );
-
-  const imagePuzzles = unique(join(imagesArr, commaElem));
-
   return (
     <p className={demos}>
-      Try one of these puzzles: { textPuzzles }, or one of these images: { imagePuzzles }.
+      Try one of these puzzles: { textPuzzles }.
     </p>
   );
 }

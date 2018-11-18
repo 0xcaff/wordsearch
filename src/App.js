@@ -12,7 +12,6 @@ import Loading from "./components/Loading";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
-// const ImageInput = lazy(() => import("./routes/ImageInput"));
 const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
 
 class App extends Component {

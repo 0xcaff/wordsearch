@@ -8,8 +8,3 @@ export const join = (input, btwn) =>
 
         return addedVal;
     }, []);
-
-export const randomHex = () => Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16);
-
-export const required = (name) => { throw new TypeError(`${name} is a required parameter`) };
-
