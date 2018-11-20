@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { loadingText } from './Loading.module.css';
+import styles from './Loading.module.css';
 
 const Loading = () =>
   <svg
@@ -11,7 +10,7 @@ const Loading = () =>
     <text
       x='0'
       y='0'
-      className={loadingText}>
+      className={styles.loadingText}>
         Loading...
     </text>
   </svg>

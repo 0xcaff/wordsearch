@@ -1,20 +1,20 @@
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom';
 import './snippet';
 
 const isDev = process.env.NODE_ENV === 'development';
 if (isDev) {
-  window.analytics.debug();
+    (window as any).analytics.debug();
 }
 
-export default withRouter(({ location, history }) => {
+export default withRouter(props => {
   if (process.env.NODE_ENV === 'test') {
     return null;
   }
 
   // Track Current Page
-  window.analytics.page({
+    (window as any).analytics.page({
     isDev,
-    path: location.pathname,
+    path: props.location.pathname,
   });
 
   return null;

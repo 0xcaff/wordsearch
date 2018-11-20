@@ -1,4 +1,4 @@
-export const join = (input, btwn) =>
+export const join = <T>(input: T[], btwn: T): T[] =>
     input.reduce((acc, val, idx, arr) => {
         const addedVal = acc.concat(val);
 
@@ -7,4 +7,4 @@ export const join = (input, btwn) =>
         }
 
         return addedVal;
-    }, []);
+    }, [] as T[]);
