@@ -11,7 +11,7 @@ import Analytics from './analytics/component';
 import Loading from "./components/Loading";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
-// const TextInput = lazy(() => import("./routes/TextInput"));
+const TextInput = lazy(() => import("./routes/TextInput"));
 // const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
 
 class App extends Component {
@@ -37,12 +37,17 @@ class App extends Component {
               }
               exact />
 
-            {/*
             <Route
               path='/input/text'
-              render={props => <TextInput {...props} />}
+              render={props =>
+                <TextInput
+                  startingRows={props.location.state && props.location.state.rows}
+                  startingWords={props.location.state && props.location.state.words}
+                  solvePuzzle={
+                    (rows, words) => props.history.push('/view', { rows, words })
+                  } />
+              }
               exact />
-              */}
 
             {/*
             <Route

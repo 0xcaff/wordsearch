@@ -33,11 +33,11 @@
   text-align: center;
 }
 
-.updatable .removeButton:hover {
+.removeButton:hover {
 	background: #ddd;
 }
 
-.nonUpdatable .listItem:hover, .static .listItem:focus {
+.static .listItem:hover, .static .listItem:focus {
 	background: #ddd;
 }
 
