@@ -2,10 +2,6 @@
 	text-align: start;
 }
 
-.focused {
-	animation: 0.7s ease-out in-focus forwards;
-}
-
 .listItem {
 	padding: 0.5em;
 	margin: 0.5em;
@@ -39,9 +35,4 @@
 
 .static .listItem:hover, .static .listItem:focus {
 	background: #ddd;
-}
-
-@keyframes in-focus {
-	from { background: #F57F17; }
-	to { background: #ddd; }
 }

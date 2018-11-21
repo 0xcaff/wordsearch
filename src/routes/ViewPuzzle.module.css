@@ -1,17 +1,14 @@
-.header {
-  text-align: center;
+.container {
 }
 
-.backButton {
-  margin-left: 40px;
-  margin-top: 2em;
-  margin-bottom: 2em;
+.mainArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  overflow-y: auto;
 }
 
-.expand {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 2em;
-  margin-right: 2em;
+.sidebar {
+  padding: 1em 2em;
 }
+

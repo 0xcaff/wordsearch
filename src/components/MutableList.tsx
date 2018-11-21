@@ -41,7 +41,7 @@ class MutableList extends Component<Props> {
 
   render() {
     return (
-      <div className={[styles.list].join(' ')}>
+      <div className={styles.list}>
         <ul>
           {this.props.items.map((item, idx) =>
             <li key={idx} className={styles.listItem}>
