@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Set, Record} from 'immutable';
 import styles from './ViewPuzzle.module.css';
+import {Set} from 'immutable';
 import WordList from "../components/WordList";
+import Puzzle from "../components/Puzzle";
 
 interface Props {
   rows: string[],
@@ -9,27 +10,16 @@ interface Props {
   toEditor: () => void,
 }
 
-interface Position {
-  rowIdx: number,
-  colIdx: number,
-}
-
 interface State {
   /**
    * A set of words which is focused. When a word is focused it becomes highlighted in the word list.
    */
   focused: Set<string>
-
-  /**
-   * A set of positions in the puzzle which should be highlighted.
-   */
-  selected: Set<Record<Position>>
 }
 
 class ViewPuzzle extends Component<Props, State> {
   state = {
     focused: Set(),
-    selected: Set(),
   };
 
   focusWord = (word: string) =>
@@ -41,6 +31,7 @@ class ViewPuzzle extends Component<Props, State> {
   render() {
     return <div className={styles.container}>
       <div className={styles.mainArea}>
+        <Puzzle rows={this.props.rows} />
       </div>
 
       <div className={styles.sidebar}>
@@ -52,5 +43,11 @@ class ViewPuzzle extends Component<Props, State> {
     </div>;
   }
 }
+
+// TODO:
+// Compute:
+//  * Map of Word -> Matches
+//  * Map of Every Position -> Matches Over Position
+//  * Rows and Cols in Puzzle
 
 export default ViewPuzzle;
