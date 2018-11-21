@@ -15,7 +15,7 @@ interface Props {
 const TextInput = (props: Props) => {
   const startingRows = props.startingRows || [];
   const startingWords = props.startingWords || [];
-  const [text, setText] = useState(startingRows.join());
+  const [text, setText] = useState(startingRows.join('\n'));
   const [words, setWords] = useState(startingWords);
 
   return (
