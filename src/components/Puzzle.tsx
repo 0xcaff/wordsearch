@@ -1,10 +1,12 @@
 import React, { Component, CSSProperties } from "react";
 import styles from "./Puzzle.module.css";
-import PuzzleNodes from "./PuzzleNodes";
+import PuzzleNodes, { Node } from "./PuzzleNodes";
+import PuzzleGridHighlight from "./PuzzleGridHighlight";
 import { Map, Record } from "immutable";
 import memoize from "fast-memoize";
 
 import { Match } from "wordsearch-algo/lib/search/algorithms";
+import { Position } from "wordsearch-algo/lib/directions";
 import { findMatches } from "wordsearch-algo/lib/search/prefix";
 import { tweenPosition } from "../tweenPosition";
 
@@ -24,19 +26,14 @@ interface Props {
   selectedWord?: string;
 }
 
-export interface Position {
-  rowIdx: number;
-  colIdx: number;
+interface State {
+  pointerPosition?: Position;
 }
 
 const PositionRecord: Record.Factory<Position> = Record({
   rowIdx: -1,
   colIdx: -1
 });
-
-interface State {
-  pointerPosition?: Position;
-}
 
 const getSize = memoize((rows: string[]) => {
   let colsCount = 0;
@@ -64,10 +61,7 @@ const getMatchesAt = memoize((rows: string[], words: string[]) => {
       match.end.rowIdx,
       match.end.colIdx
     )) {
-      const record = PositionRecord({
-        colIdx: position.col,
-        rowIdx: position.row
-      });
+      const record = PositionRecord(position);
       let array = matchesAt.get(record);
 
       if (!array) {
@@ -81,6 +75,29 @@ const getMatchesAt = memoize((rows: string[], words: string[]) => {
 
   return matchesAt;
 });
+
+const getNodes = memoize(
+  (rows: string[], words: string[]): Node[] => {
+    const matchesAt = getMatchesAt(rows, words);
+
+    const nodes = rows.flatMap((row, rowIdx) =>
+      row.split("").map((content, colIdx) => {
+        const position = { rowIdx, colIdx };
+        const matchesAtPosition = matchesAt.get(PositionRecord(position)) || [];
+
+        return {
+          content,
+          position,
+          isHighlighted: matchesAtPosition.length > 0
+        };
+      })
+    );
+
+    return nodes;
+  }
+);
+
+const hasPaintWorklet = "paintWorklet" in CSS;
 
 class Puzzle extends Component<Props, State> {
   state = {} as State;
@@ -134,15 +151,55 @@ class Puzzle extends Component<Props, State> {
   };
 
   render() {
-    return (
-      <div
-        className={styles.grid}
-        style={this.getStyle()}
-        onPointerLeave={() => this.setState({ pointerPosition: undefined })}
-      >
-        <PuzzleNodes rows={this.props.rows} onSelect={this.onSelect} />
-      </div>
-    );
+    if (hasPaintWorklet) {
+      return (
+        <div
+          className={[styles.grid, styles.withPaintWorklet].join(" ")}
+          style={this.getStyle()}
+          onPointerLeave={() => this.setState({ pointerPosition: undefined })}
+        >
+          <PuzzleNodes
+            usePaintWorklet={true}
+            nodes={getNodes(this.props.rows, this.props.words)}
+            onSelect={this.onSelect}
+          />
+        </div>
+      );
+    } else {
+      const matches = getMatches(this.props.rows, this.props.words);
+      const matchesAt = getMatchesAt(this.props.rows, this.props.words);
+      const matchesAtPointer =
+        matchesAt.get(PositionRecord(this.state.pointerPosition)) || [];
+
+      const matchesForWord = this.props.selectedWord
+        ? matches.filter(match => match.word === this.props.selectedWord)
+        : [];
+
+      const highlightedMatches = [...matchesAtPointer, ...matchesForWord];
+
+      return (
+        <div
+          className={styles.grid}
+          onPointerLeave={() => this.setState({ pointerPosition: undefined })}
+        >
+          <PuzzleNodes
+            usePaintWorklet={false}
+            nodes={getNodes(this.props.rows, this.props.words)}
+            onSelect={this.onSelect}
+          />
+
+          {highlightedMatches.map(match => (
+            <PuzzleGridHighlight
+              key={`${match.start.rowIdx}:${match.start.colIdx}:${
+                match.end.rowIdx
+              }:${match.end.colIdx}`}
+              start={match.start}
+              end={match.end}
+            />
+          ))}
+        </div>
+      );
+    }
   }
 }
 

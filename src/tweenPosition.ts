@@ -4,18 +4,18 @@ export function* tweenPosition(
   endRow: number,
   endCol: number
 ) {
-  let row = startRow;
-  let col = startCol;
+  let rowIdx = startRow;
+  let colIdx = startCol;
 
-  while (row !== endRow || col !== endCol) {
-    yield { row: row, col: col };
+  while (rowIdx !== endRow || colIdx !== endCol) {
+    yield { rowIdx, colIdx };
 
     // push by one
-    row = moveTowards(row, endRow);
-    col = moveTowards(col, endCol);
+    rowIdx = moveTowards(rowIdx, endRow);
+    colIdx = moveTowards(colIdx, endCol);
   }
 
-  yield { row, col };
+  yield { rowIdx, colIdx };
 }
 
 function moveTowards(number: number, towards: number) {

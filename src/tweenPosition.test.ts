@@ -2,10 +2,10 @@ import { tweenPosition } from "./tweenPosition";
 
 it("should tween in an row line", () => {
   const expected = [
-    { row: 0, col: 0 },
-    { row: 1, col: 0 },
-    { row: 2, col: 0 },
-    { row: 3, col: 0 }
+    { rowIdx: 0, colIdx: 0 },
+    { rowIdx: 1, colIdx: 0 },
+    { rowIdx: 2, colIdx: 0 },
+    { rowIdx: 3, colIdx: 0 }
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 0, 3, 0)), expected);
@@ -18,10 +18,10 @@ it("should tween in an row line", () => {
 
 it("should tween in a col line", () => {
   const expected = [
-    { row: 0, col: 0 },
-    { row: 0, col: 1 },
-    { row: 0, col: 2 },
-    { row: 0, col: 3 }
+    { rowIdx: 0, colIdx: 0 },
+    { rowIdx: 0, colIdx: 1 },
+    { rowIdx: 0, colIdx: 2 },
+    { rowIdx: 0, colIdx: 3 }
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 0, 0, 3)), expected);
@@ -34,17 +34,20 @@ it("should tween in a col line", () => {
   expectArrayToMatch(
     Array.from(tweenPosition(13, 32, 13, 20)),
 
-    // from {row: 13, col: 20} -> {row: 13, col: 20}
-    [...Array(32 - 20 + 1)].map((_, index) => ({ row: 13, col: 32 - index }))
+    // from {rowIdx: 13, colIdx: 20} -> {rowIdx: 13, colIdx: 20}
+    [...Array(32 - 20 + 1)].map((_, index) => ({
+      rowIdx: 13,
+      colIdx: 32 - index
+    }))
   );
 });
 
 it("should tween diagonally down right and up left", () => {
   const expected = [
-    { row: 0, col: 0 },
-    { row: 1, col: 1 },
-    { row: 2, col: 2 },
-    { row: 3, col: 3 }
+    { rowIdx: 0, colIdx: 0 },
+    { rowIdx: 1, colIdx: 1 },
+    { rowIdx: 2, colIdx: 2 },
+    { rowIdx: 3, colIdx: 3 }
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 0, 3, 3)), expected);
@@ -57,10 +60,10 @@ it("should tween diagonally down right and up left", () => {
 
 it("should tween diagonally up right and down left", () => {
   const expected = [
-    { row: 0, col: 3 },
-    { row: 1, col: 2 },
-    { row: 2, col: 1 },
-    { row: 3, col: 0 }
+    { rowIdx: 0, colIdx: 3 },
+    { rowIdx: 1, colIdx: 2 },
+    { rowIdx: 2, colIdx: 1 },
+    { rowIdx: 3, colIdx: 0 }
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 3, 3, 0)), expected);

@@ -5,13 +5,21 @@ interface Props {
   rowIdx: number;
   colIdx: number;
   content: string;
+  isHighlighted: boolean;
+  usePaintWorklet: boolean;
 
   onEnter: () => void;
 }
 
 const PuzzleNode = (props: Props) => (
   <div
-    className={styles.container}
+    className={[
+      styles.container,
+      !props.usePaintWorklet && styles.withoutPaintWorklet,
+      props.isHighlighted && styles.highlighted
+    ]
+      .filter(d => !!d)
+      .join(" ")}
     style={{
       gridColumnStart: props.colIdx + 1,
       gridRowStart: props.rowIdx + 1

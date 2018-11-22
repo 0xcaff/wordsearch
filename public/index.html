@@ -18,7 +18,9 @@
     -->
     <title>The Solver</title>
     <script>
-      CSS.paintWorklet.addModule('%PUBLIC_URL%/puzzle-grid-highlight.paint.js');
+      if ('paintWorklet' in CSS) {
+        CSS.paintWorklet.addModule('%PUBLIC_URL%/puzzle-grid-highlight.paint.js');
+      }
     </script>
   </head>
   <body>

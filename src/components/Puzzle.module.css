@@ -1,5 +1,8 @@
-.grid {
+.withPaintWorklet {
   background: paint(puzzle-grid-highlight);
+}
+
+.grid {
   display: inline-grid;
   cursor: default;
 

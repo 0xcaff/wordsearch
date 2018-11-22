@@ -1,31 +1,36 @@
 import React, { memo } from "react";
-import { Position } from "./Puzzle";
+import { Position } from "wordsearch-algo/lib/directions";
 import PuzzleNode from "./PuzzleNode";
 
 interface Props {
-  rows: string[];
+  nodes: Node[];
+  usePaintWorklet: boolean;
   onSelect: (selected: Position) => void;
+}
+
+export interface Node {
+  isHighlighted: boolean;
+  position: Position;
+  content: string;
 }
 
 const PuzzleNodes = memo((props: Props) => (
   <>
-    {props.rows.flatMap((row, rowIdx) =>
-      row
-        .split("")
-        .map((col, colIdx) => (
-          <PuzzleNode
-            key={keyOf(rowIdx, colIdx, col)}
-            onEnter={() => props.onSelect({ rowIdx, colIdx })}
-            content={col}
-            rowIdx={rowIdx}
-            colIdx={colIdx}
-          />
-        ))
-    )}
+    {props.nodes.map(node => (
+      <PuzzleNode
+        key={keyOf(node)}
+        rowIdx={node.position.rowIdx}
+        colIdx={node.position.colIdx}
+        content={node.content}
+        isHighlighted={node.isHighlighted}
+        usePaintWorklet={props.usePaintWorklet}
+        onEnter={() => props.onSelect(node.position)}
+      />
+    ))}
   </>
 ));
 
-const keyOf = (rowIdx: number, colIdx: number, col: string): string =>
-  `${rowIdx}:${colIdx}:${col}`;
+const keyOf = (node: Node): string =>
+  `${node.position.rowIdx}:${node.position.colIdx}:${node.content}`;
 
 export default PuzzleNodes;
