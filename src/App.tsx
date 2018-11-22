@@ -6,10 +6,10 @@ import {
   Redirect
 } from "react-router-dom";
 
-import styles from "./components/shared.module.css";
 import Analytics from "./analytics/component";
-import Loading from "./components/Loading";
+import { FullPageLoading } from "./components/Loading";
 import { puzzles } from "wordsearch-algo";
+import DataFetcher from "./components/DataFetcher";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
@@ -18,13 +18,7 @@ const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
 class App extends Component {
   render() {
     return (
-      <Suspense
-        fallback={
-          <div className={styles.centered}>
-            <Loading />
-          </div>
-        }
-      >
+      <Suspense fallback={<FullPageLoading />}>
         <Router>
           <div className="App">
             <Analytics />
@@ -51,10 +45,10 @@ class App extends Component {
               />
 
               <Route
-                path="/view/:example?"
+                path="/view/:id?"
                 render={props => {
                   const puzzle = normalizePuzzle(
-                    props.match.params.example,
+                    props.match.params.id,
                     props.location.state
                   );
                   if (!puzzle) {
@@ -63,11 +57,26 @@ class App extends Component {
                   }
 
                   return (
-                    <ViewPuzzle
-                      words={puzzle.words}
-                      rows={puzzle.rows}
-                      toEditor={() => props.history.push("/input/text", puzzle)}
-                    />
+                    <DataFetcher
+                      id={props.match.params.id}
+                      data={props.location.state}
+                    >
+                      {childProps => {
+                        if (childProps.isLoading) {
+                          return <FullPageLoading />;
+                        }
+
+                        return (
+                          <ViewPuzzle
+                            words={childProps.data.words}
+                            rows={childProps.data.rows}
+                            toEditor={() =>
+                              props.history.push("/input/text", puzzle)
+                            }
+                          />
+                        );
+                      }}
+                    </DataFetcher>
                   );
                 }}
                 exact
