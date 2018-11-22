@@ -1,7 +1,6 @@
 import React from "react";
 import listStyles from "./List.module.css";
 import styles from "./WordList.module.css";
-import Button from "./Button";
 
 interface Word {
   /**
@@ -32,11 +31,6 @@ interface Props {
    * @param word The word which was unfocused.
    */
   onUnSelectWord: (word: string) => void;
-
-  /**
-   * Called when the edit button at the bottom of the list is pressed.
-   */
-  onEdit: () => void;
 }
 
 const WordList = (props: Props) => (
@@ -63,10 +57,6 @@ const WordList = (props: Props) => (
           ))}
         </ul>
       </div>
-
-      <Button className={styles.backButton} onClick={props.onEdit}>
-        Edit
-      </Button>
     </div>
   </div>
 );

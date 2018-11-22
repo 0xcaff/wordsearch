@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styles from "./ViewPuzzle.module.css";
-import { Set } from "immutable";
-import WordList from "../components/WordList";
+import Button from "../components/Button";
 import Puzzle from "../components/Puzzle";
+import WordList from "../components/WordList";
+import { Set } from "immutable";
 
 interface Props {
   rows: string[];
@@ -42,10 +43,13 @@ const ViewPuzzle = (props: Props) => {
             word,
             isFocused: focused.has(word)
           }))}
-          onEdit={props.toEditor}
           onSelectWord={setSelectedWord}
           onUnSelectWord={() => setSelectedWord(undefined)}
         />
+
+        <Button className={styles.backButton} onClick={props.toEditor}>
+          Edit
+        </Button>
       </div>
     </div>
   );
