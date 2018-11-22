@@ -1,38 +1,41 @@
-import React, {Component, CSSProperties} from 'react';
-import styles from './Puzzle.module.css';
+import React, { Component, CSSProperties } from "react";
+import styles from "./Puzzle.module.css";
 import PuzzleNodes from "./PuzzleNodes";
-import {Map, Record} from "immutable";
-import memoize from 'fast-memoize';
+import { Map, Record } from "immutable";
+import memoize from "fast-memoize";
 
-import {Match} from 'wordsearch-algo/lib/search/algorithms';
-import {findMatches} from "wordsearch-algo/lib/search/prefix";
-import {tweenPosition} from "../tweenPosition";
+import { Match } from "wordsearch-algo/lib/search/algorithms";
+import { findMatches } from "wordsearch-algo/lib/search/prefix";
+import { tweenPosition } from "../tweenPosition";
 
 interface Props {
-  words: string[],
-  rows: string[],
+  words: string[];
+  rows: string[];
 
   /**
    * Called to focus words in the word list.
    * @param word The words to focus.
    */
-  focusWords: (words: string[]) => void,
+  focusWords: (words: string[]) => void;
 
   /**
    * Word which was selected in the word list by the user.
    */
-  selectedWord?: string
+  selectedWord?: string;
 }
 
 export interface Position {
-  rowIdx: number,
-  colIdx: number,
+  rowIdx: number;
+  colIdx: number;
 }
 
-const PositionRecord: Record.Factory<Position> = Record({ rowIdx: -1, colIdx: -1 });
+const PositionRecord: Record.Factory<Position> = Record({
+  rowIdx: -1,
+  colIdx: -1
+});
 
 interface State {
-  pointerPosition?: Position,
+  pointerPosition?: Position;
 }
 
 const getSize = memoize((rows: string[]) => {
@@ -55,8 +58,16 @@ const getMatchesAt = memoize((rows: string[], words: string[]) => {
   for (let idx = 0; idx < matches.length; idx++) {
     const match = matches[idx];
 
-    for (const position of tweenPosition(match.start.rowIdx, match.start.colIdx, match.end.rowIdx, match.end.colIdx)) {
-      const record = PositionRecord({ colIdx: position.col, rowIdx: position.row });
+    for (const position of tweenPosition(
+      match.start.rowIdx,
+      match.start.colIdx,
+      match.end.rowIdx,
+      match.end.colIdx
+    )) {
+      const record = PositionRecord({
+        colIdx: position.col,
+        rowIdx: position.row
+      });
       let array = matchesAt.get(record);
 
       if (!array) {
@@ -76,7 +87,8 @@ class Puzzle extends Component<Props, State> {
 
   onSelect = (pointerPosition: Position) => {
     const matchesAt = getMatchesAt(this.props.rows, this.props.words);
-    const matchesAtPointer = matchesAt.get(PositionRecord(pointerPosition)) || [];
+    const matchesAtPointer =
+      matchesAt.get(PositionRecord(pointerPosition)) || [];
 
     this.setState({ pointerPosition });
     this.props.focusWords(matchesAtPointer.map(match => match.word));
@@ -98,20 +110,26 @@ class Puzzle extends Component<Props, State> {
     for (let idx = 0; idx < matches.length; idx++) {
       const match = matches[idx];
 
-      highlighted.push(
-        [match.start.rowIdx, match.start.colIdx, match.end.rowIdx, match.end.colIdx]
-      );
+      highlighted.push([
+        match.start.rowIdx,
+        match.start.colIdx,
+        match.end.rowIdx,
+        match.end.colIdx
+      ]);
 
-      if (matchesAtPointer.includes(match) || this.props.selectedWord && match.word === this.props.selectedWord) {
+      if (
+        matchesAtPointer.includes(match) ||
+        (this.props.selectedWord && match.word === this.props.selectedWord)
+      ) {
         hovered.push(idx);
       }
     }
 
     return {
-      '--rows': size.rowsCount,
-      '--cols': size.colsCount,
-      '--highlighted': JSON.stringify(highlighted),
-      '--hovered': JSON.stringify(hovered),
+      "--rows": size.rowsCount,
+      "--cols": size.colsCount,
+      "--highlighted": JSON.stringify(highlighted),
+      "--hovered": JSON.stringify(hovered)
     } as CSSProperties;
   };
 
@@ -120,10 +138,9 @@ class Puzzle extends Component<Props, State> {
       <div
         className={styles.grid}
         style={this.getStyle()}
-        onPointerLeave={() => this.setState({ pointerPosition: undefined })}>
-        <PuzzleNodes
-          rows={this.props.rows}
-          onSelect={this.onSelect} />
+        onPointerLeave={() => this.setState({ pointerPosition: undefined })}
+      >
+        <PuzzleNodes rows={this.props.rows} onSelect={this.onSelect} />
       </div>
     );
   }

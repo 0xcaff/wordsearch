@@ -20,6 +20,8 @@
     "wordsearch-algo": "^2.1.1"
   },
   "scripts": {
+    "fix-formatting": "prettier --write '**/*.{tsx,ts,js}'",
+    "check-formatting": "prettier --list-different '**/*.{tsx,ts,js}'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -35,6 +37,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "prettier": "^1.15.2",
     "surge": "^0.20.1"
   }
 }

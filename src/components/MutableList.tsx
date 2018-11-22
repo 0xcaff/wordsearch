@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import styles from './List.module.css';
+import React, { Component } from "react";
+import styles from "./List.module.css";
 
 interface Props {
-  items: string[],
-  children: (item: string) => React.ReactNode,
-  onChange: (newItems: string[]) => void,
+  items: string[];
+  children: (item: string) => React.ReactNode;
+  onChange: (newItems: string[]) => void;
 }
 
 class MutableList extends Component<Props> {
@@ -20,7 +20,7 @@ class MutableList extends Component<Props> {
   private handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
 
-    const lines = event.clipboardData.getData('text/plain').split(/\r?\n/);
+    const lines = event.clipboardData.getData("text/plain").split(/\r?\n/);
     this.addItems(...lines);
   };
 
@@ -43,7 +43,7 @@ class MutableList extends Component<Props> {
     return (
       <div className={styles.list}>
         <ul>
-          {this.props.items.map((item, idx) =>
+          {this.props.items.map((item, idx) => (
             <li key={idx} className={styles.listItem}>
               <span className={styles.listItemContent}>
                 {this.props.children(item)}
@@ -52,17 +52,13 @@ class MutableList extends Component<Props> {
                   onClick={() => this.removeItem(idx)}
                   className={styles.removeButton}
                 >
-                   x
-                 </span>
+                  x
+                </span>
               </span>
             </li>
-          )}
+          ))}
 
-          <li
-            className={styles.listItem}
-            key={-1}
-            title="Enter Word...">
-
+          <li className={styles.listItem} key={-1} title="Enter Word...">
             <input
               className={styles.listItemInput}
               onPaste={this.handlePaste}

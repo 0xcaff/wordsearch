@@ -1,14 +1,14 @@
 class HighlightPainter {
   static get inputProperties() {
-    return ['--rows', '--cols', '--highlighted', '--hovered'];
+    return ["--rows", "--cols", "--highlighted", "--hovered"];
   }
 
   paint(ctx, geom, properties) {
-    const rows = parseInt(properties.get('--rows').toString());
-    const cols = parseInt(properties.get('--cols').toString());
+    const rows = parseInt(properties.get("--rows").toString());
+    const cols = parseInt(properties.get("--cols").toString());
 
-    const highlighted = JSON.parse(properties.get('--highlighted').toString());
-    const hovered = JSON.parse(properties.get('--hovered').toString());
+    const highlighted = JSON.parse(properties.get("--highlighted").toString());
+    const hovered = JSON.parse(properties.get("--hovered").toString());
 
     const height = geom.height / rows;
     const width = geom.width / cols;
@@ -27,24 +27,18 @@ class HighlightPainter {
 
     const drawLine = (startRow, startCol, endRow, endCol, isHovered) => {
       ctx.beginPath();
-      ctx.moveTo(
-        startCol * width + width / 2,
-        startRow * height + height / 2,
-      );
+      ctx.moveTo(startCol * width + width / 2, startRow * height + height / 2);
 
-      ctx.lineTo(
-        endCol * width + width / 2,
-        endRow * height + height / 2,
-      );
-      ctx.lineCap = 'round';
-      ctx.lineWidth = width * 0.90;
-      ctx.strokeStyle = isHovered ? '#F57F17' : '#ffeb3b';
+      ctx.lineTo(endCol * width + width / 2, endRow * height + height / 2);
+      ctx.lineCap = "round";
+      ctx.lineWidth = width * 0.9;
+      ctx.strokeStyle = isHovered ? "#F57F17" : "#ffeb3b";
       ctx.stroke();
     };
 
     const drawLineAtIdx = (idx, isHovered) => {
       const instance = highlighted[idx];
-      const [ startRow, startCol, endRow, endCol ] = instance;
+      const [startRow, startCol, endRow, endCol] = instance;
       drawLine(startRow, startCol, endRow, endCol, isHovered);
     };
 
@@ -59,4 +53,4 @@ class HighlightPainter {
   }
 }
 
-registerPaint('puzzle-grid-highlight', HighlightPainter);
+registerPaint("puzzle-grid-highlight", HighlightPainter);
