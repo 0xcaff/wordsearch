@@ -1,18 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-import Button from "../components/Button";
+import buttonStyles from "../components/Button.module.css";
+import sharedStyles from "../components/shared.module.css";
+import styles from "./InputSelection.module.css";
 import { puzzles } from "wordsearch-algo";
 import { join } from "../utils";
 
-import sharedStyles from "../components/shared.module.css";
-import styles from "./InputSelection.module.css";
-
-interface Props {
-  goToTextInput: () => void;
-  goToExample: (example: string) => void;
-}
-
-const InputSelection = (props: Props) => {
+const InputSelection = () => {
   return (
     <div className={styles.component}>
       <header className={styles.header}>
@@ -21,12 +16,15 @@ const InputSelection = (props: Props) => {
 
       <main className={styles.content}>
         <div className={styles.buttonContainer}>
-          <Button className={styles.button} onClick={props.goToTextInput}>
+          <Link
+            className={[styles.button, buttonStyles.button].join(" ")}
+            to="/input/text"
+          >
             Enter Text
-          </Button>
+          </Link>
         </div>
 
-        <DemoPuzzles onClickPuzzle={props.goToExample} />
+        <DemoPuzzles />
 
         <a
           className={styles.githubLink}
@@ -41,20 +39,16 @@ const InputSelection = (props: Props) => {
 
 export default InputSelection;
 
-interface DemoPuzzlesProps {
-  onClickPuzzle: (name: string) => void;
-}
-
-const DemoPuzzles = (props: DemoPuzzlesProps) => {
+const DemoPuzzles = () => {
   const commaElem = <span>, </span>;
   const textArr = puzzles.map(puzzle => (
-    <span
-      key={name}
+    <Link
       className={sharedStyles.clickable}
-      onClick={() => props.onClickPuzzle(puzzle.name)}
+      key={puzzle.name}
+      to={`/view/${puzzle.name}`}
     >
       {puzzle.name}
-    </span>
+    </Link>
   ));
 
   const textPuzzles = join(textArr, commaElem).map((element, idx) =>

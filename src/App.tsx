@@ -30,18 +30,7 @@ class App extends Component {
             <Analytics />
 
             <Switch>
-              <Route
-                path="/"
-                render={props => (
-                  <InputSelection
-                    goToExample={example =>
-                      props.history.push(`/view/${example}`)
-                    }
-                    goToTextInput={() => props.history.push("/input/text")}
-                  />
-                )}
-                exact
-              />
+              <Route path="/" render={() => <InputSelection />} exact />
 
               <Route
                 path="/input/text"

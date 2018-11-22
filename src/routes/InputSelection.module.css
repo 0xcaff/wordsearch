@@ -43,6 +43,9 @@
 }
 
 .button {
+  color: black;
+  text-decoration: none;
+
   flex: 1;
   white-space: nowrap;
 
@@ -56,6 +59,7 @@
 }
 
 .githubLink {
+  color: black;
   font-size: small;
   line-height: 2em;
 }
