@@ -1,16 +1,12 @@
 .list {
-	text-align: start;
-}
-
-.focused {
-	animation: 0.7s ease-out in-focus forwards;
+  text-align: start;
 }
 
 .listItem {
-	padding: 0.5em;
-	margin: 0.5em;
-	cursor: pointer;
-	white-space: nowrap;
+  padding: 0.5em;
+  margin: 0.5em;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .listItemInput {
@@ -33,15 +29,11 @@
   text-align: center;
 }
 
-.updatable .removeButton:hover {
-	background: #ddd;
+.removeButton:hover {
+  background: #ddd;
 }
 
-.nonUpdatable .listItem:hover, .static .listItem:focus {
-	background: #ddd;
-}
-
-@keyframes in-focus {
-	from { background: #F57F17; }
-	to { background: #ddd; }
+.static .listItem:hover,
+.static .listItem:focus {
+  background: #ddd;
 }

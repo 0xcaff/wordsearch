@@ -1,0 +1,11 @@
+.withPaintWorklet {
+  background: paint(puzzle-grid-highlight);
+}
+
+.grid {
+  display: inline-grid;
+  cursor: default;
+
+  grid-auto-columns: minmax(1em, 2em);
+  margin: 0 auto;
+}

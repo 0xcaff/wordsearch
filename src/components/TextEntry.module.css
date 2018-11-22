@@ -1,4 +1,4 @@
-@import '../../node_modules/draft-js/dist/Draft.css';
+@import "../../node_modules/draft-js/dist/Draft.css";
 
 .editor {
   padding: 1em;

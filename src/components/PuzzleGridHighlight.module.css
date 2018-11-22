@@ -1,5 +1,5 @@
-.component {
-  background: #F57F17;
+.highlight {
+  background: #f57f17;
   z-index: 1;
   pointer-events: none;
 }

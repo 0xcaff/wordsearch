@@ -17,7 +17,7 @@
   animation-direction: normal, normal;
   animation-iteration-count: 1, infinite;
   animation-fill-mode: forwards, none;
-  animation-play-state: running, running; 
+  animation-play-state: running, running;
 }
 
 @keyframes dash {

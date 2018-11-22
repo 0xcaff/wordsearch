@@ -9,7 +9,7 @@
   max-width: 40rem;
   margin: auto;
 
-	font-family: monospace;
+  font-family: monospace;
 
   padding-top: 2em;
   padding-bottom: 2em;
@@ -36,13 +36,16 @@
 }
 
 /* The 40rem is max-width of .InputSelection */
-@media(min-width: 40rem) {
+@media (min-width: 40rem) {
   .header {
     font-size: calc(40rem * var(--size));
   }
 }
 
 .button {
+  color: black;
+  text-decoration: none;
+
   flex: 1;
   white-space: nowrap;
 
@@ -56,6 +59,7 @@
 }
 
 .githubLink {
+  color: black;
   font-size: small;
   line-height: 2em;
 }
