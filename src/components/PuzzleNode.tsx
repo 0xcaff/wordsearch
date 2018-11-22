@@ -5,6 +5,8 @@ interface Props {
   rowIdx: number,
   colIdx: number,
   content: string,
+
+  onEnter: () => void,
 }
 
 const PuzzleNode = (props: Props) =>
@@ -14,6 +16,7 @@ const PuzzleNode = (props: Props) =>
       gridColumnStart: props.colIdx + 1,
       gridRowStart: props.rowIdx + 1,
     }}
+    onPointerEnter={props.onEnter}
   >
     <div className={styles.inner}>
       {props.content}

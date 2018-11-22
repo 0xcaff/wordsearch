@@ -1,4 +1,5 @@
 .grid {
+  background: paint(puzzle-grid-highlight);
   display: inline-grid;
   cursor: default;
 

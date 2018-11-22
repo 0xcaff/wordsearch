@@ -7,3 +7,12 @@
     margin-bottom: 1em;
     width: 100%;
 }
+
+.focused :global {
+    animation: 0.7s ease-out in-focus forwards;
+}
+
+@keyframes :global(in-focus) {
+    from { background: #F57F17; }
+    to { background: #ddd; }
+}

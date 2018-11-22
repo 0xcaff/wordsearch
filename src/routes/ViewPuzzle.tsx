@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import styles from './ViewPuzzle.module.css';
 import {Set} from 'immutable';
 import WordList from "../components/WordList";
@@ -10,44 +10,39 @@ interface Props {
   toEditor: () => void,
 }
 
-interface State {
+const ViewPuzzle = (props: Props) => {
   /**
-   * A set of words which is focused. When a word is focused it becomes highlighted in the word list.
+   * Set of words which are focused. A word is focused when it is highlighted in the When a word is focused it becomes highlighted in the word list.
    */
-  focused: Set<string>
-}
+  const [ focused, setFocused ] = useState<Set<string>>(Set());
 
-class ViewPuzzle extends Component<Props, State> {
-  state = {
-    focused: Set(),
-  };
+  /**
+   * Word which is selected. A word is selected when moused over in the word list.
+   */
+  const [ selectedWord, setSelectedWord ] = useState<string | undefined>(undefined);
 
-  focusWord = (word: string) =>
-    this.setState((state) => ({focused: state.focused.add(word)}));
-
-  unFocusWord = (word: string) =>
-    this.setState((state) => ({focused: state.focused.delete(word)}));
-
-  render() {
-    return <div className={styles.container}>
+  return (
+    <div className={styles.container}>
       <div className={styles.mainArea}>
-        <Puzzle rows={this.props.rows} />
+        <Puzzle
+          words={props.words}
+          rows={props.rows}
+          focusWord={word => setFocused(focused => focused.add(word))}
+          unFocusWord={word => setFocused(focused => focused.remove(word))}
+          selectedWord={selectedWord} />
       </div>
 
       <div className={styles.sidebar}>
         <WordList
-          words={this.props.words.map(word => ({word, isFocused: this.state.focused.has(word)}))}
-          onBack={this.props.toEditor}
-        />
+          words={props.words.map(word =>
+            ({ word, isFocused: focused.has(word) })
+          )}
+          onEdit={props.toEditor}
+          onSelectWord={setSelectedWord}
+          onUnSelectWord={() => setSelectedWord(undefined)} />
       </div>
-    </div>;
-  }
-}
-
-// TODO:
-// Compute:
-//  * Map of Word -> Matches
-//  * Map of Every Position -> Matches Over Position
-//  * Rows and Cols in Puzzle
+    </div>
+  );
+};
 
 export default ViewPuzzle;
