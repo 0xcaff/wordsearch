@@ -1,0 +1,39 @@
+.list {
+  text-align: start;
+}
+
+.listItem {
+  padding: 0.5em;
+  margin: 0.5em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.listItemInput {
+  width: 100%;
+}
+
+.listItemContent {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.removeButton {
+  margin-left: 1em;
+
+  height: 1rem;
+  width: 1rem;
+  text-align: center;
+}
+
+.removeButton:hover {
+  background: #ddd;
+}
+
+.static .listItem:hover,
+.static .listItem:focus {
+  background: #ddd;
+}

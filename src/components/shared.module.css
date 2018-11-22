@@ -1,0 +1,26 @@
+.clickable {
+  text-decoration: underline;
+  cursor: pointer;
+  color: black;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+}
+
+.square {
+  /* Responsive square */
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.square:before {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}

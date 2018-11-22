@@ -1,0 +1,29 @@
+.container {
+  border-radius: 100%;
+  composes: square from "./shared.module.css";
+}
+
+.container.withoutPaintWorklet {
+  border-radius: 0;
+}
+
+.container:hover {
+  background: #ddd;
+}
+
+.inner {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.withoutPaintWorklet.highlighted {
+  background: #ffeb3b;
+}

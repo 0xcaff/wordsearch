@@ -1,0 +1,65 @@
+.component {
+  text-align: center;
+  --size: 0.06;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 100vh;
+  max-width: 40rem;
+  margin: auto;
+
+  font-family: monospace;
+
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.header {
+  font-size: calc(var(--size) * 100vw);
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.content {
+  margin: 0 1em;
+}
+
+.buttonContainer {
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+/* The 40rem is max-width of .InputSelection */
+@media (min-width: 40rem) {
+  .header {
+    font-size: calc(40rem * var(--size));
+  }
+}
+
+.button {
+  color: black;
+  text-decoration: none;
+
+  flex: 1;
+  white-space: nowrap;
+
+  margin: 1em;
+  max-width: 15em;
+  font-size: x-large;
+}
+
+.demos {
+  line-height: 1.5em;
+}
+
+.githubLink {
+  color: black;
+  font-size: small;
+  line-height: 2em;
+}

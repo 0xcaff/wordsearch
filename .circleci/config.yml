@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: node:9.3.0
+      - image: node:10
 
     steps:
       - checkout
@@ -23,16 +23,20 @@ jobs:
           key: dependencies-{{ checksum "yarn.lock" }}
 
       - run:
-          name: Lint
-          command: yarn lint
-
-      - run:
           name: Test
           command: yarn test
 
+      - run:
+          name: Check Formatting
+          command: yarn check-formatting
+
+      - run:
+          name: Build
+          command: yarn build
+
   deploy:
     docker:
-      - image: node:9.3.0
+      - image: node:10
 
     steps:
       - checkout

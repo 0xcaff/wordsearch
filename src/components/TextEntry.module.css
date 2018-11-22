@@ -1,0 +1,29 @@
+@import "../../node_modules/draft-js/dist/Draft.css";
+
+.editor {
+  padding: 1em;
+  border: 1px solid black;
+
+  min-width: 15em;
+}
+
+.editor :global(.DraftEditor-root) {
+  overflow-x: auto;
+}
+
+.editor :global(.public-DraftEditorPlaceholder-root) {
+  color: #444;
+}
+
+.block > div {
+  white-space: nowrap;
+}
+
+.khar {
+  width: 2em;
+  height: 2em;
+
+  display: inline-grid;
+  align-items: center;
+  justify-items: center;
+}
