@@ -30,6 +30,10 @@ jobs:
           name: Build
           command: yarn build
 
+      - run:
+          name: Check Formatting
+          command: yarn check-formatting
+
   deploy:
     docker:
       - image: node:10
