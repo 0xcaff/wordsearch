@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Position } from "wordsearch-algo/lib/directions";
+import { Position } from "wordsearch-algo";
 import PuzzleNode from "./PuzzleNode";
 
 interface Props {

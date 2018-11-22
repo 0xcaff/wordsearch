@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import styles from "./PuzzleGridHighlight.module.css";
-import { Position } from "wordsearch-algo/lib/directions";
+import { Position } from "wordsearch-algo";
 import { tweenPosition } from "../tweenPosition";
 
 interface Props {

@@ -17,7 +17,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "typescript": "^3.1.6",
-    "wordsearch-algo": "^2.1.1"
+    "wordsearch-algo": "^2.1.2"
   },
   "scripts": {
     "fix-formatting": "prettier --write '**/*.{tsx,ts,js,css}'",

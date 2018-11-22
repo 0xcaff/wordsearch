@@ -5,9 +5,7 @@ import PuzzleGridHighlight from "./PuzzleGridHighlight";
 import { Map, Record } from "immutable";
 import memoize from "fast-memoize";
 
-import { Match } from "wordsearch-algo/lib/search/algorithms";
-import { Position } from "wordsearch-algo/lib/directions";
-import { findMatches } from "wordsearch-algo/lib/search/prefix";
+import { Match, Position, findMatches } from "wordsearch-algo";
 import { tweenPosition } from "../tweenPosition";
 
 interface Props {

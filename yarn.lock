@@ -10086,10 +10086,10 @@ winston@0.8.x:
     pkginfo "0.3.x"
     stack-trace "0.0.x"
 
-wordsearch-algo@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/wordsearch-algo/-/wordsearch-algo-2.1.1.tgz#1782260f1c47d6de448544efb3a2630d59a3387e"
-  integrity sha512-O2wejAdYJXjVzOstiT+AA+iBEXflrlHE79oL2tYOSr3F3jZEaIyRNPQXGp/jn5lKOOK6O0MzMmOAzNm0y3/+tA==
+wordsearch-algo@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/wordsearch-algo/-/wordsearch-algo-2.1.2.tgz#38b2ba83ab570829c1b1a439b14c32e791740a47"
+  integrity sha512-AMQ8Tn8ZQoFuaJZ3gW85VCLCQs8TanO+wy4iG3M+VwMmNqq83swiBBhsGqIFQpOem6BoMna2mpZW5MfJ9GnmGg==
 
 wordwrap@~0.0.2:
   version "0.0.3"
