@@ -1,12 +1,12 @@
 .list {
-	text-align: start;
+  text-align: start;
 }
 
 .listItem {
-	padding: 0.5em;
-	margin: 0.5em;
-	cursor: pointer;
-	white-space: nowrap;
+  padding: 0.5em;
+  margin: 0.5em;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .listItemInput {
@@ -30,9 +30,10 @@
 }
 
 .removeButton:hover {
-	background: #ddd;
+  background: #ddd;
 }
 
-.static .listItem:hover, .static .listItem:focus {
-	background: #ddd;
+.static .listItem:hover,
+.static .listItem:focus {
+  background: #ddd;
 }

@@ -20,8 +20,8 @@
     "wordsearch-algo": "^2.1.1"
   },
   "scripts": {
-    "fix-formatting": "prettier --write '**/*.{tsx,ts,js}'",
-    "check-formatting": "prettier --list-different '**/*.{tsx,ts,js}'",
+    "fix-formatting": "prettier --write '**/*.{tsx,ts,js,css}'",
+    "check-formatting": "prettier --list-different '**/*.{tsx,ts,js,css}'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

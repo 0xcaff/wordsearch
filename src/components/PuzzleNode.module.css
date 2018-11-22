@@ -1,6 +1,6 @@
 .container {
   border-radius: 100%;
-  composes: square from './shared.module.css';
+  composes: square from "./shared.module.css";
 }
 
 .container.withoutPaintWorklet {
