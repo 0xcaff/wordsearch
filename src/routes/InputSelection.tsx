@@ -22,7 +22,7 @@ const InputSelection = (props: Props) => {
       <main className={styles.content}>
         <div className={styles.buttonContainer}>
           <Button className={styles.button} onClick={props.goToTextInput}>
-            Select from Text
+            Enter Text
           </Button>
         </div>
 
