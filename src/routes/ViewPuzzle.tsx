@@ -27,8 +27,7 @@ const ViewPuzzle = (props: Props) => {
         <Puzzle
           words={props.words}
           rows={props.rows}
-          focusWord={word => setFocused(focused => focused.add(word))}
-          unFocusWord={word => setFocused(focused => focused.remove(word))}
+          focusWords={words => setFocused(focused => focused.clear().concat(words))}
           selectedWord={selectedWord} />
       </div>
 

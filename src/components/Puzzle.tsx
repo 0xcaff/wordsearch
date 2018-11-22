@@ -2,6 +2,7 @@ import React, {Component, CSSProperties} from 'react';
 import styles from './Puzzle.module.css';
 import PuzzleNodes from "./PuzzleNodes";
 import {Map, Record} from "immutable";
+import memoize from 'fast-memoize';
 
 import {Match} from 'wordsearch-algo/lib/search/algorithms';
 import {findMatches} from "wordsearch-algo/lib/search/prefix";
@@ -12,16 +13,10 @@ interface Props {
   rows: string[],
 
   /**
-   * Called to focus a word in the word list.
-   * @param word The word to focus.
+   * Called to focus words in the word list.
+   * @param word The words to focus.
    */
-  focusWord: (word: string) => void,
-
-  /**
-   * Called to un-focus a word in the word list.
-   * @param word The word to un-focus.
-   */
-  unFocusWord: (word: string) => void,
+  focusWords: (words: string[]) => void,
 
   /**
    * Word which was selected in the word list by the user.
@@ -40,44 +35,57 @@ interface State {
   pointerPosition?: Position,
 }
 
+const getSize = memoize((rows: string[]) => {
+  let colsCount = 0;
+
+  for (const row of rows) {
+    colsCount = Math.max(colsCount, row.length);
+  }
+
+  return { rowsCount: rows.length, colsCount };
+});
+
+const getMatches = memoize((rows: string[], words: string[]) =>
+  findMatches(rows, words)
+);
+
+const getMatchesAt = memoize((rows: string[], words: string[]) => {
+  const matches = getMatches(rows, words);
+  let matchesAt = Map<Record<Position>, Match[]>();
+  for (let idx = 0; idx < matches.length; idx++) {
+    const match = matches[idx];
+
+    for (const position of tweenPosition(match.start.rowIdx, match.start.colIdx, match.end.rowIdx, match.end.colIdx)) {
+      const record = PositionRecord({ colIdx: position.col, rowIdx: position.row });
+      let array = matchesAt.get(record);
+
+      if (!array) {
+        array = [];
+        matchesAt = matchesAt.set(record, array);
+      }
+
+      array.push(match);
+    }
+  }
+
+  return matchesAt;
+});
+
 class Puzzle extends Component<Props, State> {
   state = {} as State;
 
-  onSelect = (pointerPosition: Position) =>
+  onSelect = (pointerPosition: Position) => {
+    const matchesAt = getMatchesAt(this.props.rows, this.props.words);
+    const matchesAtPointer = matchesAt.get(PositionRecord(pointerPosition)) || [];
+
     this.setState({ pointerPosition });
-
-  getMatches = () => findMatches(this.props.rows, this.props.words);
-
-  getSize = () => {
-    let colsCount = 0;
-
-    for (const row of this.props.rows) {
-      colsCount = Math.max(colsCount, row.length);
-    }
-
-    return { rowsCount: this.props.rows.length, colsCount };
+    this.props.focusWords(matchesAtPointer.map(match => match.word));
   };
 
   getStyle = (): CSSProperties => {
-    const matches = this.getMatches();
-    const size = this.getSize();
-
-    let matchesAt = Map<Record<Position>, Match[]>();
-    for (let idx = 0; idx < matches.length; idx++) {
-      const match = matches[idx];
-
-      for (const position of tweenPosition(match.start.rowIdx, match.start.colIdx, match.end.rowIdx, match.end.colIdx)) {
-        const record = PositionRecord({ colIdx: position.col, rowIdx: position.row });
-        let array = matchesAt.get(record);
-
-        if (!array) {
-          array = [];
-          matchesAt = matchesAt.set(record, array);
-        }
-
-        array.push(match);
-      }
-    }
+    const size = getSize(this.props.rows);
+    const matches = getMatches(this.props.rows, this.props.words);
+    const matchesAt = getMatchesAt(this.props.rows, this.props.words);
 
     const highlighted = [];
     const hovered = [];
