@@ -8,7 +8,7 @@ class HighlightPainter {
     const cols = parseInt(properties.get('--cols').toString());
 
     const highlighted = JSON.parse(properties.get('--highlighted').toString());
-    const hovered = new Set(JSON.parse(properties.get('--hovered').toString()));
+    const hovered = JSON.parse(properties.get('--hovered').toString());
 
     const height = geom.height / rows;
     const width = geom.width / cols;
@@ -25,9 +25,7 @@ class HighlightPainter {
     //   }
     // }
 
-    for (let idx = 0; idx < highlighted.length; idx++) {
-      const instance = highlighted[idx];
-      const [ startRow, startCol, endRow, endCol ] = instance;
+    const drawLine = (startRow, startCol, endRow, endCol, isHovered) => {
       ctx.beginPath();
       ctx.moveTo(
         startCol * width + width / 2,
@@ -39,9 +37,24 @@ class HighlightPainter {
         endRow * height + height / 2,
       );
       ctx.lineCap = 'round';
-      ctx.lineWidth = width * 0.80;
-      ctx.strokeStyle = hovered.has(idx) ? '#F57F17' : '#ffeb3b';
+      ctx.lineWidth = width * 0.90;
+      ctx.strokeStyle = isHovered ? '#F57F17' : '#ffeb3b';
       ctx.stroke();
+    };
+
+    const drawLineAtIdx = (idx, isHovered) => {
+      const instance = highlighted[idx];
+      const [ startRow, startCol, endRow, endCol ] = instance;
+      drawLine(startRow, startCol, endRow, endCol, isHovered);
+    };
+
+    for (let idx = 0; idx < highlighted.length; idx++) {
+      drawLineAtIdx(idx, false);
+    }
+
+    for (let idx = 0; idx < hovered.length; idx++) {
+      const hoveredIdx = hovered[idx];
+      drawLineAtIdx(hoveredIdx, true);
     }
   }
 }

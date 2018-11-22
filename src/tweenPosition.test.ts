@@ -1,11 +1,11 @@
-import { tweenPosition } from './GridSelection';
+import { tweenPosition } from './tweenPosition';
 
-it('should tween in an x line', () => {
+it('should tween in an row line', () => {
   const expected = [
-    {x: 0, y: 0},
-    {x: 1, y: 0},
-    {x: 2, y: 0},
-    {x: 3, y: 0},
+    {row: 0, col: 0},
+    {row: 1, col: 0},
+    {row: 2, col: 0},
+    {row: 3, col: 0},
   ];
 
   expectArrayToMatch(
@@ -19,12 +19,12 @@ it('should tween in an x line', () => {
   );
 });
 
-it('should tween in a y line', () => {
+it('should tween in a col line', () => {
   const expected = [
-    {x: 0, y: 0},
-    {x: 0, y: 1},
-    {x: 0, y: 2},
-    {x: 0, y: 3},
+    {row: 0, col: 0},
+    {row: 0, col: 1},
+    {row: 0, col: 2},
+    {row: 0, col: 3},
   ];
 
   expectArrayToMatch(
@@ -40,17 +40,17 @@ it('should tween in a y line', () => {
   expectArrayToMatch(
     Array.from(tweenPosition(13, 32, 13, 20)),
 
-    // from {x: 13, y: 20} -> {x: 13, y: 20}
-    [...Array(32 - 20 + 1)].map((_, index) => ({x: 13, y: 32 - index})),
+    // from {row: 13, col: 20} -> {row: 13, col: 20}
+    [...Array(32 - 20 + 1)].map((_, index) => ({row: 13, col: 32 - index})),
   );
 });
 
 it('should tween diagonally down right and up left', () => {
   const expected = [
-    {x: 0, y: 0},
-    {x: 1, y: 1},
-    {x: 2, y: 2},
-    {x: 3, y: 3},
+    {row: 0, col: 0},
+    {row: 1, col: 1},
+    {row: 2, col: 2},
+    {row: 3, col: 3},
   ];
 
   expectArrayToMatch(
@@ -66,10 +66,10 @@ it('should tween diagonally down right and up left', () => {
 
 it('should tween diagonally up right and down left', () => {
   const expected = [
-    {x: 0, y: 3},
-    {x: 1, y: 2},
-    {x: 2, y: 1},
-    {x: 3, y: 0},
+    {row: 0, col: 3},
+    {row: 1, col: 2},
+    {row: 2, col: 1},
+    {row: 3, col: 0},
   ];
 
   expectArrayToMatch(
@@ -83,6 +83,6 @@ it('should tween diagonally up right and down left', () => {
   );
 });
 
-function expectArrayToMatch(array, matchingArray) {
-  array.forEach((elem, index) => expect(elem).toMatchObject(matchingArray[index]));
+function expectArrayToMatch<T>(array: T[], matchingArray: T[]) {
+  expect(array).toEqual(matchingArray);
 }

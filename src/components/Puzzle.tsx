@@ -1,7 +1,11 @@
 import React, {Component, CSSProperties} from 'react';
 import styles from './Puzzle.module.css';
 import PuzzleNodes from "./PuzzleNodes";
+import {Map, Record} from "immutable";
+
+import {Match} from 'wordsearch-algo/lib/search/algorithms';
 import {findMatches} from "wordsearch-algo/lib/search/prefix";
+import {tweenPosition} from "../tweenPosition";
 
 interface Props {
   words: string[],
@@ -30,11 +34,15 @@ export interface Position {
   colIdx: number,
 }
 
+const PositionRecord: Record.Factory<Position> = Record({ rowIdx: -1, colIdx: -1 });
+
 interface State {
   pointerPosition?: Position,
 }
 
 class Puzzle extends Component<Props, State> {
+  state = {} as State;
+
   onSelect = (pointerPosition: Position) =>
     this.setState({ pointerPosition });
 
@@ -54,12 +62,48 @@ class Puzzle extends Component<Props, State> {
     const matches = this.getMatches();
     const size = this.getSize();
 
+    let matchesAt = Map<Record<Position>, Match[]>();
+    for (let idx = 0; idx < matches.length; idx++) {
+      const match = matches[idx];
+
+      for (const position of tweenPosition(match.start.rowIdx, match.start.colIdx, match.end.rowIdx, match.end.colIdx)) {
+        const record = PositionRecord({ colIdx: position.col, rowIdx: position.row });
+        let array = matchesAt.get(record);
+
+        if (!array) {
+          array = [];
+          matchesAt = matchesAt.set(record, array);
+        }
+
+        array.push(match);
+      }
+    }
+
+    const highlighted = [];
+    const hovered = [];
+    let matchesAtPointer = [] as Match[];
+    if (this.state.pointerPosition) {
+      const record = PositionRecord(this.state.pointerPosition);
+      matchesAtPointer = matchesAt.get(record) || [];
+    }
+
+    for (let idx = 0; idx < matches.length; idx++) {
+      const match = matches[idx];
+
+      highlighted.push(
+        [match.start.rowIdx, match.start.colIdx, match.end.rowIdx, match.end.colIdx]
+      );
+
+      if (matchesAtPointer.includes(match) || this.props.selectedWord && match.word === this.props.selectedWord) {
+        hovered.push(idx);
+      }
+    }
+
     return {
       '--rows': size.rowsCount,
       '--cols': size.colsCount,
-      '--highlighted': JSON.stringify(matches.map(match =>
-        [match.start.rowIdx, match.start.colIdx, match.end.rowIdx, match.end.colIdx])),
-      '--hovered': JSON.stringify([]),
+      '--highlighted': JSON.stringify(highlighted),
+      '--hovered': JSON.stringify(hovered),
     } as CSSProperties;
   };
 
@@ -77,21 +121,4 @@ class Puzzle extends Component<Props, State> {
   }
 }
 
-// @ts-ignore
-const getOrAdd = <K, V>(map: Map<K, V>, key: K, makeDefault: () => V): V => {
-  if (map.has(key)) {
-    return map.get(key)!!
-  }
-
-  const val = makeDefault();
-  map.set(key, val);
-  return val;
-};
-
 export default Puzzle;
-
-// TODO:
-// Compute:
-//  * Map of Word -> Matching Positions
-//  * Map of Every Position -> Matches Over Position
-
