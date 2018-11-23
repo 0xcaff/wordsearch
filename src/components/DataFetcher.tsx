@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./DataFetcher.module.css";
 import { PuzzleData } from "../database";
-import { database } from "../firebase";
+import { database } from "../database";
 
 interface Props {
   id?: string;

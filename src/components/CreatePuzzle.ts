@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { PuzzleData } from "../database";
-import { database } from "../firebase";
+import { database } from "../database";
 
 interface Props {
   onCreated: (id: string) => void;
