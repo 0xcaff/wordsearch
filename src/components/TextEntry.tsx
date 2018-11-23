@@ -26,12 +26,20 @@ const TextEntry = React.memo((props: Props) => {
     return editorState;
   });
 
+  const [focused, setFocused] = useState(false);
+
   return (
-    <div className={styles.editor}>
+    <div
+      className={[styles.editor, focused && styles.hidePlaceholder]
+        .filter(e => !!e)
+        .join(" ")}
+    >
       <Editor
         placeholder={props.placeholder}
         stripPastedStyles={true}
         editorState={editorState}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         onChange={editorState => {
           const contentState = editorState.getCurrentContent();
           props.onChange(contentState.getPlainText());

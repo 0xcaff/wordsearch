@@ -11,6 +11,10 @@
   overflow-x: auto;
 }
 
+.editor.hidePlaceholder :global(.public-DraftEditorPlaceholder-root) {
+  display: none;
+}
+
 .editor :global(.public-DraftEditorPlaceholder-root) {
   color: #444;
 }
