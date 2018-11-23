@@ -8,8 +8,8 @@ import {
 
 import Analytics from "./analytics/component";
 import { FullPageLoading } from "./components/Loading";
-import { puzzles } from "wordsearch-algo";
 import DataFetcher from "./components/DataFetcher";
+import CreatePuzzle from "./components/CreatePuzzle";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
@@ -47,33 +47,40 @@ class App extends Component {
               <Route
                 path="/view/:id?"
                 render={props => {
-                  const puzzle = normalizePuzzle(
-                    props.match.params.id,
-                    props.location.state
-                  );
-                  if (!puzzle) {
-                    props.history.push("/");
-                    return null;
-                  }
-
                   return (
                     <DataFetcher
                       id={props.match.params.id}
                       data={props.location.state}
                     >
-                      {childProps => {
-                        if (childProps.isLoading) {
+                      {queryProps => {
+                        if (queryProps.isLoading) {
                           return <FullPageLoading />;
                         }
 
                         return (
-                          <ViewPuzzle
-                            words={childProps.data.words}
-                            rows={childProps.data.rows}
-                            toEditor={() =>
-                              props.history.push("/input/text", puzzle)
+                          <CreatePuzzle
+                            onCreated={id =>
+                              props.history.replace(`/view/${id}`)
                             }
-                          />
+                          >
+                            {mutationProps => (
+                              <ViewPuzzle
+                                words={queryProps.data.words}
+                                rows={queryProps.data.rows}
+                                toEditor={() =>
+                                  props.history.push(
+                                    "/input/text",
+                                    queryProps.data
+                                  )
+                                }
+                                isFromRemote={!queryProps.isFromLocal}
+                                isCreating={mutationProps.isCreating}
+                                onCreate={() =>
+                                  mutationProps.create(queryProps.data)
+                                }
+                              />
+                            )}
+                          </CreatePuzzle>
                         );
                       }}
                     </DataFetcher>
@@ -93,19 +100,3 @@ class App extends Component {
 }
 
 export default App;
-
-interface Puzzle {
-  words: string[];
-  rows: string[];
-}
-
-const normalizePuzzle = (
-  exampleName?: string,
-  puzzle?: Puzzle
-): Puzzle | undefined => {
-  if (puzzle) {
-    return puzzle;
-  } else {
-    return puzzles.find(puzzle => puzzle.name === exampleName);
-  }
-};

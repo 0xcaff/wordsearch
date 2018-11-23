@@ -9,6 +9,10 @@ interface Props {
   rows: string[];
   words: string[];
   toEditor: () => void;
+
+  isCreating: boolean;
+  isFromRemote: boolean;
+  onCreate: () => void;
 }
 
 const ViewPuzzle = (props: Props) => {
@@ -47,9 +51,24 @@ const ViewPuzzle = (props: Props) => {
           onUnSelectWord={() => setSelectedWord(undefined)}
         />
 
-        <Button className={styles.backButton} onClick={props.toEditor}>
+        <Button className={styles.button} onClick={props.toEditor}>
           Edit
         </Button>
+
+        {!props.isFromRemote && (
+          <Button
+            className={[styles.button, props.isCreating && styles.loading]
+              .filter(e => !!e)
+              .join(" ")}
+            onClick={() => {
+              if (!props.isCreating) {
+                props.onCreate();
+              }
+            }}
+          >
+            {props.isCreating ? "Loading..." : "Save"}
+          </Button>
+        )}
       </div>
     </div>
   );

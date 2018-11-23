@@ -18,8 +18,32 @@
   overflow-y: auto;
 }
 
-.backButton {
+.button {
   margin-left: 20px;
   margin-bottom: 1em;
   width: 100%;
+}
+
+.loading {
+  animation-name: pulse;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-direction: normal;
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes pulse {
+  from {
+    color: #333;
+  }
+
+  50% {
+    color: #666;
+  }
+
+  to {
+    color: #333;
+  }
 }

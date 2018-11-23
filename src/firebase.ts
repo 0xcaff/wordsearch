@@ -11,6 +11,8 @@ firebase.initializeApp({
 });
 
 const firestore = firebase.firestore();
+const settings = { timestampsInSnapshots: true };
+firestore.settings(settings);
 
 class FirebaseDatabase implements Database {
   private db: firebase.firestore.Firestore;
