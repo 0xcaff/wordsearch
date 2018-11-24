@@ -1,0 +1,4 @@
+.notFound {
+  composes: centered from "./shared.module.css";
+  font-size: 69pt;
+}

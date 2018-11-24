@@ -6,10 +6,10 @@ import {
   Redirect
 } from "react-router-dom";
 
-import styles from "./components/shared.module.css";
 import Analytics from "./analytics/component";
-import Loading from "./components/Loading";
-import { puzzles } from "wordsearch-algo";
+import { FullPageLoading } from "./components/Loading";
+import DataFetcher from "./components/DataFetcher";
+import CreatePuzzle from "./components/CreatePuzzle";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
@@ -18,13 +18,7 @@ const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
 class App extends Component {
   render() {
     return (
-      <Suspense
-        fallback={
-          <div className={styles.centered}>
-            <Loading />
-          </div>
-        }
-      >
+      <Suspense fallback={<FullPageLoading />}>
         <Router>
           <div className="App">
             <Analytics />
@@ -51,23 +45,45 @@ class App extends Component {
               />
 
               <Route
-                path="/view/:example?"
+                path="/view/:id?"
                 render={props => {
-                  const puzzle = normalizePuzzle(
-                    props.match.params.example,
-                    props.location.state
-                  );
-                  if (!puzzle) {
-                    props.history.push("/");
-                    return null;
-                  }
-
                   return (
-                    <ViewPuzzle
-                      words={puzzle.words}
-                      rows={puzzle.rows}
-                      toEditor={() => props.history.push("/input/text", puzzle)}
-                    />
+                    <DataFetcher
+                      id={props.match.params.id}
+                      data={props.location.state}
+                    >
+                      {queryProps => {
+                        if (queryProps.isLoading) {
+                          return <FullPageLoading />;
+                        }
+
+                        return (
+                          <CreatePuzzle
+                            onCreated={id =>
+                              props.history.replace(`/view/${id}`)
+                            }
+                          >
+                            {mutationProps => (
+                              <ViewPuzzle
+                                words={queryProps.data.words}
+                                rows={queryProps.data.rows}
+                                toEditor={() =>
+                                  props.history.push(
+                                    "/input/text",
+                                    queryProps.data
+                                  )
+                                }
+                                isFromRemote={!queryProps.isFromLocal}
+                                isCreating={mutationProps.isCreating}
+                                onCreate={() =>
+                                  mutationProps.create(queryProps.data)
+                                }
+                              />
+                            )}
+                          </CreatePuzzle>
+                        );
+                      }}
+                    </DataFetcher>
                   );
                 }}
                 exact
@@ -84,19 +100,3 @@ class App extends Component {
 }
 
 export default App;
-
-interface Puzzle {
-  words: string[];
-  rows: string[];
-}
-
-const normalizePuzzle = (
-  exampleName?: string,
-  puzzle?: Puzzle
-): Puzzle | undefined => {
-  if (puzzle) {
-    return puzzle;
-  } else {
-    return puzzles.find(puzzle => puzzle.name === exampleName);
-  }
-};

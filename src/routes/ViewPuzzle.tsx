@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import styles from "./ViewPuzzle.module.css";
-import { Set } from "immutable";
-import WordList from "../components/WordList";
+import Button from "../components/Button";
 import Puzzle from "../components/Puzzle";
+import WordList from "../components/WordList";
+import { Set } from "immutable";
 
 interface Props {
   rows: string[];
   words: string[];
   toEditor: () => void;
+
+  isCreating: boolean;
+  isFromRemote: boolean;
+  onCreate: () => void;
 }
 
 const ViewPuzzle = (props: Props) => {
@@ -42,10 +47,28 @@ const ViewPuzzle = (props: Props) => {
             word,
             isFocused: focused.has(word)
           }))}
-          onEdit={props.toEditor}
           onSelectWord={setSelectedWord}
           onUnSelectWord={() => setSelectedWord(undefined)}
         />
+
+        <Button className={styles.button} onClick={props.toEditor}>
+          Edit
+        </Button>
+
+        {!props.isFromRemote && (
+          <Button
+            className={[styles.button, props.isCreating && styles.loading]
+              .filter(e => !!e)
+              .join(" ")}
+            onClick={() => {
+              if (!props.isCreating) {
+                props.onCreate();
+              }
+            }}
+          >
+            {props.isCreating ? "Loading..." : "Save"}
+          </Button>
+        )}
       </div>
     </div>
   );

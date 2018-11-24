@@ -2,12 +2,6 @@
   text-align: center;
 }
 
-.backButton {
-  margin-left: 20px;
-  margin-bottom: 1em;
-  width: 100%;
-}
-
 .focused :global {
   animation: 0.7s ease-out in-focus forwards;
 }
