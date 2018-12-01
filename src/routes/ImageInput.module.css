@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-direction: row;
+}
+
+.stage {
+  flex: 1;
+  height: 100vh;
+}
+
+.wordsHeader {
+  text-align: center;
+}
