@@ -6,11 +6,7 @@ import { getImageAnnotations } from "../utils/google-cloud-vision";
 
 interface Props {
   file: File;
-  children: (props: ChildProps) => React.ReactNode;
-}
-
-interface ChildProps {
-  annotations: Symbol[];
+  children: (annotations: Symbol[]) => React.ReactNode;
 }
 
 enum LoadingStateType {
@@ -85,7 +81,7 @@ class ImageAnnotationFetcher extends Component<Props, State> {
         return "Asking The Robots for Help...";
 
       case LoadingStateType.DONE:
-        return this.props.children({ annotations: loading.result });
+        return this.props.children(loading.result);
     }
   }
 }
