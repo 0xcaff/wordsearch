@@ -48,7 +48,7 @@ export interface Vertex {
 }
 
 export interface BoundingPoly {
-  vertices: Vertex;
+  vertices: Vertex[];
 }
 
 export type BreakType =

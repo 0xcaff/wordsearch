@@ -1,7 +1,8 @@
 import {
   Symbol,
   getSymbols,
-  GoogleCloudVisionResponse
+  GoogleCloudVisionResponse,
+  BoundingPoly
 } from "./google-cloud-vision-type";
 
 const KEY = "AIzaSyD2a1P2TcfWCT_FqCA5qxITFn9Ry_uUDFg";
@@ -35,3 +36,26 @@ export async function getImageAnnotations(
   const page = response.fullTextAnnotation.pages[0];
   return getSymbols(page);
 }
+
+interface BoundingBox {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+}
+
+export const boundingPolyToBox = (poly: BoundingPoly): BoundingBox =>
+  poly.vertices.reduce(
+    (previous, current) => ({
+      minX: Math.min(current.x, previous.minX),
+      minY: Math.min(current.y, previous.minY),
+      maxX: Math.max(current.x, previous.maxX),
+      maxY: Math.max(current.y, previous.maxY)
+    }),
+    {
+      minX: Number.MAX_VALUE,
+      minY: Number.MAX_VALUE,
+      maxY: Number.MIN_VALUE,
+      maxX: Number.MIN_VALUE
+    }
+  );

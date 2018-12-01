@@ -2,8 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { Stage } from "react-konva";
 
 interface Props {
-  children: React.ReactNode;
+  children: (childProps: ChildProps) => React.ReactNode;
   className: string;
+}
+
+interface ChildProps {
+  width: number;
+  height: number;
 }
 
 const ResponsiveStage = (props: Props) => {
@@ -36,7 +41,7 @@ const ResponsiveStage = (props: Props) => {
       ref={parentElement}
     >
       <Stage width={state.width} height={state.height}>
-        {props.children}
+        {props.children(state)}
       </Stage>
     </div>
   );
