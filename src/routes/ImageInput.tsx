@@ -1,11 +1,13 @@
 import React from "react";
-import ImageAnnotationFetcher from "../components/ImageAnnotationFetcher";
-import { FastLayer, Image, Rect } from "react-konva";
+import { Image } from "react-konva";
 import ImageFile from "../components/ImageFile";
 import ResponsiveStage from "../components/ResponsiveStage";
-import styles from "./ImageInput.module.css";
+import ResponsiveLayer from "../components/ResponsiveLayer";
 import MutableList from "../components/MutableList";
-import { boundingPolyToBox } from "../utils/google-cloud-vision";
+import SymbolRect from "../components/SymbolRect";
+import ImageAnnotationFetcher from "../components/ImageAnnotationFetcher";
+
+import styles from "./ImageInput.module.css";
 
 interface Props {
   file: File;
@@ -18,51 +20,29 @@ const ImageInput = (props: Props) => (
         {image => (
           <div className={styles.root}>
             <ResponsiveStage className={styles.stage}>
-              {dims => {
-                const widthByHeight =
-                  (image.width / image.height) * dims.height;
+              {dims => (
+                <ResponsiveLayer dims={dims} aspectRatio={image}>
+                  <Image image={image} />
 
-                const heightByWidth = (image.height / image.width) * dims.width;
-
-                const width = Math.min(widthByHeight, dims.width);
-                const height = Math.min(heightByWidth, dims.height);
-
-                const left = (dims.width - width) / 2;
-                const top = (dims.height - height) / 2;
-
-                return (
-                  <FastLayer
-                    x={left}
-                    y={top}
-                    scaleX={width / image.width}
-                    scaleY={height / image.height}
-                  >
-                    <Image image={image} />
-
-                    {annotations.map(annotation => {
-                      const bounds = boundingPolyToBox(annotation.boundingBox);
-
-                      return (
-                        <Rect
-                          x={bounds.minX}
-                          y={bounds.minY}
-                          width={bounds.maxX - bounds.minX}
-                          height={bounds.maxY - bounds.minY}
-                          fill={"red"}
-                        />
-                      );
-                    })}
-                  </FastLayer>
-                );
-              }}
+                  {annotations.map((symbol, idx) => (
+                    <SymbolRect key={idx} symbol={symbol} />
+                  ))}
+                </ResponsiveLayer>
+              )}
             </ResponsiveStage>
 
             <div>
-              <h3 className={styles.wordsHeader}>Words</h3>
+              <div>
+                <h3 className={styles.header}>Grid Size</h3>
+              </div>
 
-              <MutableList items={["a", "b", "C"]} onChange={console.log}>
-                {item => item}
-              </MutableList>
+              <div>
+                <h3 className={styles.header}>Words</h3>
+
+                <MutableList items={["a", "b", "C"]} onChange={console.log}>
+                  {item => item}
+                </MutableList>
+              </div>
             </div>
           </div>
         )}
