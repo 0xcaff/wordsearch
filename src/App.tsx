@@ -10,6 +10,7 @@ import Analytics from "./analytics/component";
 import { FullPageLoading } from "./components/Loading";
 import DataFetcher from "./components/DataFetcher";
 import CreatePuzzle from "./components/CreatePuzzle";
+import ImageInput from "./routes/ImageInput";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
@@ -36,7 +37,12 @@ class App extends Component {
                 exact
               />
 
-              <Route path="/input/image" render={() => null} />
+              <Route
+                path="/input/image"
+                render={props => (
+                  <ImageInput file={props.location.state.file} />
+                )}
+              />
 
               <Route
                 path="/input/text"
