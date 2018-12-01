@@ -1,6 +1,6 @@
 export function fileAsStream(
   file: File,
-  chunkSize: number = 1000
+  chunkSize: number = 10000
 ): ReadableStream<string> {
   const reader = new FileReader();
   let offset = 0;
