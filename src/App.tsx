@@ -24,7 +24,19 @@ class App extends Component {
             <Analytics />
 
             <Switch>
-              <Route path="/" render={() => <InputSelection />} exact />
+              <Route
+                path="/"
+                render={props => (
+                  <InputSelection
+                    selectFromImageFile={file =>
+                      props.history.push("/input/image", { file })
+                    }
+                  />
+                )}
+                exact
+              />
+
+              <Route path="/input/image" render={() => null} />
 
               <Route
                 path="/input/text"
