@@ -11,3 +11,10 @@
 .header {
   text-align: center;
 }
+
+.gridSize {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.5em;
+  margin-right: 1em;
+}
