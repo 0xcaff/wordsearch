@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Base64EncodeTransformer, collect, fileAsStream } from "../utils/files";
 import { ProgressTransformer } from "../utils/stream";
+import { getImageAnnotations } from "../utils/google-cloud-vision";
 
 interface Props {
   file: File;
@@ -15,14 +16,17 @@ class ImageInput extends Component<Props, State> {
     progress: 0
   };
 
-  componentDidMount(): void {
-    collect(
+  async componentDidMount(): Promise<void> {
+    const encoded = await collect(
       fileAsStream(this.props.file)
         .pipeThrough(
           new ProgressTransformer(progress => this.setState({ progress }))
         )
         .pipeThrough(new Base64EncodeTransformer())
-    ).then(encoded => console.log(encoded));
+    );
+
+    const symbols = await getImageAnnotations(encoded);
+    console.log(symbols);
   }
 
   render() {
