@@ -33,12 +33,36 @@ interface InnerProps {
   image: HTMLImageElement;
 }
 
+type StepState =
+  | { type: "STARTING" }
+  | { type: "SELECTED_GRID"; rows: string[] }
+  | { type: "SELECTED_WORDS"; rows: string[]; words: string[] };
+
+function state<T>(
+  state: StepState,
+  starting: () => T,
+  selectedGrid: (rows: string[]) => T,
+  selectedWords: (rows: string[], words: string[]) => T
+): T {
+  switch (state.type) {
+    case "STARTING":
+      return starting();
+
+    case "SELECTED_GRID":
+      return selectedGrid(state.rows);
+
+    case "SELECTED_WORDS":
+      return selectedWords(state.rows, state.words);
+  }
+}
+
 const Inner = (props: InnerProps) => {
   const [rows, setRows] = useState(2);
   const [cols, setCols] = useState(2);
   const [words, setWords] = useState<string[]>([]);
   const [startPosition, setStartPosition] = useState<Vector2d | null>(null);
   const [endPosition, setEndPosition] = useState<Vector2d | null>(null);
+  const [step, setStep] = useState<StepState>({ type: "STARTING" });
 
   return (
     <div className={styles.root}>
@@ -47,7 +71,10 @@ const Inner = (props: InnerProps) => {
           <ResponsiveLayer
             dims={dims}
             aspectRatio={props.image}
-            onMouseDown={setStartPosition}
+            onMouseDown={position => {
+              setEndPosition(null);
+              setStartPosition(position);
+            }}
             onMouseMove={(active, position) =>
               active && setEndPosition(position)
             }
@@ -74,44 +101,53 @@ const Inner = (props: InnerProps) => {
       </ResponsiveStage>
 
       <div>
-        <div>
-          <h3 className={styles.header}>Grid Size</h3>
+        {state(
+          step,
+          () => (
+            <div>
+              <h3 className={styles.header}>Grid Size</h3>
 
-          <div className={styles.gridSize}>
-            <label htmlFor="rows">Rows:</label>
-            <input
-              id="rows"
-              type="number"
-              min={2}
-              value={rows}
-              onChange={e => setRows(parseInt(e.target.value))}
-            />
+              <div className={styles.gridSize}>
+                <label htmlFor="rows">Rows:</label>
+                <input
+                  id="rows"
+                  type="number"
+                  min={2}
+                  value={rows}
+                  onChange={e => setRows(parseInt(e.target.value))}
+                />
 
-            <label htmlFor="columns">Columns:</label>
-            <input
-              id="columns"
-              type="number"
-              min={2}
-              value={cols}
-              onChange={e => setCols(parseInt(e.target.value))}
-            />
+                <label htmlFor="columns">Columns:</label>
+                <input
+                  id="columns"
+                  type="number"
+                  min={2}
+                  value={cols}
+                  onChange={e => setCols(parseInt(e.target.value))}
+                />
 
-            <button
-              className={styles.importButton}
-              disabled={!(startPosition && endPosition)}
-            >
-              Import From Grid
-            </button>
-          </div>
-        </div>
+                <button
+                  className={styles.importButton}
+                  disabled={!(startPosition && endPosition)}
+                  onClick={() => setStep({ type: "SELECTED_GRID", rows: [] })}
+                >
+                  Import From Grid
+                </button>
+              </div>
+            </div>
+          ),
 
-        <div>
-          <h3 className={styles.header}>Words</h3>
+          () => (
+            <div>
+              <h3 className={styles.header}>Words</h3>
 
-          <MutableList items={words} onChange={setWords}>
-            {item => item}
-          </MutableList>
-        </div>
+              <MutableList items={words} onChange={setWords}>
+                {item => item}
+              </MutableList>
+            </div>
+          ),
+          () => null
+        )}
       </div>
     </div>
   );
