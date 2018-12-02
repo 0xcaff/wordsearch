@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import FullPageText from "./FullPageText";
 
 interface Props {
   file: File;
@@ -40,7 +41,7 @@ class ImageFile extends Component<Props, State> {
   render(): React.ReactNode {
     switch (this.state.loading.type) {
       case "LOADING":
-        return "Rendering Image...";
+        return <FullPageText>Rendering Image...</FullPageText>;
       case "LOADED":
         return this.props.children(this.state.loading.result);
     }

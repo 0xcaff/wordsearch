@@ -5,6 +5,7 @@ import {
   getImageAnnotations,
   SymbolWithBoundingBox
 } from "../utils/googleCloudVision";
+import FullPageText from "./FullPageText";
 
 interface Props {
   file: File;
@@ -74,13 +75,13 @@ class ImageAnnotationFetcher extends Component<Props, State> {
     const loading = this.state.loading;
     switch (loading.type) {
       case LoadingStateType.STARTING:
-        return "Loading...";
+        return <FullPageText>Loading...</FullPageText>;
 
       case LoadingStateType.ENCODING_FILE:
-        return `Encoding File ${loading.progress}`;
+        return <FullPageText>Encoding File {loading.progress}</FullPageText>;
 
       case LoadingStateType.API_REQUEST:
-        return "Asking The Robots for Help...";
+        return <FullPageText>Asking Robots for Help... 🤖</FullPageText>;
 
       case LoadingStateType.DONE:
         return this.props.children(loading.result);
