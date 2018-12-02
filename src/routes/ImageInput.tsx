@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Image } from "react-konva";
-import { Symbol } from "../utils/googleCloudVisionTypes";
+import { Image, Rect } from "react-konva";
 import ImageFile from "../components/ImageFile";
 import ResponsiveStage from "../components/ResponsiveStage";
 import ResponsiveLayer from "../components/ResponsiveLayer";
@@ -11,17 +10,25 @@ import ImageAnnotationFetcher from "../components/ImageAnnotationFetcher";
 import styles from "./ImageInput.module.css";
 import GridRect from "../components/GridRect";
 import { Vector2d } from "konva";
-import { getRows } from "../utils/imageToGrid";
+import { getRows, getWord } from "../utils/imageExtraction";
+import { SymbolWithBoundingBox } from "../utils/googleCloudVision";
 
 interface Props {
   file: File;
+  onInputComplete: (rows: string[], words: string[]) => void;
 }
 
 const ImageInput = (props: Props) => (
   <ImageAnnotationFetcher file={props.file}>
     {symbols => (
       <ImageFile file={props.file}>
-        {image => <Inner symbols={symbols} image={image} />}
+        {image => (
+          <Inner
+            symbols={symbols}
+            image={image}
+            onInputComplete={props.onInputComplete}
+          />
+        )}
       </ImageFile>
     )}
   </ImageAnnotationFetcher>
@@ -30,20 +37,19 @@ const ImageInput = (props: Props) => (
 export default ImageInput;
 
 interface InnerProps {
-  symbols: Symbol[];
+  symbols: SymbolWithBoundingBox[];
   image: HTMLImageElement;
+  onInputComplete: (rows: string[], words: string[]) => void;
 }
 
 type StepState =
   | { type: "STARTING" }
-  | { type: "SELECTED_GRID"; rows: string[] }
-  | { type: "SELECTED_WORDS"; rows: string[]; words: string[] };
+  | { type: "SELECTED_GRID"; rows: string[] };
 
 function state<T>(
   state: StepState,
   starting: () => T,
-  selectedGrid: (rows: string[]) => T,
-  selectedWords: (rows: string[], words: string[]) => T
+  selectedGrid: (rows: string[]) => T
 ): T {
   switch (state.type) {
     case "STARTING":
@@ -51,9 +57,6 @@ function state<T>(
 
     case "SELECTED_GRID":
       return selectedGrid(state.rows);
-
-    case "SELECTED_WORDS":
-      return selectedWords(state.rows, state.words);
   }
 }
 
@@ -87,10 +90,20 @@ const Inner = (props: InnerProps) => {
               <SymbolRect key={idx} symbol={symbol} />
             ))}
 
-            {startPosition && endPosition && (
+            {step.type === "STARTING" && startPosition && endPosition && (
               <GridRect
                 rows={rows}
                 cols={cols}
+                x={startPosition.x}
+                y={startPosition.y}
+                width={endPosition.x - startPosition.x}
+                height={endPosition.y - startPosition.y}
+              />
+            )}
+
+            {step.type === "SELECTED_GRID" && startPosition && endPosition && (
+              <Rect
+                stroke="black"
                 x={startPosition.x}
                 y={startPosition.y}
                 width={endPosition.x - startPosition.x}
@@ -130,7 +143,9 @@ const Inner = (props: InnerProps) => {
                 <button
                   className={styles.importButton}
                   disabled={!(startPosition && endPosition)}
-                  onClick={() =>
+                  onClick={() => {
+                    setStartPosition(null);
+                    setEndPosition(null);
                     setStep({
                       type: "SELECTED_GRID",
                       rows: getRows(
@@ -140,25 +155,46 @@ const Inner = (props: InnerProps) => {
                         cols,
                         props.symbols
                       )
-                    })
-                  }
+                    });
+                  }}
                 >
                   Import From Grid
                 </button>
               </div>
             </div>
           ),
-
-          () => (
+          rows => (
             <div>
               <h3 className={styles.header}>Words</h3>
 
               <MutableList items={words} onChange={setWords}>
                 {item => item}
               </MutableList>
+
+              <button
+                disabled={!(startPosition && endPosition)}
+                onClick={() => {
+                  setStartPosition(null);
+                  setEndPosition(null);
+
+                  setWords([
+                    ...words,
+                    getWord(
+                      startPosition as Vector2d,
+                      endPosition as Vector2d,
+                      props.symbols
+                    )
+                  ]);
+                }}
+              >
+                Select Word
+              </button>
+
+              <button onClick={() => props.onInputComplete(rows, words)}>
+                Done
+              </button>
             </div>
-          ),
-          () => null
+          )
         )}
       </div>
     </div>

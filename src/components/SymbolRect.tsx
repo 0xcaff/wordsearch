@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Rect } from "react-konva";
-import { Symbol } from "../utils/googleCloudVisionTypes";
-import { boundingPolyToBox } from "../utils/googleCloudVision";
+import { SymbolWithBoundingBox } from "../utils/googleCloudVision";
+import { boundingBoxHeight, boundingBoxWidth } from "../utils/geom";
 
 interface Props {
-  symbol: Symbol;
+  symbol: SymbolWithBoundingBox;
 }
 
 interface State {
@@ -15,14 +15,12 @@ class SymbolRect extends Component<Props, State> {
   state = { hovered: false };
 
   render(): React.ReactNode {
-    const bounds = boundingPolyToBox(this.props.symbol.boundingBox);
-
     return (
       <Rect
-        x={bounds.minX}
-        y={bounds.minY}
-        width={bounds.maxX - bounds.minX}
-        height={bounds.maxY - bounds.minY}
+        x={this.props.symbol.bounds.minX}
+        y={this.props.symbol.bounds.minY}
+        width={boundingBoxWidth(this.props.symbol.bounds)}
+        height={boundingBoxHeight(this.props.symbol.bounds)}
         onMouseEnter={() => this.setState({ hovered: true })}
         onMouseLeave={() => this.setState({ hovered: false })}
         stroke={this.state.hovered ? "red" : "black"}

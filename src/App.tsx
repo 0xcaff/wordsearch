@@ -40,7 +40,12 @@ class App extends Component {
               <Route
                 path="/input/image"
                 render={props => (
-                  <ImageInput file={props.location.state.file} />
+                  <ImageInput
+                    file={props.location.state.file}
+                    onInputComplete={(rows, words) =>
+                      props.history.push("/view", { rows, words })
+                    }
+                  />
                 )}
               />
 

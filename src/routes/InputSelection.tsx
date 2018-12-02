@@ -5,7 +5,7 @@ import buttonStyles from "../components/Button.module.css";
 import sharedStyles from "../components/shared.module.css";
 import styles from "./InputSelection.module.css";
 import { puzzles } from "wordsearch-algo";
-import { join } from "../utils";
+import { join } from "../utils/utils";
 import ButtonInput from "../components/ButtonInput";
 
 interface Props {

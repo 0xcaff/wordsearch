@@ -39,8 +39,16 @@ const ResponsiveLayer = (props: Props) => {
   const heightByWidth =
     (props.aspectRatio.height / props.aspectRatio.width) * props.dims.width;
 
-  const width = Math.min(widthByHeight, props.dims.width, props.aspectRatio.width);
-  const height = Math.min(heightByWidth, props.dims.height, props.aspectRatio.height);
+  const width = Math.min(
+    widthByHeight,
+    props.dims.width,
+    props.aspectRatio.width
+  );
+  const height = Math.min(
+    heightByWidth,
+    props.dims.height,
+    props.aspectRatio.height
+  );
 
   const left = (props.dims.width - width) / 2;
   const top = (props.dims.height - height) / 2;

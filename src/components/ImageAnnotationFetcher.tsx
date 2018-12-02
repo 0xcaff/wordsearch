@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { Symbol } from "../utils/googleCloudVisionTypes";
 import { Base64EncodeTransformer, collect, fileAsStream } from "../utils/files";
 import { ProgressTransformer } from "../utils/stream";
-import { getImageAnnotations } from "../utils/googleCloudVision";
+import {
+  getImageAnnotations,
+  SymbolWithBoundingBox
+} from "../utils/googleCloudVision";
 
 interface Props {
   file: File;
-  children: (annotations: Symbol[]) => React.ReactNode;
+  children: (annotations: SymbolWithBoundingBox[]) => React.ReactNode;
 }
 
 enum LoadingStateType {
@@ -27,7 +29,7 @@ type LoadingState =
       progress: number;
     }
   | { type: LoadingStateType.API_REQUEST }
-  | { type: LoadingStateType.DONE; result: Symbol[] };
+  | { type: LoadingStateType.DONE; result: SymbolWithBoundingBox[] };
 
 interface State {
   loading: LoadingState;
