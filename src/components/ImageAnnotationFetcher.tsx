@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Symbol } from "../utils/google-cloud-vision-type";
+import { Symbol } from "../utils/googleCloudVisionTypes";
 import { Base64EncodeTransformer, collect, fileAsStream } from "../utils/files";
 import { ProgressTransformer } from "../utils/stream";
-import { getImageAnnotations } from "../utils/google-cloud-vision";
+import { getImageAnnotations } from "../utils/googleCloudVision";
 
 interface Props {
   file: File;

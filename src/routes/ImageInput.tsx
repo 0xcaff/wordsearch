@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from "react-konva";
-import { Symbol } from "../utils/google-cloud-vision-type";
+import { Symbol } from "../utils/googleCloudVisionTypes";
 import ImageFile from "../components/ImageFile";
 import ResponsiveStage from "../components/ResponsiveStage";
 import ResponsiveLayer from "../components/ResponsiveLayer";

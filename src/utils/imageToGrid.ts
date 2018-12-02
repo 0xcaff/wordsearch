@@ -1,7 +1,7 @@
 import { Vector2d } from "konva";
 import Flatbush from "flatbush";
-import { boundingPolyToBox } from "./google-cloud-vision";
-import { Symbol } from "./google-cloud-vision-type";
+import { boundingPolyToBox } from "./googleCloudVision";
+import { Symbol } from "./googleCloudVisionTypes";
 
 export const getRows = (
   topLeft: Vector2d,

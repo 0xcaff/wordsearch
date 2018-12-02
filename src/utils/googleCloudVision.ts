@@ -3,7 +3,7 @@ import {
   getSymbols,
   GoogleCloudVisionResponse,
   BoundingPoly
-} from "./google-cloud-vision-type";
+} from "./googleCloudVisionTypes";
 
 const KEY = "AIzaSyD2a1P2TcfWCT_FqCA5qxITFn9Ry_uUDFg";
 

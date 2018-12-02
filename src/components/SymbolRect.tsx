@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Rect } from "react-konva";
-import { Symbol } from "../utils/google-cloud-vision-type";
-import { boundingPolyToBox } from "../utils/google-cloud-vision";
+import { Symbol } from "../utils/googleCloudVisionTypes";
+import { boundingPolyToBox } from "../utils/googleCloudVision";
 
 interface Props {
   symbol: Symbol;
