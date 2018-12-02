@@ -5,9 +5,14 @@ import buttonStyles from "../components/Button.module.css";
 import sharedStyles from "../components/shared.module.css";
 import styles from "./InputSelection.module.css";
 import { puzzles } from "wordsearch-algo";
-import { join } from "../utils";
+import { join } from "../utils/utils";
+import ButtonInput from "../components/ButtonInput";
 
-const InputSelection = () => {
+interface Props {
+  selectFromImageFile: (file: File) => void;
+}
+
+const InputSelection = (props: Props) => {
   return (
     <div className={styles.component}>
       <header className={styles.header}>
@@ -16,6 +21,25 @@ const InputSelection = () => {
 
       <main className={styles.content}>
         <div className={styles.buttonContainer}>
+          <ButtonInput
+            className={styles.button}
+            onChange={event => {
+              if (
+                !event ||
+                !event.target ||
+                !event.target.files ||
+                !event.target.files.length
+              ) {
+                return;
+              }
+
+              const [firstFile] = event.target.files;
+              props.selectFromImageFile(firstFile);
+            }}
+          >
+            Select from Image
+          </ButtonInput>
+
           <Link
             className={[styles.button, buttonStyles.button].join(" ")}
             to="/input/text"

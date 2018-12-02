@@ -12,12 +12,15 @@
     "draft-js": "^0.10.5",
     "fast-memoize": "^2.5.1",
     "firebase": "^5.5.9",
+    "flatbush": "^3.1.0",
     "immutable": "^4.0.0-rc.12",
+    "konva": "^2.5.1",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
+    "react-konva": "^16.6.31",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
-    "typescript": "^3.1.6",
+    "typescript": "^3.2.1",
     "wordsearch-algo": "^2.1.2"
   },
   "scripts": {

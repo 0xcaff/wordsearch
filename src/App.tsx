@@ -10,6 +10,7 @@ import Analytics from "./analytics/component";
 import { FullPageLoading } from "./components/Loading";
 import DataFetcher from "./components/DataFetcher";
 import CreatePuzzle from "./components/CreatePuzzle";
+import ImageInput from "./routes/ImageInput";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
@@ -24,7 +25,36 @@ class App extends Component {
             <Analytics />
 
             <Switch>
-              <Route path="/" render={() => <InputSelection />} exact />
+              <Route
+                path="/"
+                render={props => (
+                  <InputSelection
+                    selectFromImageFile={file =>
+                      props.history.push("/input/image", { file })
+                    }
+                  />
+                )}
+                exact
+              />
+
+              <Route
+                path="/input/image"
+                render={props => {
+                  if (!props.location.state) {
+                    props.history.push("/");
+                    return null;
+                  }
+
+                  return (
+                    <ImageInput
+                      file={props.location.state.file}
+                      onInputComplete={(rows, words) =>
+                        props.history.push("/view", { rows, words })
+                      }
+                    />
+                  );
+                }}
+              />
 
               <Route
                 path="/input/text"
