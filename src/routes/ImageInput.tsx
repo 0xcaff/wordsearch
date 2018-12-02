@@ -11,6 +11,7 @@ import ImageAnnotationFetcher from "../components/ImageAnnotationFetcher";
 import styles from "./ImageInput.module.css";
 import GridRect from "../components/GridRect";
 import { Vector2d } from "konva";
+import { getRows } from "../utils/imageToGrid";
 
 interface Props {
   file: File;
@@ -129,7 +130,18 @@ const Inner = (props: InnerProps) => {
                 <button
                   className={styles.importButton}
                   disabled={!(startPosition && endPosition)}
-                  onClick={() => setStep({ type: "SELECTED_GRID", rows: [] })}
+                  onClick={() =>
+                    setStep({
+                      type: "SELECTED_GRID",
+                      rows: getRows(
+                        startPosition as Vector2d,
+                        endPosition as Vector2d,
+                        rows,
+                        cols,
+                        props.symbols
+                      )
+                    })
+                  }
                 >
                   Import From Grid
                 </button>
