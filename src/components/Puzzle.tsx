@@ -49,7 +49,7 @@ const getMatches = memoize((rows: string[], words: string[]) =>
 
 const getMatchesAt = memoize((rows: string[], words: string[]) => {
   const matches = getMatches(rows, words);
-  let matchesAt = Map<Record<Position>, Match[]>();
+  let matchesAt = Map<Map<string, any>, Match[]>();
   for (let idx = 0; idx < matches.length; idx++) {
     const match = matches[idx];
 

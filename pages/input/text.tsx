@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import Router from "next/router";
+import { NextPageContext } from "next";
 
-import TextEntry from "../components/TextEntry";
-import MutableList from "../components/MutableList";
-import Button from "../components/Button";
+import TextEntry from "../../src/components/TextEntry";
+import MutableList from "../../src/components/MutableList";
+import Button from "../../src/components/Button";
 
-import styles from "./TextInput.module.css";
+import styles from "./text.module.css";
 
 interface Props {
   startingRows: string[];
   startingWords: string[];
-  solvePuzzle: (rows: string[], words: string[]) => void;
 }
 
 const TextInput = (props: Props) => {
@@ -33,12 +34,28 @@ const TextInput = (props: Props) => {
       </main>
 
       <footer className={styles.footer}>
-        <Button onClick={() => props.solvePuzzle(text.split("\n"), words)}>
+        <Button
+          onClick={() =>
+            Router.push({
+              pathname: "/view",
+              query: { rows: text.split("\n"), words }
+            })
+          }
+        >
           Solve Puzzle!
         </Button>
       </footer>
     </div>
   );
+};
+
+TextInput.getInitialProps = (context: NextPageContext): Props => {
+  return {
+    startingRows: context.query.rows,
+    startingWords: context.query.words
+  };
+
+  console.log(context);
 };
 
 export default TextInput;
