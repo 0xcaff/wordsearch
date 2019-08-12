@@ -28,7 +28,7 @@ interface State {
   pointerPosition?: Position;
 }
 
-const PositionRecord: Record.Factory<Position> = Record({
+const PositionRecord = Record({
   rowIdx: -1,
   colIdx: -1
 });
@@ -74,26 +74,24 @@ const getMatchesAt = memoize((rows: string[], words: string[]) => {
   return matchesAt;
 });
 
-const getNodes = memoize(
-  (rows: string[], words: string[]): Node[] => {
-    const matchesAt = getMatchesAt(rows, words);
+const getNodes = memoize((rows: string[], words: string[]): Node[] => {
+  const matchesAt = getMatchesAt(rows, words);
 
-    const nodes = rows.flatMap((row, rowIdx) =>
-      row.split("").map((content, colIdx) => {
-        const position = { rowIdx, colIdx };
-        const matchesAtPosition = matchesAt.get(PositionRecord(position)) || [];
+  const nodes = rows.flatMap((row, rowIdx) =>
+    row.split("").map((content, colIdx) => {
+      const position = { rowIdx, colIdx };
+      const matchesAtPosition = matchesAt.get(PositionRecord(position)) || [];
 
-        return {
-          content,
-          position,
-          isHighlighted: matchesAtPosition.length > 0
-        };
-      })
-    );
+      return {
+        content,
+        position,
+        isHighlighted: matchesAtPosition.length > 0
+      };
+    })
+  );
 
-    return nodes;
-  }
-);
+  return nodes;
+});
 
 const hasPaintWorklet = "paintWorklet" in CSS;
 
@@ -188,9 +186,7 @@ class Puzzle extends Component<Props, State> {
 
           {highlightedMatches.map(match => (
             <PuzzleGridHighlight
-              key={`${match.start.rowIdx}:${match.start.colIdx}:${
-                match.end.rowIdx
-              }:${match.end.colIdx}`}
+              key={`${match.start.rowIdx}:${match.start.colIdx}:${match.end.rowIdx}:${match.end.colIdx}`}
               start={match.start}
               end={match.end}
             />

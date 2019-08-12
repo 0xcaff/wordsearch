@@ -1,13 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
-import buttonStyles from "../components/Button.module.css";
-import sharedStyles from "../components/shared.module.css";
-import styles from "./InputSelection.module.css";
+import buttonStyles from "../src/components/Button.module.css";
+import sharedStyles from "../src/components/shared.module.css";
+import styles from "./index.module.css";
 import { puzzles } from "wordsearch-algo";
-import { join } from "../utils";
+import { join } from "../src/utils";
+import "../src/index.css";
 
-const InputSelection = () => {
+export default () => {
   return (
     <div className={styles.component}>
       <header className={styles.header}>
@@ -16,11 +17,10 @@ const InputSelection = () => {
 
       <main className={styles.content}>
         <div className={styles.buttonContainer}>
-          <Link
-            className={[styles.button, buttonStyles.button].join(" ")}
-            to="/input/text"
-          >
-            Enter Text
+          <Link href="/input/text">
+            <a className={[styles.button, buttonStyles.button].join(" ")}>
+              Enter Text
+            </a>
           </Link>
         </div>
 
@@ -37,17 +37,11 @@ const InputSelection = () => {
   );
 };
 
-export default InputSelection;
-
 const DemoPuzzles = () => {
   const commaElem = <span>, </span>;
   const textArr = puzzles.map(puzzle => (
-    <Link
-      className={sharedStyles.clickable}
-      key={puzzle.name}
-      to={`/view/${puzzle.name}`}
-    >
-      {puzzle.name}
+    <Link key={puzzle.name} href={`/view/${puzzle.name}`}>
+      <a className={sharedStyles.clickable}>{puzzle.name}</a>
     </Link>
   ));
 

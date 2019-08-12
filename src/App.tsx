@@ -11,7 +11,7 @@ import { FullPageLoading } from "./components/Loading";
 import DataFetcher from "./components/DataFetcher";
 import CreatePuzzle from "./components/CreatePuzzle";
 
-const InputSelection = lazy(() => import("./routes/InputSelection"));
+const InputSelection = lazy(() => import("../pages"));
 const TextInput = lazy(() => import("./routes/TextInput"));
 const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
 
