@@ -1935,6 +1935,18 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@zeit/next-css@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@zeit/next-css/-/next-css-1.0.1.tgz#4f784e841e7ca1b21b3468a902e2c1fa95a3e75c"
+  integrity sha512-yfHPRy/ne/5SddVClsoy+fpU7e0Cs1gkWA67/wm2uIu+9rznF45yQLxHEt5dPGF3h6IiIh7ZtIgA8VV8YKq87A==
+  dependencies:
+    css-loader "1.0.0"
+    extracted-loader "1.0.4"
+    find-up "2.1.0"
+    ignore-loader "0.1.2"
+    mini-css-extract-plugin "0.4.3"
+    postcss-loader "3.0.0"
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
@@ -4862,6 +4874,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+extracted-loader@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/extracted-loader/-/extracted-loader-1.0.4.tgz#e1a3f1791813c14091a1959e261e23e95dd90115"
+  integrity sha512-G8A0hT/WCWIjesZm7BwbWdST5dQ08GNnCpTrJT/k/FYzuiJwlV1gyWjnuoizOzAR4jpEYXG2J++JyEKN/EB26Q==
+
 extsprintf@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.3.0.tgz#96918440e3041a7a414f8c52e3c574eb3c3e1e05"
@@ -5069,6 +5086,13 @@ find-cache-dir@^2.1.0:
     make-dir "^2.0.0"
     pkg-dir "^3.0.0"
 
+find-up@2.1.0, find-up@^2.0.0, find-up@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/find-up/-/find-up-2.1.0.tgz#45d1b7e506c717ddd482775a2b77920a3c0c57a7"
+  integrity sha1-RdG35QbHF93UgndaK3eSCjwMV6c=
+  dependencies:
+    locate-path "^2.0.0"
+
 find-up@3.0.0, find-up@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-3.0.0.tgz#49169f1d7993430646da61ecc5ae355c21c97b73"
@@ -5090,13 +5114,6 @@ find-up@^1.0.0:
   dependencies:
     path-exists "^2.0.0"
     pinkie-promise "^2.0.0"
-
-find-up@^2.0.0, find-up@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/find-up/-/find-up-2.1.0.tgz#45d1b7e506c717ddd482775a2b77920a3c0c57a7"
-  integrity sha1-RdG35QbHF93UgndaK3eSCjwMV6c=
-  dependencies:
-    locate-path "^2.0.0"
 
 firebase@^5.5.9:
   version "5.5.9"
@@ -5937,6 +5954,11 @@ iferr@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
   integrity sha1-xg7taebY/bazEEofy8ocGS3FtQE=
+
+ignore-loader@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ignore-loader/-/ignore-loader-0.1.2.tgz#d81f240376d0ba4f0d778972c3ad25874117a463"
+  integrity sha1-2B8kA3bQuk8Nd4lyw60lh0EXpGM=
 
 ignore-walk@^3.0.1:
   version "3.0.1"

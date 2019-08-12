@@ -9,6 +9,7 @@
     "@types/react": "^16.7.6",
     "@types/react-dom": "^16.0.9",
     "@types/react-router-dom": "^4.3.1",
+    "@zeit/next-css": "^1.0.1",
     "draft-js": "^0.10.5",
     "fast-memoize": "^2.5.1",
     "firebase": "^5.5.9",
