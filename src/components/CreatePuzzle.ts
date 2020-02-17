@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { PuzzleData } from "../database";
 import { database } from "../database";
+import { useWithLoading } from "./useWithLoading";
 
 interface Props {
   onCreated: (id: string) => void;
-  children: (props: ChildProps) => React.ReactNode;
+  children: (props: ChildProps) => React.ReactElement;
 }
 
 interface ChildProps {
@@ -12,40 +13,16 @@ interface ChildProps {
   isCreating: boolean;
 }
 
-interface State {
-  isLoading: boolean;
-}
-
-class CreatePuzzle extends Component<Props, State> {
-  mounted: boolean = true;
-
-  state = {
-    isLoading: false
-  };
-
-  create = async (puzzle: PuzzleData) => {
-    if (this.state.isLoading) {
-      throw new Error("Multiple mutations happening at the same time!");
-    }
-
-    this.setState({ isLoading: true });
+export const CreatePuzzle: React.FC<Props> = (props: Props) => {
+  const { load, isLoading } = useWithLoading(async (puzzle: PuzzleData) => {
     const newPuzzle = await database.newPuzzle(puzzle);
-    this.props.onCreated(newPuzzle.id);
-    if (this.mounted) {
-      this.setState({ isLoading: false });
-    }
-  };
+    props.onCreated(newPuzzle.id);
+  });
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  render() {
-    return this.props.children({
-      create: this.create,
-      isCreating: this.state.isLoading
-    });
-  }
-}
+  return props.children({
+    create: load,
+    isCreating: isLoading
+  });
+};
 
 export default CreatePuzzle;
