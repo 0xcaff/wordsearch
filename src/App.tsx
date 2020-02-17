@@ -8,12 +8,10 @@ import {
 
 import Analytics from "./analytics/component";
 import { FullPageLoading } from "./components/Loading";
-import DataFetcher from "./components/DataFetcher";
-import CreatePuzzle from "./components/CreatePuzzle";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
-const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
+const ViewPuzzleWithData = lazy(() => import("./routes/ViewPuzzle"));
 
 class App extends Component {
   render() {
@@ -46,46 +44,18 @@ class App extends Component {
 
               <Route
                 path="/view/:id?"
-                render={props => {
-                  return (
-                    <DataFetcher
-                      id={props.match.params.id}
-                      data={props.location.state}
-                    >
-                      {queryProps => {
-                        if (queryProps.isLoading) {
-                          return <FullPageLoading />;
-                        }
-
-                        return (
-                          <CreatePuzzle
-                            onCreated={id =>
-                              props.history.replace(`/view/${id}`)
-                            }
-                          >
-                            {mutationProps => (
-                              <ViewPuzzle
-                                words={queryProps.data.words}
-                                rows={queryProps.data.rows}
-                                toEditor={() =>
-                                  props.history.push(
-                                    "/input/text",
-                                    queryProps.data
-                                  )
-                                }
-                                isFromRemote={!queryProps.isFromLocal}
-                                isCreating={mutationProps.isCreating}
-                                onCreate={() =>
-                                  mutationProps.create(queryProps.data)
-                                }
-                              />
-                            )}
-                          </CreatePuzzle>
-                        );
-                      }}
-                    </DataFetcher>
-                  );
-                }}
+                render={props => (
+                  <ViewPuzzleWithData
+                    id={props.match.params?.id}
+                    puzzleData={props.location.state}
+                    viewPuzzle={puzzleId =>
+                      props.history.replace(`/view/${puzzleId}`)
+                    }
+                    toEditorWithPuzzle={puzzle =>
+                      props.history.push("/input/text", puzzle)
+                    }
+                  />
+                )}
                 exact
               />
 
