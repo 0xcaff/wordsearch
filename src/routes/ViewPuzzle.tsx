@@ -4,6 +4,10 @@ import Button from "../components/Button";
 import Puzzle from "../components/Puzzle";
 import WordList from "../components/WordList";
 import { Set } from "immutable";
+import { usePuzzle } from "../components/usePuzzle";
+import { useWithLoading } from "../components/useWithLoading";
+import { database, PuzzleData } from "../database";
+import { NotFound } from "../components/NotFound";
 
 interface Props {
   rows: string[];
@@ -72,4 +76,42 @@ const ViewPuzzle = (props: Props) => {
   );
 };
 
-export default ViewPuzzle;
+interface ViewPuzzleWithDataProps {
+  id?: string;
+  puzzleData?: PuzzleData;
+  viewPuzzle: (puzzleId: string) => void;
+  toEditorWithPuzzle: (puzzle: PuzzleData) => void;
+}
+
+const ViewPuzzleWithData: React.FC<ViewPuzzleWithDataProps> = (
+  props: ViewPuzzleWithDataProps
+) => {
+  const puzzle = usePuzzle({
+    id: props.id,
+    data: props.puzzleData
+  });
+
+  const { load: create, isLoading: isCreating } = useWithLoading(
+    async (puzzle: PuzzleData) => {
+      const newPuzzle = await database.newPuzzle(puzzle);
+      props.viewPuzzle(newPuzzle.id);
+    }
+  );
+
+  if (puzzle === null) {
+    return <NotFound />;
+  }
+
+  return (
+    <ViewPuzzle
+      words={puzzle.data.words}
+      rows={puzzle.data.rows}
+      toEditor={() => props.toEditorWithPuzzle(puzzle.data)}
+      isFromRemote={!puzzle.isFromLocal}
+      isCreating={isCreating}
+      onCreate={() => create(puzzle.data)}
+    />
+  );
+};
+
+export default ViewPuzzleWithData;

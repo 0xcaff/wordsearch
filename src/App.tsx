@@ -8,14 +8,10 @@ import {
 
 import Analytics from "./analytics/component";
 import { FullPageLoading } from "./components/Loading";
-import { usePuzzle } from "./components/usePuzzle";
-import { NotFound } from "./components/NotFound";
-import { useWithLoading } from "./components/useWithLoading";
-import { database, PuzzleData } from "./database";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
-const ViewPuzzle = lazy(() => import("./routes/ViewPuzzle"));
+const ViewPuzzleWithData = lazy(() => import("./routes/ViewPuzzle"));
 
 class App extends Component {
   render() {
@@ -48,37 +44,18 @@ class App extends Component {
 
               <Route
                 path="/view/:id?"
-                render={props => {
-                  const puzzle = usePuzzle({
-                    id: props.match.params.id,
-                    data: props.location.state
-                  });
-
-                  const {
-                    load: create,
-                    isLoading: isCreating
-                  } = useWithLoading(async (puzzle: PuzzleData) => {
-                    const newPuzzle = await database.newPuzzle(puzzle);
-                    props.history.replace(`/view/${newPuzzle.id}`);
-                  });
-
-                  if (!puzzle) {
-                    return <NotFound />;
-                  }
-
-                  return (
-                    <ViewPuzzle
-                      words={puzzle.data.words}
-                      rows={puzzle.data.rows}
-                      toEditor={() =>
-                        props.history.push("/input/text", puzzle.data)
-                      }
-                      isFromRemote={!puzzle.isFromLocal}
-                      isCreating={isCreating}
-                      onCreate={() => create(puzzle?.data)}
-                    />
-                  );
-                }}
+                render={props => (
+                  <ViewPuzzleWithData
+                    id={props.match.params?.id}
+                    puzzleData={props.location.state}
+                    viewPuzzle={puzzleId =>
+                      props.history.replace(`/view/${puzzleId}`)
+                    }
+                    toEditorWithPuzzle={puzzle =>
+                      props.history.push("/input/text", puzzle)
+                    }
+                  />
+                )}
                 exact
               />
 
