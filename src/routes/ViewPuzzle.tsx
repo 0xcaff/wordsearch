@@ -34,9 +34,7 @@ const ViewPuzzle = (props: Props) => {
         <Puzzle
           words={props.words}
           rows={props.rows}
-          focusWords={words =>
-            setFocused(_ => Set(words))
-          }
+          focusWords={words => setFocused(_ => Set(words))}
           selectedWord={selectedWord}
         />
       </div>
