@@ -9,8 +9,9 @@ import {
 import Analytics from "./analytics/component";
 import { FullPageLoading } from "./components/Loading";
 import { usePuzzle } from "./components/usePuzzle";
-import CreatePuzzle from "./components/CreatePuzzle";
 import { NotFound } from "./components/NotFound";
+import { useWithLoading } from "./components/useWithLoading";
+import { database, PuzzleData } from "./database";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
 const TextInput = lazy(() => import("./routes/TextInput"));
@@ -52,27 +53,30 @@ class App extends Component {
                     id: props.match.params.id,
                     data: props.location.state
                   });
+
+                  const {
+                    load: create,
+                    isLoading: isCreating
+                  } = useWithLoading(async (puzzle: PuzzleData) => {
+                    const newPuzzle = await database.newPuzzle(puzzle);
+                    props.history.replace(`/view/${newPuzzle.id}`);
+                  });
+
                   if (!puzzle) {
                     return <NotFound />;
                   }
 
                   return (
-                    <CreatePuzzle
-                      onCreated={id => props.history.replace(`/view/${id}`)}
-                    >
-                      {mutationProps => (
-                        <ViewPuzzle
-                          words={puzzle.data.words}
-                          rows={puzzle.data.rows}
-                          toEditor={() =>
-                            props.history.push("/input/text", puzzle.data)
-                          }
-                          isFromRemote={!puzzle.isFromLocal}
-                          isCreating={mutationProps.isCreating}
-                          onCreate={() => mutationProps.create(puzzle.data)}
-                        />
-                      )}
-                    </CreatePuzzle>
+                    <ViewPuzzle
+                      words={puzzle.data.words}
+                      rows={puzzle.data.rows}
+                      toEditor={() =>
+                        props.history.push("/input/text", puzzle.data)
+                      }
+                      isFromRemote={!puzzle.isFromLocal}
+                      isCreating={isCreating}
+                      onCreate={() => create(puzzle?.data)}
+                    />
                   );
                 }}
                 exact
