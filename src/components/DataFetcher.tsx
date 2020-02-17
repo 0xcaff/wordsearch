@@ -1,114 +1,104 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import styles from "./DataFetcher.module.css";
-import { PuzzleData } from "../database";
+import { PuzzleData, PuzzleWithId } from "../database";
 import { database } from "../database";
 
 interface Props {
   id?: string;
   data?: PuzzleData;
-  children: (state: ChildProps) => React.ReactNode;
+  children: (state: ChildProps) => React.ReactElement;
 }
 
-interface State {
-  prevId?: string;
-  isLoading: boolean;
+interface ChildProps {
   isFromLocal: boolean;
-  data: PuzzleData | null;
+  data: PuzzleData;
 }
 
-type ChildProps =
-  | { isLoading: true }
-  | { isLoading: false; isFromLocal: boolean; data: PuzzleData };
+const DataFetcher: React.FC<Props> = (props: Props): React.ReactElement => {
+  const context = useContext<DataFetcherContextState>(DataFetcherContext);
 
-class DataFetcher extends Component<Props, State> {
-  _currentId: string | null = null;
-
-  state: State = {
-    isLoading: true,
-    data: null,
-    isFromLocal: false
-  };
-
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    if (nextProps.data) {
-      return {
-        isLoading: false,
-        data: nextProps.data,
-        isFromLocal: true
-      };
+  const data = props.data;
+  if (data) {
+    return props.children({ isFromLocal: true, data });
+  } else if (props.id) {
+    const data = getFromCacheOrFetch(context, props.id);
+    if (data === null) {
+      return <NotFound />;
     }
 
-    if (nextProps.id && nextProps.id !== prevState.prevId) {
-      return {
-        isLoading: true,
-        data: null,
-        isFromLocal: false,
-        prevId: nextProps.id
-      };
-    }
-
-    if (!nextProps.id && !nextProps.data) {
-      return {
-        isLoading: false,
-        data: null,
-        isFromLocal: true
-      };
-    }
-
-    return null;
+    return props.children({ isFromLocal: false, data });
+  } else {
+    return <NotFound />;
   }
+};
 
-  componentDidMount() {
-    if (this.props.id) {
-      this.loadAsync(this.props.id);
-    }
-  }
-
-  componentDidUpdate() {
-    if (
-      this.props.id &&
-      this.props.id === this.state.prevId &&
-      this.state.data === null
-    ) {
-      this.loadAsync(this.props.id);
-    }
-  }
-
-  componentWillUnmount() {
-    this._currentId = null;
-  }
-
-  loadAsync = (id: string) => {
-    if (id === this._currentId) {
-      return;
-    }
-
-    this._currentId = id;
-
-    database.getPuzzle(id).then(data => {
-      // Only update state if the Promise that has just resolved,
-      // Reflects the most recently requested external data.
-      if (id === this._currentId) {
-        this.setState({ isLoading: false, data });
-      }
-    });
-  };
-
-  render() {
-    if (this.state.isLoading) {
-      return this.props.children({ isLoading: true });
-    }
-
-    if (this.state.data === null) {
-      return <div className={styles.notFound}>Not Found :(</div>;
-    }
-
-    return this.props.children({
-      isLoading: false,
-      data: this.state.data,
-      isFromLocal: this.state.isFromLocal
-    });
-  }
-}
+const NotFound = () => <div className={styles.notFound}>Not Found :(</div>;
 
 export default DataFetcher;
+
+function getFromCacheOrFetch(
+  context: DataFetcherContextState,
+  key: string
+): PuzzleWithId | null {
+  const fromCache = context.cached.get(key);
+  if (!fromCache) {
+    const promiseWithState = {
+      state: { state: "LOADING" } as PromiseState<PuzzleWithId | null>,
+      promise: database
+        .getPuzzle(key)
+        .then(value => {
+          promiseWithState.state = { state: "RESOLVED", value };
+        })
+        .catch(value => {
+          promiseWithState.state = { state: "REJECTED", value };
+        })
+    };
+
+    context.cached.set(key, promiseWithState);
+    throw promiseWithState.promise;
+  }
+
+  const promiseCompletionState = fromCache.state;
+  switch (promiseCompletionState.state) {
+    case "LOADING": {
+      throw fromCache.promise;
+    }
+    case "RESOLVED": {
+      return promiseCompletionState.value;
+    }
+    case "REJECTED":
+      throw promiseCompletionState.value;
+  }
+}
+
+interface DataFetcherContextState {
+  cached: Map<string, PromiseWithState<PuzzleWithId | null>>;
+}
+
+const DataFetcherContext = React.createContext<DataFetcherContextState>({
+  cached: new Map()
+});
+
+interface PromiseWithState<T> {
+  promise: Promise<void>;
+  state: PromiseState<T>;
+}
+
+type PromiseState<T> =
+  | PromiseStateLoading
+  | PromiseStateResolved<T>
+  | PromiseStateRejected;
+
+interface PromiseStateLoading {
+  state: "LOADING";
+}
+
+interface PromiseStateResolved<T> {
+  state: "RESOLVED";
+  value: T;
+}
+
+interface PromiseStateRejected {
+  state: "REJECTED";
+  value?: any;
+}

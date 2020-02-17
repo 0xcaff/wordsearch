@@ -46,46 +46,33 @@ class App extends Component {
 
               <Route
                 path="/view/:id?"
-                render={props => {
-                  return (
-                    <DataFetcher
-                      id={props.match.params.id}
-                      data={props.location.state}
-                    >
-                      {queryProps => {
-                        if (queryProps.isLoading) {
-                          return <FullPageLoading />;
-                        }
-
-                        return (
-                          <CreatePuzzle
-                            onCreated={id =>
-                              props.history.replace(`/view/${id}`)
+                render={props => (
+                  <DataFetcher
+                    id={props.match.params.id}
+                    data={props.location.state}
+                  >
+                    {queryProps => (
+                      <CreatePuzzle
+                        onCreated={id => props.history.replace(`/view/${id}`)}
+                      >
+                        {mutationProps => (
+                          <ViewPuzzle
+                            words={queryProps.data.words}
+                            rows={queryProps.data.rows}
+                            toEditor={() =>
+                              props.history.push("/input/text", queryProps.data)
                             }
-                          >
-                            {mutationProps => (
-                              <ViewPuzzle
-                                words={queryProps.data.words}
-                                rows={queryProps.data.rows}
-                                toEditor={() =>
-                                  props.history.push(
-                                    "/input/text",
-                                    queryProps.data
-                                  )
-                                }
-                                isFromRemote={!queryProps.isFromLocal}
-                                isCreating={mutationProps.isCreating}
-                                onCreate={() =>
-                                  mutationProps.create(queryProps.data)
-                                }
-                              />
-                            )}
-                          </CreatePuzzle>
-                        );
-                      }}
-                    </DataFetcher>
-                  );
-                }}
+                            isFromRemote={!queryProps.isFromLocal}
+                            isCreating={mutationProps.isCreating}
+                            onCreate={() =>
+                              mutationProps.create(queryProps.data)
+                            }
+                          />
+                        )}
+                      </CreatePuzzle>
+                    )}
+                  </DataFetcher>
+                )}
                 exact
               />
 
