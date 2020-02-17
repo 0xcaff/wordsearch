@@ -1,40 +1,36 @@
 import React, { useContext } from "react";
-import styles from "./DataFetcher.module.css";
 import { PuzzleData, PuzzleWithId } from "../database";
 import { database } from "../database";
 
-interface Props {
+interface Args {
   id?: string;
   data?: PuzzleData;
-  children: (state: ChildProps) => React.ReactElement;
 }
 
-interface ChildProps {
+interface ResolvedData {
   isFromLocal: boolean;
   data: PuzzleData;
 }
 
-const DataFetcher: React.FC<Props> = (props: Props): React.ReactElement => {
+export const usePuzzle = (args: Args): ResolvedData | null => {
   const context = useContext<DataFetcherContextState>(DataFetcherContext);
-
-  const data = props.data;
+  const data = args.data;
   if (data) {
-    return props.children({ isFromLocal: true, data });
-  } else if (props.id) {
-    const data = getFromCacheOrFetch(context, props.id);
-    if (data === null) {
-      return <NotFound />;
-    }
-
-    return props.children({ isFromLocal: false, data });
-  } else {
-    return <NotFound />;
+    return { isFromLocal: true, data };
   }
+
+  const id = args.id;
+  if (!id) {
+    return null;
+  }
+
+  const resolved = getFromCacheOrFetch(context, id);
+  if (!resolved) {
+    return null;
+  }
+
+  return { isFromLocal: false, data: resolved };
 };
-
-const NotFound = () => <div className={styles.notFound}>Not Found :(</div>;
-
-export default DataFetcher;
 
 function getFromCacheOrFetch(
   context: DataFetcherContextState,
