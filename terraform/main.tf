@@ -9,6 +9,9 @@ terraform {
   }
 }
 
+variable "google_credentials" {
+}
+
 provider "google" {
   credentials = var.google_credentials
   project = "wordsearch-172001"
