@@ -13,7 +13,7 @@ variable "google_credentials" {
 }
 
 provider "google" {
-  credentials = var.google_credentials
+  credentials = "${var.google_credentials}"
   project = "wordsearch-172001"
   region  = "us-central1"
   zone    = "us-central1-c"
