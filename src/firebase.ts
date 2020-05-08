@@ -7,7 +7,7 @@ firebase.initializeApp({
   databaseURL: "https://wordsearch-172001.firebaseio.com",
   projectId: "wordsearch-172001",
   storageBucket: "wordsearch-172001.appspot.com",
-  messagingSenderId: "686396208177"
+  messagingSenderId: "686396208177",
 });
 
 export const firestore = firebase.firestore();

@@ -48,7 +48,7 @@ const WordList = (props: Props) => (
               onFocus={() => props.onSelectWord(item.word)}
               onBlur={() => props.onUnSelectWord(item.word)}
               className={[listStyles.listItem, item.isFocused && styles.focused]
-                .filter(i => !!i)
+                .filter((i) => !!i)
                 .join(" ")}
               tabIndex={0}
             >

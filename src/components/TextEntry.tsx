@@ -4,7 +4,7 @@ import {
   EditorState,
   ContentState,
   CompositeDecorator,
-  ContentBlock
+  ContentBlock,
 } from "draft-js";
 import styles from "./TextEntry.module.css";
 
@@ -17,7 +17,7 @@ interface Props {
 const TextEntry = React.memo((props: Props) => {
   const [editorState, setEditorState] = useState(() => {
     const decorator = new CompositeDecorator([
-      { strategy: eachCharStrategy, component: HandleSpan }
+      { strategy: eachCharStrategy, component: HandleSpan },
     ]);
 
     const contentState = ContentState.createFromText(props.value);
@@ -31,7 +31,7 @@ const TextEntry = React.memo((props: Props) => {
   return (
     <div
       className={[styles.editor, focused && styles.hidePlaceholder]
-        .filter(e => !!e)
+        .filter((e) => !!e)
         .join(" ")}
     >
       <Editor
@@ -40,7 +40,7 @@ const TextEntry = React.memo((props: Props) => {
         editorState={editorState}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        onChange={editorState => {
+        onChange={(editorState) => {
           const contentState = editorState.getCurrentContent();
           props.onChange(contentState.getPlainText());
           setEditorState(editorState);

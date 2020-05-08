@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 
 import Analytics from "./analytics/component";
@@ -26,7 +26,7 @@ class App extends Component {
 
               <Route
                 path="/input/text"
-                render={props => (
+                render={(props) => (
                   <TextInput
                     startingRows={
                       props.location.state && props.location.state.rows
@@ -44,14 +44,14 @@ class App extends Component {
 
               <Route
                 path="/view/:id?"
-                render={props => (
+                render={(props) => (
                   <ViewPuzzleWithData
                     id={props.match.params?.id}
                     puzzleData={props.location.state}
-                    viewPuzzle={puzzleId =>
+                    viewPuzzle={(puzzleId) =>
                       props.history.replace(`/view/${puzzleId}`)
                     }
-                    toEditorWithPuzzle={puzzle =>
+                    toEditorWithPuzzle={(puzzle) =>
                       props.history.push("/input/text", puzzle)
                     }
                   />

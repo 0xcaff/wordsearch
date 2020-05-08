@@ -42,12 +42,12 @@ function getFromCacheOrFetch(
       state: { state: "LOADING" } as PromiseState<PuzzleWithId | null>,
       promise: database
         .getPuzzle(key)
-        .then(value => {
+        .then((value) => {
           promiseWithState.state = { state: "RESOLVED", value };
         })
-        .catch(value => {
+        .catch((value) => {
           promiseWithState.state = { state: "REJECTED", value };
-        })
+        }),
     };
 
     context.cached.set(key, promiseWithState);
@@ -72,7 +72,7 @@ interface DataFetcherContextState {
 }
 
 const DataFetcherContext = React.createContext<DataFetcherContextState>({
-  cached: new Map()
+  cached: new Map(),
 });
 
 interface PromiseWithState<T> {

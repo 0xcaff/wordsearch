@@ -5,7 +5,7 @@ it("should tween in an row line", () => {
     { rowIdx: 0, colIdx: 0 },
     { rowIdx: 1, colIdx: 0 },
     { rowIdx: 2, colIdx: 0 },
-    { rowIdx: 3, colIdx: 0 }
+    { rowIdx: 3, colIdx: 0 },
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 0, 3, 0)), expected);
@@ -21,7 +21,7 @@ it("should tween in a col line", () => {
     { rowIdx: 0, colIdx: 0 },
     { rowIdx: 0, colIdx: 1 },
     { rowIdx: 0, colIdx: 2 },
-    { rowIdx: 0, colIdx: 3 }
+    { rowIdx: 0, colIdx: 3 },
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 0, 0, 3)), expected);
@@ -37,7 +37,7 @@ it("should tween in a col line", () => {
     // from {rowIdx: 13, colIdx: 20} -> {rowIdx: 13, colIdx: 20}
     [...Array(32 - 20 + 1)].map((_, index) => ({
       rowIdx: 13,
-      colIdx: 32 - index
+      colIdx: 32 - index,
     }))
   );
 });
@@ -47,7 +47,7 @@ it("should tween diagonally down right and up left", () => {
     { rowIdx: 0, colIdx: 0 },
     { rowIdx: 1, colIdx: 1 },
     { rowIdx: 2, colIdx: 2 },
-    { rowIdx: 3, colIdx: 3 }
+    { rowIdx: 3, colIdx: 3 },
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 0, 3, 3)), expected);
@@ -63,7 +63,7 @@ it("should tween diagonally up right and down left", () => {
     { rowIdx: 0, colIdx: 3 },
     { rowIdx: 1, colIdx: 2 },
     { rowIdx: 2, colIdx: 1 },
-    { rowIdx: 3, colIdx: 0 }
+    { rowIdx: 3, colIdx: 0 },
   ];
 
   expectArrayToMatch(Array.from(tweenPosition(0, 3, 3, 0)), expected);

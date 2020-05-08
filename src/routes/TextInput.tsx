@@ -28,7 +28,7 @@ const TextInput = (props: Props) => {
         <TextEntry value={text} placeholder="Enter puzzle" onChange={setText} />
 
         <MutableList items={words} onChange={setWords}>
-          {item => item}
+          {(item) => item}
         </MutableList>
       </main>
 

@@ -38,16 +38,16 @@ const ViewPuzzle = (props: Props) => {
         <Puzzle
           words={props.words}
           rows={props.rows}
-          focusWords={words => setFocused(_ => Set(words))}
+          focusWords={(words) => setFocused((_) => Set(words))}
           selectedWord={selectedWord}
         />
       </div>
 
       <div className={styles.sidebar}>
         <WordList
-          words={props.words.map(word => ({
+          words={props.words.map((word) => ({
             word,
-            isFocused: focused.has(word)
+            isFocused: focused.has(word),
           }))}
           onSelectWord={setSelectedWord}
           onUnSelectWord={() => setSelectedWord(undefined)}
@@ -60,7 +60,7 @@ const ViewPuzzle = (props: Props) => {
         {!props.isFromRemote && (
           <Button
             className={[styles.button, props.isCreating && styles.loading]
-              .filter(e => !!e)
+              .filter((e) => !!e)
               .join(" ")}
             onClick={() => {
               if (!props.isCreating) {
@@ -88,7 +88,7 @@ const ViewPuzzleWithData: React.FC<ViewPuzzleWithDataProps> = (
 ) => {
   const puzzle = usePuzzle({
     id: props.id,
-    data: props.puzzleData
+    data: props.puzzleData,
   });
 
   const { load: create, isLoading: isCreating } = useWithLoading(

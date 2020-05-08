@@ -16,7 +16,7 @@ export interface Node {
 
 const PuzzleNodes = memo((props: Props) => (
   <>
-    {props.nodes.map(node => (
+    {props.nodes.map((node) => (
       <PuzzleNode
         key={keyOf(node)}
         rowIdx={node.position.rowIdx}

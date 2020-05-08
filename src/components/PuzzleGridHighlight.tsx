@@ -17,13 +17,13 @@ const PuzzleGridHighlight = memo((props: Props) => (
         props.end.rowIdx,
         props.end.colIdx
       )
-    ).map(position => (
+    ).map((position) => (
       <div
         className={styles.highlight}
         key={`${position.rowIdx}:${position.colIdx}`}
         style={{
           gridRowStart: position.rowIdx + 1,
-          gridColumnStart: position.colIdx + 1
+          gridColumnStart: position.colIdx + 1,
         }}
       />
     ))}
