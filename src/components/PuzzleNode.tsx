@@ -16,13 +16,13 @@ const PuzzleNode = (props: Props) => (
     className={[
       styles.container,
       !props.usePaintWorklet && styles.withoutPaintWorklet,
-      props.isHighlighted && styles.highlighted
+      props.isHighlighted && styles.highlighted,
     ]
-      .filter(d => !!d)
+      .filter((d) => !!d)
       .join(" ")}
     style={{
       gridColumnStart: props.colIdx + 1,
-      gridRowStart: props.rowIdx + 1
+      gridRowStart: props.rowIdx + 1,
     }}
     onPointerEnter={props.onEnter}
   >

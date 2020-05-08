@@ -41,7 +41,7 @@ export default InputSelection;
 
 const DemoPuzzles = () => {
   const commaElem = <span>, </span>;
-  const textArr = puzzles.map(puzzle => (
+  const textArr = puzzles.map((puzzle) => (
     <Link
       className={sharedStyles.clickable}
       key={puzzle.name}

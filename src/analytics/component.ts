@@ -6,7 +6,7 @@ if (isDev) {
   (window as any).analytics.debug();
 }
 
-export default withRouter(props => {
+export default withRouter((props) => {
   if (process.env.NODE_ENV === "test") {
     return null;
   }
@@ -14,7 +14,7 @@ export default withRouter(props => {
   // Track Current Page
   (window as any).analytics.page({
     isDev,
-    path: props.location.pathname
+    path: props.location.pathname,
   });
 
   return null;

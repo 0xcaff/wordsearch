@@ -23,10 +23,7 @@ class FirebaseDatabase implements Database {
   }
 
   async getPuzzle(id: string): Promise<PuzzleWithId | null> {
-    const doc = await this.db
-      .collection("puzzles")
-      .doc(id)
-      .get();
+    const doc = await this.db.collection("puzzles").doc(id).get();
 
     const data = doc.data();
     if (!data) {

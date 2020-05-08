@@ -22,6 +22,6 @@ export function useWithLoading<Args>(
 
   return {
     isLoading: isLoading,
-    load: useCallback(createFn, [fn, isLoading])
+    load: useCallback(createFn, [fn, isLoading]),
   };
 }

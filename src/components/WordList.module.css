@@ -6,7 +6,7 @@
   animation: 0.7s ease-out in-focus forwards;
 }
 
-@keyframes :global(in-focus) {
+@keyframes: global(in-focus) {
   from {
     background: #f57f17;
   }

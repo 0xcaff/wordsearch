@@ -30,7 +30,7 @@ interface State {
 
 const PositionRecord = Record({
   rowIdx: -1,
-  colIdx: -1
+  colIdx: -1,
 });
 
 const getSize = memoize((rows: string[]) => {
@@ -86,7 +86,7 @@ const getNodes = memoize((rows: string[], words: string[]): Node[] => {
       return {
         content,
         position,
-        isHighlighted: matchesAtPosition.length > 0
+        isHighlighted: matchesAtPosition.length > 0,
       };
     })
   );
@@ -105,7 +105,7 @@ class Puzzle extends Component<Props, State> {
       matchesAt.get(PositionRecord(pointerPosition)) || [];
 
     this.setState({ pointerPosition });
-    this.props.focusWords(matchesAtPointer.map(match => match.word));
+    this.props.focusWords(matchesAtPointer.map((match) => match.word));
   };
 
   getStyle = (): CSSProperties => {
@@ -128,7 +128,7 @@ class Puzzle extends Component<Props, State> {
         match.start.rowIdx,
         match.start.colIdx,
         match.end.rowIdx,
-        match.end.colIdx
+        match.end.colIdx,
       ]);
 
       if (
@@ -143,7 +143,7 @@ class Puzzle extends Component<Props, State> {
       "--rows": size.rowsCount,
       "--cols": size.colsCount,
       "--highlighted": JSON.stringify(highlighted),
-      "--hovered": JSON.stringify(hovered)
+      "--hovered": JSON.stringify(hovered),
     } as CSSProperties;
   };
 
@@ -171,7 +171,7 @@ class Puzzle extends Component<Props, State> {
         : [];
 
       const matchesForWord = this.props.selectedWord
-        ? matches.filter(match => match.word === this.props.selectedWord)
+        ? matches.filter((match) => match.word === this.props.selectedWord)
         : [];
 
       const highlightedMatches = [...matchesAtPointer, ...matchesForWord];
@@ -187,7 +187,7 @@ class Puzzle extends Component<Props, State> {
             onSelect={this.onSelect}
           />
 
-          {highlightedMatches.map(match => (
+          {highlightedMatches.map((match) => (
             <PuzzleGridHighlight
               key={`${match.start.rowIdx}:${match.start.colIdx}:${match.end.rowIdx}:${match.end.colIdx}`}
               start={match.start}
