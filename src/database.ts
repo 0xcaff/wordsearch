@@ -1,6 +1,8 @@
 import firebase from "firebase";
 import { firestore } from "./firebase";
 
+export const puzzleCollectionName = "puzzles";
+
 export interface PuzzleWithId extends PuzzleData {
   id: string;
 }
@@ -23,7 +25,7 @@ class FirebaseDatabase implements Database {
   }
 
   async getPuzzle(id: string): Promise<PuzzleWithId | null> {
-    const doc = await this.db.collection("puzzles").doc(id).get();
+    const doc = await this.db.collection(puzzleCollectionName).doc(id).get();
 
     const data = doc.data();
     if (!data) {
@@ -34,7 +36,7 @@ class FirebaseDatabase implements Database {
   }
 
   async newPuzzle(data: PuzzleData): Promise<PuzzleWithId> {
-    const docRef = await this.db.collection("puzzles").add(data);
+    const docRef = await this.db.collection(puzzleCollectionName).add(data);
     return { id: docRef.id, ...data };
   }
 }
