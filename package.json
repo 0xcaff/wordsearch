@@ -6,14 +6,17 @@
     "@types/draft-js": "^0.10.40",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.5",
+    "@types/pg": "^7.14.3",
     "@types/react": "16.9.19",
     "@types/react-dom": "^16.9.7",
     "@types/react-router": "^5.1.7",
     "@types/react-router-dom": "^5.1.5",
+    "dotenv": "^8.2.0",
     "draft-js": "^0.11.5",
     "fast-memoize": "^2.5.2",
     "firebase": "^7.14.3",
     "immutable": "^4.0.0-rc.12",
+    "pg": "^8.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
@@ -28,7 +31,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "add-puzzles": "ts-node --compiler-options '{\"module\": \"commonjs\"}' scripts/addPuzzles.ts"
+    "add-puzzles": "ts-node --compiler-options '{\"module\": \"commonjs\"}' scripts/addPuzzles.ts",
+    "update-data": "ts-node --compiler-options '{\"module\": \"commonjs\"}' scripts/updateData.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
