@@ -80,34 +80,69 @@ export async function insertPuzzle(puzzle: PuzzleComputedMetadata) {
       ]
     );
 
-    await Promise.all(
-      puzzle.similarPuzzles.map((otherPuzzle) =>
-        client.query(
-          `INSERT INTO similar_puzzles VALUES ($1, $2)`,
-          [puzzle.id, otherPuzzle].sort()
-        )
+    await client.query(
+      `
+      INSERT INTO similar_puzzles (
+        SELECT
+          (data->>0)::text,
+          (data->>1)::text
+        FROM 
+          json_array_elements($1::json) AS data
       )
+      `,
+      [
+        JSON.stringify(
+          puzzle.similarPuzzles.map((otherPuzzleId) =>
+            [puzzle.id, otherPuzzleId].sort()
+          )
+        ),
+      ]
     );
 
-    await Promise.all(
-      puzzle.words.map((word) =>
-        client.query(`INSERT INTO words VALUES ($1, $2, $3, $4)`, [
-          word.word,
-          puzzle.id,
-          word.isMixedCase,
-          word.includesNonWordCharacter,
-        ])
+    await client.query(
+      `
+      INSERT INTO words (
+        SELECT
+          (data->>0)::text,
+          (data->>1)::text,
+          (data->>2)::bool,
+          (data->>3)::bool
+        FROM
+          json_array_elements($1::json) AS data
       )
+      `,
+      [
+        JSON.stringify(
+          puzzle.words.map((word) => [
+            word.word,
+            puzzle.id,
+            word.isMixedCase,
+            word.includesNonWordCharacter,
+          ])
+        ),
+      ]
     );
 
-    await Promise.all(
-      puzzle.matches.map((match) =>
-        client.query(`INSERT INTO matches VALUES ($1, $2, $3)`, [
-          match.word,
-          puzzle.id,
-          match.orientation,
-        ])
+    await client.query(
+      `
+      INSERT INTO matches (
+        SELECT
+          (data->>0)::text,
+          (data->>1)::text,
+          (data->>2)::orientation
+        FROM
+          json_array_elements($1::json) AS data
       )
+      `,
+      [
+        JSON.stringify(
+          puzzle.matches.map((match) => [
+            match.word,
+            puzzle.id,
+            match.orientation,
+          ])
+        ),
+      ]
     );
   });
 }
