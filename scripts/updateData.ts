@@ -122,10 +122,12 @@ async function main() {
     );
 
   // TODO: logging
-  await Promise.all(mapWithProgressLogging(puzzles, async (puzzle) => {
-    const transformed = transformPuzzle(puzzles, puzzle);
-    await insertPuzzle(transformed);
-  }));
+  await Promise.all(
+    mapWithProgressLogging(puzzles, async (puzzle) => {
+      const transformed = transformPuzzle(puzzles, puzzle);
+      await insertPuzzle(transformed);
+    })
+  );
 
   console.log("done");
 
