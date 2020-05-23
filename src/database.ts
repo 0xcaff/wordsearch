@@ -3,13 +3,17 @@ import { firestore } from "./firebase";
 
 export const puzzleCollectionName = "puzzles";
 
+export interface PuzzleData {
+  rows: string[];
+  words: string[];
+}
+
 export interface PuzzleWithId extends PuzzleData {
   id: string;
 }
 
-export interface PuzzleData {
-  rows: string[];
-  words: string[];
+export interface FullPuzzleData extends PuzzleWithId {
+  created?: firebase.firestore.Timestamp;
 }
 
 export interface Database {
@@ -24,7 +28,7 @@ class FirebaseDatabase implements Database {
     this.db = firestore;
   }
 
-  async getPuzzle(id: string): Promise<PuzzleWithId | null> {
+  async getPuzzle(id: string): Promise<FullPuzzleData | null> {
     const doc = await this.db.collection(puzzleCollectionName).doc(id).get();
 
     const data = doc.data();
@@ -32,11 +36,16 @@ class FirebaseDatabase implements Database {
       return null;
     }
 
-    return { id: doc.id, ...(data as PuzzleData) };
+    return { id: doc.id, ...data } as FullPuzzleData;
   }
 
   async newPuzzle(data: PuzzleData): Promise<PuzzleWithId> {
-    const docRef = await this.db.collection(puzzleCollectionName).add(data);
+    const docRef = await this.db.collection(puzzleCollectionName).add({
+      rows: data.rows,
+      words: data.words,
+      created: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
     return { id: docRef.id, ...data };
   }
 }
