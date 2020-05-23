@@ -1,11 +1,7 @@
-import { firestore } from "../src/firebase";
-import {
-  puzzleCollectionName,
-  PuzzleData,
-  PuzzleWithId,
-} from "../src/database";
+import { firestore } from "../firebase";
+import { puzzleCollectionName, PuzzleData, PuzzleWithId } from "../database";
 import { findMatches, Match } from "wordsearch-algo/lib";
-import { editDistance } from "../src/editDistance";
+import { editDistance } from "../editDistance";
 import {
   insertPuzzle,
   MatchInfo,

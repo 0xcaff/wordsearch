@@ -1,6 +1,6 @@
 import { puzzles } from "wordsearch-algo";
-import { firestore } from "../src/firebase";
-import { puzzleCollectionName } from "../src/database";
+import { firestore } from "../firebase";
+import { puzzleCollectionName } from "../database";
 
 Promise.all(
   puzzles.map((puzzle) =>
