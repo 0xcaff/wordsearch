@@ -25,7 +25,7 @@
     "wordsearch-algo": "^2.1.2"
   },
   "scripts": {
-    "fix-formatting": "prettier --write '**/*.{tsx,ts,js,css}'",
+    "fmt": "prettier --write '**/*.{tsx,ts,js,css}'",
     "check-formatting": "prettier --list-different '**/*.{tsx,ts,js,css}'",
     "start": "react-scripts start",
     "build": "react-scripts build",
