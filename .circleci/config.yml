@@ -34,6 +34,13 @@ jobs:
           name: Build
           command: yarn build
 
+      - run:
+          name: Analyze Bundle
+          command: yarn analyze -- --html bundle-explorer.html
+
+      - store_artifacts:
+          path: bundle-explorer.html
+
   deploy:
     docker:
       - image: node:14

@@ -21,10 +21,12 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "source-map-explorer": "^2.4.2",
     "typescript": "^3.8.3",
     "wordsearch-algo": "^2.1.2"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "fmt": "prettier --write '**/*.{tsx,ts,js,css}'",
     "check-formatting": "prettier --list-different '**/*.{tsx,ts,js,css}'",
     "start": "react-scripts start",
