@@ -125,6 +125,14 @@ workflows:
             - hold
 
   update_data:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+
     jobs:
       - update_data
 
