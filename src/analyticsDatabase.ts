@@ -2,6 +2,7 @@ import { Pool, PoolClient } from "pg";
 import { promises as fs } from "fs";
 import path from "path";
 import dotenv from "dotenv";
+import firebase from "firebase";
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ export interface PuzzleComputedMetadata {
   id: string;
   rows: string[];
   words: WordInfo[];
+  created?: firebase.firestore.Timestamp;
   matches: MatchInfo[];
 
   /**
@@ -60,14 +62,16 @@ export type MatchOrientation =
   | "left";
 
 export async function resetDatabase() {
-  const script = await fs.readFile(path.join(__dirname, "initialize.sql"));
-  await pool.query(script.toString("utf-8"));
+  const script = (
+    await fs.readFile(path.join(__dirname, "scripts/initialize.sql"))
+  ).toString("utf-8");
+  await pool.query(script);
 }
 
 export async function insertPuzzle(puzzle: PuzzleComputedMetadata) {
   await withTx(async (client) => {
     await client.query(
-      `INSERT INTO puzzles VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      `INSERT INTO puzzles VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [
         puzzle.id,
         puzzle.rows,
@@ -77,6 +81,7 @@ export async function insertPuzzle(puzzle: PuzzleComputedMetadata) {
         puzzle.lowerCaseCells,
         puzzle.whitespaceCells,
         puzzle.otherCells,
+        puzzle.created?.toDate() ?? null,
       ]
     );
 

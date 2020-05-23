@@ -14,7 +14,9 @@ CREATE TABLE puzzles(
   upper_case_cells int NOT NULL,
   lower_case_cells int NOT NULL,
   whitespace_cells int NOT NULL,
-  other_cells int NOT NULL
+  other_cells int NOT NULL,
+
+  created_at TIMESTAMP WITHOUT TIME ZONE
 );
 
 CREATE TABLE similar_puzzles(

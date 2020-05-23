@@ -1,5 +1,5 @@
 import { firestore } from "../firebase";
-import { puzzleCollectionName, PuzzleData, PuzzleWithId } from "../database";
+import { FullPuzzleData, puzzleCollectionName } from "../database";
 import { findMatches, Match } from "wordsearch-algo/lib";
 import { editDistance } from "../editDistance";
 import {
@@ -13,14 +13,15 @@ import {
 } from "../analyticsDatabase";
 
 function transformPuzzle(
-  puzzles: PuzzleWithId[],
-  puzzle: PuzzleWithId
+  puzzles: FullPuzzleData[],
+  puzzle: FullPuzzleData
 ): PuzzleComputedMetadata {
   const cells = puzzle.rows.join("").split("");
 
   return {
     id: puzzle.id,
     rows: puzzle.rows,
+    created: puzzle.created,
     words: puzzle.words.map((word) => transformWord(word)),
     matches: findMatches(puzzle.rows, puzzle.words).map((match) =>
       transformMatch(match)
@@ -83,8 +84,8 @@ function isRowWidthConstant(rows: string[]): boolean {
 }
 
 function findSimilarPuzzles(
-  puzzles: PuzzleWithId[],
-  puzzle: PuzzleWithId
+  puzzles: FullPuzzleData[],
+  puzzle: FullPuzzleData
 ): string[] {
   return [];
 
@@ -111,10 +112,13 @@ async function main() {
     .collection(puzzleCollectionName)
     .get()
     .then((collection) =>
-      collection.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as PuzzleData),
-      }))
+      collection.docs.map(
+        (doc) =>
+          ({
+            id: doc.id,
+            ...doc.data(),
+          } as FullPuzzleData)
+      )
     );
 
   // TODO: logging
