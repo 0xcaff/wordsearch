@@ -1,10 +1,11 @@
 import { puzzles } from "wordsearch-algo";
-import { firestore } from "../src/firebase";
+import { firestore } from "../firebase";
+import { puzzleCollectionName } from "../database";
 
 Promise.all(
   puzzles.map((puzzle) =>
     firestore
-      .collection("puzzles")
+      .collection(puzzleCollectionName)
       .doc(puzzle.name)
       .set({ rows: puzzle.rows, words: puzzle.words })
   )

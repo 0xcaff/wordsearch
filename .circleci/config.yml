@@ -51,11 +51,6 @@ jobs:
           name: Install Deps
           command: yarn install
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: dependencies-{{ checksum "yarn.lock" }}
-
       - run:
           name: Build
           command: yarn build
@@ -67,6 +62,43 @@ jobs:
       - run:
           name: Deploy to Surge
           command: yarn surge --project ./build --domain solver.0xcaff.me
+
+  update_data:
+    docker:
+      - image: node:14
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+
+      - run:
+          name: Install Deps
+          command: yarn install
+
+      - run:
+          name: Install Cloud SQL Proxy
+          command: wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy && chmod +x cloud_sql_proxy
+
+      - run:
+          name: Write Service Key To File
+          command: echo $GCLOUD_SERVICE_KEY > service-key.json
+
+      - run:
+          name: Run Cloud SQL Proxy
+          command: ./cloud_sql_proxy -credential_file=service-key.json -instances=wordsearch-172001:us-central1:analytics-1
+          background: true
+
+      - run:
+          name: Update Data
+          environment:
+            PGUSER: 'analytics'
+            PGDATABASE: 'analytics'
+          command: yarn update-data
 
 workflows:
   version: 2
@@ -84,3 +116,16 @@ workflows:
       - deploy:
           requires:
             - hold
+
+  update_data:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+
+    jobs:
+      - update_data
+
