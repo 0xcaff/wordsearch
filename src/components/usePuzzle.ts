@@ -38,8 +38,8 @@ function getFromCacheOrFetch(
 ): PuzzleWithId | null {
   const fromCache = context.cached.get(key);
   if (!fromCache) {
-    const promiseWithState = {
-      state: { state: "LOADING" } as PromiseState<PuzzleWithId | null>,
+    const promiseWithState: PromiseWithState<PuzzleWithId | null> = {
+      state: { state: "LOADING" as const },
       promise: database
         .getPuzzle(key)
         .then((value) => {
