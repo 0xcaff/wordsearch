@@ -10,7 +10,7 @@ import {
   PuzzleComputedMetadata,
   resetDatabase,
   WordInfo,
-} from "./analyticsDatabase";
+} from "../analyticsDatabase";
 
 function transformPuzzle(
   puzzles: PuzzleWithId[],
