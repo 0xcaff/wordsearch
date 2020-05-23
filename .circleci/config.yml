@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: node:10
+      - image: node:14
 
     steps:
       - checkout
@@ -34,9 +34,16 @@ jobs:
           name: Build
           command: yarn build
 
+      - run:
+          name: Analyze Bundle
+          command: yarn analyze -- --html bundle-explorer.html
+
+      - store_artifacts:
+          path: bundle-explorer.html
+
   deploy:
     docker:
-      - image: node:10
+      - image: node:14
 
     steps:
       - checkout
@@ -90,7 +97,7 @@ jobs:
 
       - run:
           name: Run Cloud SQL Proxy
-          command: ./cloud_sql_proxy -credential_file=service-key.json -instances=wordsearch-172001:us-central1:analytics-1
+          command: ./cloud_sql_proxy -credential_file=service-key.json -instances=wordsearch-172001:us-central1:analytics-1=tcp:5432
           background: true
 
       - run:
