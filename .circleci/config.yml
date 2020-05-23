@@ -97,7 +97,7 @@ jobs:
 
       - run:
           name: Run Cloud SQL Proxy
-          command: ./cloud_sql_proxy -credential_file=service-key.json -instances=wordsearch-172001:us-central1:analytics-1
+          command: ./cloud_sql_proxy -credential_file=service-key.json -instances=wordsearch-172001:us-central1:analytics-1=tcp:5432
           background: true
 
       - run:
