@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import styles from "./List.module.css";
+import { useTrack } from "../clientAnalyticsEvents";
 
 interface Props {
   items: string[];
@@ -8,12 +9,19 @@ interface Props {
 }
 
 const MutableList = ({ items, onChange, children }: Props) => {
+  const track = useTrack();
+
   const removeItem = useCallback(
     (idx: number) => {
+      track("input:removeWord", {
+        removingWordAtIndex: idx,
+        totalWordsBeforeRemoving: items.length,
+      });
+
       const newItems = [...items.slice(0, idx), ...items.slice(idx + 1)];
       onChange(newItems);
     },
-    [items, onChange]
+    [items, onChange, track]
   );
 
   const addItems = useCallback(
@@ -25,10 +33,15 @@ const MutableList = ({ items, onChange, children }: Props) => {
     (event: React.ClipboardEvent<HTMLInputElement>) => {
       event.preventDefault();
 
-      const lines = event.clipboardData.getData("text/plain").split(/\r?\n/);
+      const text = event.clipboardData.getData("text/plain");
+      const lines = text.split(/\r?\n/);
+      track("input:pasteWords", {
+        lines: lines.length,
+        totalLength: text.length,
+      });
       addItems(...lines);
     },
-    [addItems]
+    [addItems, track]
   );
 
   const handleKeyPress = useCallback(
@@ -44,9 +57,10 @@ const MutableList = ({ items, onChange, children }: Props) => {
       }
 
       event.currentTarget.value = "";
+      track("input:addWord", { existingWordsCount: items.length });
       addItems(value);
     },
-    [addItems]
+    [addItems, track, items]
   );
 
   return (
