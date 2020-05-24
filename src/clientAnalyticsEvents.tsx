@@ -29,12 +29,39 @@ interface Props {
 }
 
 export const AnalyticsProvider = (props: Props) => {
-  const unsentEvents = useRef([]);
+  const { current: unsentEvents } = useRef<Event<any>[]>([]);
 
   useEffect(() => {
     async function sendAnalyticsEvents() {
-      // TODO: Implement This
-      console.log(sessionId);
+      if (!unsentEvents.length) {
+        return;
+      }
+
+      const processingEvents = unsentEvents.slice();
+      try {
+        const response = await fetch(
+          "https://us-central1-wordsearch-172001.cloudfunctions.net/eventsIngest",
+          {
+            mode: "cors",
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              userId,
+              sessionId,
+              events: processingEvents,
+            }),
+          }
+        );
+
+        if (response.status !== 200) {
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        return;
+      }
+
+      unsentEvents.splice(0, processingEvents.length);
     }
 
     let timeout: NodeJS.Timeout;
@@ -48,10 +75,10 @@ export const AnalyticsProvider = (props: Props) => {
     scheduleNextSend();
 
     return () => clearTimeout(timeout);
-  });
+  }, [unsentEvents]);
 
   return (
-    <AnalyticsContext.Provider value={{ unsentEvents: unsentEvents.current }}>
+    <AnalyticsContext.Provider value={{ unsentEvents }}>
       {props.children}
     </AnalyticsContext.Provider>
   );
