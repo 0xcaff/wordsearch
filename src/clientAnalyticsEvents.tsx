@@ -120,7 +120,9 @@ export function useTrackViewed<K extends keyof EventMap>(
   properties: EventMap[K]
 ) {
   const track = useTrack();
-  useEffect(() => track(key, properties), [key, properties, track]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => track(key, properties), [track]);
 }
 
 export function useTrackFn<K extends keyof EventMap>(
@@ -129,7 +131,8 @@ export function useTrackFn<K extends keyof EventMap>(
 ) {
   const track = useTrack();
 
-  return useCallback(() => track(key, properties), [key, properties, track]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useCallback(() => track(key, properties), [track]);
 }
 
 function getOrCreateFromStorage(
