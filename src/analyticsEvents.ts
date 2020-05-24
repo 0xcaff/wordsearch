@@ -3,7 +3,7 @@ export type EventMap = {
   "landing:clickEnterPuzzle": {};
   "landing:clickExample": { name: string };
 
-  "input:view": {};
+  "input:view": { totalWordsCount: number; puzzleLength: number };
   "input:editPuzzle": { beforeLength: number; afterLength: number };
   "input:addWord": { existingWordsCount: number };
   "input:pasteWords": { lines: number; totalLength: number };

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import TextEntry from "../components/TextEntry";
 import MutableList from "../components/MutableList";
 import Button from "../components/Button";
 
 import styles from "./TextInput.module.css";
-import { useTrack, useTrackViewed } from "../clientAnalyticsEvents";
+import { useTrack } from "../clientAnalyticsEvents";
 
 interface Props {
   startingRows: string[];
@@ -16,10 +16,18 @@ interface Props {
 const TextInput = (props: Props) => {
   const track = useTrack();
 
-  useTrackViewed("input:view", {});
-
   const startingRows = props.startingRows || [];
   const startingWords = props.startingWords || [];
+
+  useEffect(() => {
+    track("input:view", {
+      totalWordsCount: startingWords.length,
+      puzzleLength:
+        startingRows.reduce((acc, row) => acc + row.length, 0) +
+        Math.max(startingRows.length - 1, 0),
+    });
+  }, [startingRows, startingWords]);
+
   const [text, setText] = useState(startingRows.join("\n"));
   const [words, setWords] = useState(startingWords);
 
