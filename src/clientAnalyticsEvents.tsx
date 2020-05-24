@@ -8,7 +8,12 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { EventMap, Event, makeEvent } from "./analyticsEvents";
+import {
+  EventMap,
+  Event,
+  makeEvent,
+  BatchedEventsMessage,
+} from "./analyticsEvents";
 
 const userId = getOrCreateFromStorage(localStorage, "id", () => uuid());
 const sessionId = getOrCreateFromStorage(sessionStorage, "id", () => uuid());
@@ -38,30 +43,14 @@ export const AnalyticsProvider = (props: Props) => {
       }
 
       const processingEvents = unsentEvents.slice();
-      try {
-        const response = await fetch(
-          "https://us-central1-wordsearch-172001.cloudfunctions.net/eventsIngest",
-          {
-            mode: "cors",
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({
-              userId,
-              sessionId,
-              events: processingEvents,
-            }),
-          }
-        );
+      const isSuccess =
+        process.env.NODE_ENV === "development"
+          ? true
+          : await sendEventsToBackend(processingEvents);
 
-        if (response.status !== 200) {
-          return;
-        }
-      } catch (e) {
-        console.error(e);
-        return;
+      if (isSuccess) {
+        unsentEvents.splice(0, processingEvents.length);
       }
-
-      unsentEvents.splice(0, processingEvents.length);
     }
 
     let timeout: NodeJS.Timeout;
@@ -83,6 +72,31 @@ export const AnalyticsProvider = (props: Props) => {
     </AnalyticsContext.Provider>
   );
 };
+
+async function sendEventsToBackend(events: Event<any>[]): Promise<boolean> {
+  try {
+    const body: BatchedEventsMessage = {
+      userId,
+      sessionId,
+      events,
+    };
+
+    const response = await fetch(
+      "https://us-central1-wordsearch-172001.cloudfunctions.net/eventsIngest",
+      {
+        mode: "cors",
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      }
+    );
+
+    return response.status === 200;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
 
 type TrackEventFn = <K extends keyof EventMap>(
   name: K,
