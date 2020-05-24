@@ -21,3 +21,26 @@ export type EventMap = {
 export type PuzzleViewProperties =
   | { type: "local" }
   | { type: "remote"; id: string };
+
+export interface BatchedEventsMessage {
+  userId: string;
+  sessionId: string;
+  events: Event<any>[];
+}
+
+export interface Event<K extends keyof EventMap> {
+  name: K;
+  timestamp: Date;
+  properties: EventMap[K];
+}
+
+export function makeEvent<K extends keyof EventMap>(
+  name: K,
+  properties: EventMap[K]
+): Event<K> {
+  return {
+    name,
+    timestamp: new Date(),
+    properties,
+  };
+}

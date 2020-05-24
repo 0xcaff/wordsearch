@@ -8,30 +8,13 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { EventMap } from "./analyticsEvents";
+import { EventMap, Event, makeEvent } from "./analyticsEvents";
 
 const userId = getOrCreateFromStorage(localStorage, "id", () => uuid());
 const sessionId = getOrCreateFromStorage(sessionStorage, "id", () => uuid());
 
 const analytics = analyticsThunk();
 analytics.setUserId(userId);
-
-function makeEvent<K extends keyof EventMap>(
-  name: K,
-  properties: EventMap[K]
-): Event<K> {
-  return {
-    name,
-    timestamp: new Date(),
-    properties,
-  };
-}
-
-interface Event<K extends keyof EventMap> {
-  name: K;
-  timestamp: Date;
-  properties: EventMap[K];
-}
 
 interface AnalyticsContextType {
   unsentEvents: Event<any>[];
