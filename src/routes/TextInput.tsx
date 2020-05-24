@@ -6,6 +6,7 @@ import Button from "../components/Button";
 
 import styles from "./TextInput.module.css";
 import { useTrack } from "../clientAnalyticsEvents";
+import { puzzleLengthForRows } from "../analyticsEvents";
 
 interface Props {
   startingRows: string[];
@@ -22,11 +23,9 @@ const TextInput = (props: Props) => {
   useEffect(() => {
     track("input:view", {
       totalWordsCount: startingWords.length,
-      puzzleLength:
-        startingRows.reduce((acc, row) => acc + row.length, 0) +
-        Math.max(startingRows.length - 1, 0),
+      puzzleLength: puzzleLengthForRows(startingRows),
     });
-  }, [startingRows, startingWords]);
+  }, [track, startingRows, startingWords]);
 
   const [text, setText] = useState(startingRows.join("\n"));
   const [words, setWords] = useState(startingWords);

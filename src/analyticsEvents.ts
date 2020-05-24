@@ -19,7 +19,12 @@ export type EventMap = {
 };
 
 export type PuzzleViewProperties =
-  | { type: "local" }
+  | {
+      type: "local";
+      totalWordsCount: number;
+      puzzleLength: number;
+      matchesCount: number;
+    }
   | { type: "remote"; id: string };
 
 export interface BatchedEventsMessage {
@@ -43,4 +48,11 @@ export function makeEvent<K extends keyof EventMap>(
     timestamp: new Date(),
     properties,
   };
+}
+
+export function puzzleLengthForRows(rows: string[]): number {
+  return (
+    rows.reduce((acc, row) => acc + row.length, 0) +
+    Math.max(rows.length - 1, 0)
+  );
 }

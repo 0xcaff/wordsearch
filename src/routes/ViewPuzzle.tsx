@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "./ViewPuzzle.module.css";
 import Button from "../components/Button";
-import Puzzle from "../components/Puzzle";
+import Puzzle, { getMatches } from "../components/Puzzle";
 import WordList from "../components/WordList";
 import { Set } from "immutable";
 import { ResolvedData, usePuzzle } from "../components/usePuzzle";
@@ -9,7 +9,7 @@ import { useWithLoading } from "../components/useWithLoading";
 import { database, PuzzleData } from "../database";
 import { NotFound } from "../components/NotFound";
 import { useTrack, useTrackFn } from "../clientAnalyticsEvents";
-import { PuzzleViewProperties } from "../analyticsEvents";
+import { puzzleLengthForRows, PuzzleViewProperties } from "../analyticsEvents";
 
 interface Props {
   rows: string[];
@@ -139,7 +139,12 @@ function useTrackPuzzleView(puzzle: ResolvedData | null) {
     }
 
     if (puzzle.isFromLocal) {
-      return { type: "local" };
+      return {
+        type: "local",
+        puzzleLength: puzzleLengthForRows(puzzle.data.rows),
+        totalWordsCount: puzzle.data.words.length,
+        matchesCount: getMatches(puzzle.data.rows, puzzle.data.words).length,
+      };
     }
 
     return {
