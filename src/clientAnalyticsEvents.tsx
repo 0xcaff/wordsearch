@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { analytics } from "./firebase";
+import { analyticsThunk } from "./firebase";
 import {
   createContext,
   useCallback,
@@ -13,6 +13,7 @@ import { EventMap } from "./analyticsEvents";
 const userId = getOrCreateFromStorage(localStorage, "id", () => uuid());
 const sessionId = getOrCreateFromStorage(sessionStorage, "id", () => uuid());
 
+const analytics = analyticsThunk();
 analytics.setUserId(userId);
 
 function makeEvent<K extends keyof EventMap>(

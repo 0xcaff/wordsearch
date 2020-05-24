@@ -14,6 +14,6 @@ firebase.initializeApp({
   measurementId: "G-VDB5Y63TWR",
 });
 
-export const analytics = firebase.analytics();
+export const analyticsThunk = () => firebase.analytics();
 
 export const firestore = firebase.firestore();
