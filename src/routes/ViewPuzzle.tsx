@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./ViewPuzzle.module.css";
 import Button from "../components/Button";
 import Puzzle from "../components/Puzzle";
@@ -133,22 +133,28 @@ export default ViewPuzzleWithData;
 
 function useTrackPuzzleView(puzzle: ResolvedData | null) {
   const track = useTrack();
-  useEffect(() => {
+  const trackingProperties = useMemo<PuzzleViewProperties | null>(() => {
     if (puzzle === null) {
-      return;
+      return null;
     }
 
-    const properties = ((): PuzzleViewProperties => {
-      if (puzzle.isFromLocal) {
-        return { type: "local" };
-      }
+    if (puzzle.isFromLocal) {
+      return { type: "local" };
+    }
 
-      return {
-        type: "remote",
-        id: puzzle.id,
-      };
-    })();
+    return {
+      type: "remote",
+      id: puzzle.id,
+    };
+  }, [puzzle]);
 
-    track("puzzle:view", properties);
-  }, [track, puzzle]);
+  const serializedTrackingProperties = JSON.stringify(trackingProperties);
+
+  useEffect(() => {
+    if (trackingProperties) {
+      track("puzzle:view", trackingProperties);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [track, serializedTrackingProperties]);
 }
