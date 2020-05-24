@@ -3,7 +3,7 @@ export type EventMap = {
   "landing:clickEnterPuzzle": {};
   "landing:clickExample": { name: string };
 
-  "input:view": { totalWordsCount: number; puzzleLength: number };
+  "input:view": PuzzleMetadata;
   "input:editPuzzle": { beforeLength: number; afterLength: number };
   "input:addWord": { existingWordsCount: number };
   "input:pasteWords": { lines: number; totalLength: number };
@@ -11,20 +11,27 @@ export type EventMap = {
     removingWordAtIndex: number;
     totalWordsBeforeRemoving: number;
   };
-  "input:clickSolvePuzzle": { totalWordsCount: number; puzzleLength: number };
+  "input:clickSolvePuzzle": PuzzleMetadata;
 
   "puzzle:view": PuzzleViewProperties;
   "puzzle:clickEdit": {};
   "puzzle:clickSave": {};
 };
 
+interface PuzzleMetadata {
+  totalWordsCount: number;
+  puzzleLength: number;
+  puzzleRows: number;
+}
+
+interface SolvedPuzzleMetadata extends PuzzleMetadata {
+  matchesCount: number;
+}
+
 export type PuzzleViewProperties =
-  | {
+  | ({
       type: "local";
-      totalWordsCount: number;
-      puzzleLength: number;
-      matchesCount: number;
-    }
+    } & SolvedPuzzleMetadata)
   | { type: "remote"; id: string };
 
 export interface BatchedEventsMessage {

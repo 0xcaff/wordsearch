@@ -24,6 +24,7 @@ const TextInput = (props: Props) => {
     track("input:view", {
       totalWordsCount: startingWords.length,
       puzzleLength: puzzleLengthForRows(startingRows),
+      puzzleRows: startingRows.length,
     });
   }, [track, startingRows, startingWords]);
 
@@ -47,12 +48,15 @@ const TextInput = (props: Props) => {
       <footer className={styles.footer}>
         <Button
           onClick={() => {
+            const rows = text.split("\n");
+
             track("input:clickSolvePuzzle", {
-              puzzleLength: text.length,
               totalWordsCount: words.length,
+              puzzleLength: text.length,
+              puzzleRows: rows.length,
             });
 
-            props.solvePuzzle(text.split("\n"), words);
+            props.solvePuzzle(rows, words);
           }}
         >
           Solve Puzzle!

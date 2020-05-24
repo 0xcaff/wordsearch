@@ -144,6 +144,7 @@ function useTrackPuzzleView(puzzle: ResolvedData | null) {
         puzzleLength: puzzleLengthForRows(puzzle.data.rows),
         totalWordsCount: puzzle.data.words.length,
         matchesCount: getMatches(puzzle.data.rows, puzzle.data.words).length,
+        puzzleRows: puzzle.data.rows.length,
       };
     }
 
