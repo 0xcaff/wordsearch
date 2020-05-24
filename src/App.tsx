@@ -6,7 +6,6 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import Analytics from "./analytics/component";
 import { FullPageLoading } from "./components/Loading";
 
 const InputSelection = lazy(() => import("./routes/InputSelection"));
@@ -19,8 +18,6 @@ class App extends Component {
       <Suspense fallback={<FullPageLoading />}>
         <Router>
           <div className="App">
-            <Analytics />
-
             <Switch>
               <Route path="/" render={() => <InputSelection />} exact />
 
