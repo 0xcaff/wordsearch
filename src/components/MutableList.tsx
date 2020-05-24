@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { useCallback } from "react";
 import styles from "./List.module.css";
+import { useTrack } from "../clientAnalyticsEvents";
 
 interface Props {
   items: string[];
@@ -7,70 +8,91 @@ interface Props {
   onChange: (newItems: string[]) => void;
 }
 
-class MutableList extends Component<Props> {
-  private removeItem = (idx: number) => {
-    const items = this.props.items;
-    const newItems = [...items.slice(0, idx), ...items.slice(idx + 1)];
-    this.props.onChange(newItems);
-  };
+const MutableList = ({ items, onChange, children }: Props) => {
+  const track = useTrack();
 
-  private addItems = (...items: string[]) =>
-    this.props.onChange(this.props.items.concat(items));
+  const removeItem = useCallback(
+    (idx: number) => {
+      track("input:removeWord", {
+        removingWordAtIndex: idx,
+        totalWordsBeforeRemoving: items.length,
+      });
 
-  private handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
-    event.preventDefault();
+      const newItems = [...items.slice(0, idx), ...items.slice(idx + 1)];
+      onChange(newItems);
+    },
+    [items, onChange, track]
+  );
 
-    const lines = event.clipboardData.getData("text/plain").split(/\r?\n/);
-    this.addItems(...lines);
-  };
+  const addItems = useCallback(
+    (...newItems: string[]) => onChange(items.concat(newItems)),
+    [items, onChange]
+  );
 
-  private handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== "Enter") {
-      // ignore everything except enter key without shift
-      return;
-    }
+  const handlePaste = useCallback(
+    (event: React.ClipboardEvent<HTMLInputElement>) => {
+      event.preventDefault();
 
-    const value = event.currentTarget.value;
-    if (value === "") {
-      return;
-    }
+      const text = event.clipboardData.getData("text/plain");
+      const lines = text.split(/\r?\n/);
+      track("input:pasteWords", {
+        lines: lines.length,
+        totalLength: text.length,
+      });
+      addItems(...lines);
+    },
+    [addItems, track]
+  );
 
-    event.currentTarget.value = "";
-    this.addItems(value);
-  };
+  const handleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key !== "Enter") {
+        // ignore everything except enter key without shift
+        return;
+      }
 
-  render() {
-    return (
-      <div className={styles.list}>
-        <ul>
-          {this.props.items.map((item, idx) => (
-            <li key={idx} className={styles.listItem}>
-              <span className={styles.listItemContent}>
-                {this.props.children(item)}
+      const value = event.currentTarget.value;
+      if (value === "") {
+        return;
+      }
 
-                <span
-                  onClick={() => this.removeItem(idx)}
-                  className={styles.removeButton}
-                >
-                  x
-                </span>
+      event.currentTarget.value = "";
+      track("input:addWord", { existingWordsCount: items.length });
+      addItems(value);
+    },
+    [addItems, track, items]
+  );
+
+  return (
+    <div className={styles.list}>
+      <ul>
+        {items.map((item, idx) => (
+          <li key={idx} className={styles.listItem}>
+            <span className={styles.listItemContent}>
+              {children(item)}
+
+              <span
+                onClick={() => removeItem(idx)}
+                className={styles.removeButton}
+              >
+                x
               </span>
-            </li>
-          ))}
-
-          <li className={styles.listItem} key={-1} title="Enter Word...">
-            <input
-              className={styles.listItemInput}
-              onPaste={this.handlePaste}
-              onKeyPress={this.handleKeyPress}
-              type="Text"
-              placeholder="Enter Word..."
-            />
+            </span>
           </li>
-        </ul>
-      </div>
-    );
-  }
-}
+        ))}
+
+        <li className={styles.listItem} key={-1} title="Enter Word...">
+          <input
+            className={styles.listItemInput}
+            onPaste={handlePaste}
+            onKeyPress={handleKeyPress}
+            type="Text"
+            placeholder="Enter Word..."
+          />
+        </li>
+      </ul>
+    </div>
+  );
+};
 
 export default MutableList;

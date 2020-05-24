@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ViewPuzzle.module.css";
 import Button from "../components/Button";
 import Puzzle from "../components/Puzzle";
 import WordList from "../components/WordList";
 import { Set } from "immutable";
-import { usePuzzle } from "../components/usePuzzle";
+import { ResolvedData, usePuzzle } from "../components/usePuzzle";
 import { useWithLoading } from "../components/useWithLoading";
 import { database, PuzzleData } from "../database";
 import { NotFound } from "../components/NotFound";
+import { useTrack, useTrackFn } from "../clientAnalyticsEvents";
+import { PuzzleViewProperties } from "../analyticsEvents";
 
 interface Props {
   rows: string[];
@@ -32,6 +34,9 @@ const ViewPuzzle = (props: Props) => {
     undefined
   );
 
+  const trackClickEdit = useTrackFn("puzzle:clickEdit", {});
+  const trackClickSave = useTrackFn("puzzle:clickSave", {});
+
   return (
     <div className={styles.container}>
       <div className={styles.mainArea}>
@@ -53,7 +58,13 @@ const ViewPuzzle = (props: Props) => {
           onUnSelectWord={() => setSelectedWord(undefined)}
         />
 
-        <Button className={styles.button} onClick={props.toEditor}>
+        <Button
+          className={styles.button}
+          onClick={() => {
+            trackClickEdit();
+            props.toEditor();
+          }}
+        >
           Edit
         </Button>
 
@@ -63,6 +74,8 @@ const ViewPuzzle = (props: Props) => {
               .filter((e) => !!e)
               .join(" ")}
             onClick={() => {
+              trackClickSave();
+
               if (!props.isCreating) {
                 props.onCreate();
               }
@@ -91,6 +104,8 @@ const ViewPuzzleWithData: React.FC<ViewPuzzleWithDataProps> = (
     data: props.puzzleData,
   });
 
+  useTrackPuzzleView(puzzle);
+
   const { load: create, isLoading: isCreating } = useWithLoading(
     async (puzzle: PuzzleData) => {
       const newPuzzle = await database.newPuzzle(puzzle);
@@ -115,3 +130,25 @@ const ViewPuzzleWithData: React.FC<ViewPuzzleWithDataProps> = (
 };
 
 export default ViewPuzzleWithData;
+
+function useTrackPuzzleView(puzzle: ResolvedData | null) {
+  const track = useTrack();
+  useEffect(() => {
+    if (puzzle === null) {
+      return;
+    }
+
+    const properties = ((): PuzzleViewProperties => {
+      if (puzzle.isFromLocal) {
+        return { type: "local" };
+      }
+
+      return {
+        type: "remote",
+        id: puzzle.id,
+      };
+    })();
+
+    track("puzzle:view", properties);
+  }, [track, puzzle]);
+}

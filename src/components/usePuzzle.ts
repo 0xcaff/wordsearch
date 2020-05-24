@@ -7,10 +7,16 @@ interface Args {
   data?: PuzzleData;
 }
 
-interface ResolvedData {
-  isFromLocal: boolean;
-  data: PuzzleData;
-}
+export type ResolvedData =
+  | {
+      isFromLocal: false;
+      id: string;
+      data: PuzzleData;
+    }
+  | {
+      isFromLocal: true;
+      data: PuzzleData;
+    };
 
 export const usePuzzle = (args: Args): ResolvedData | null => {
   const context = useContext<DataFetcherContextState>(DataFetcherContext);
@@ -29,7 +35,7 @@ export const usePuzzle = (args: Args): ResolvedData | null => {
     return null;
   }
 
-  return { isFromLocal: false, data: resolved };
+  return { isFromLocal: false, data: resolved, id };
 };
 
 function getFromCacheOrFetch(

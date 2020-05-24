@@ -49,3 +49,11 @@ CREATE TABLE matches(
   puzzle_id text NOT NULL REFERENCES puzzles(id),
   orientation orientation
 );
+
+CREATE TABLE IF NOT EXISTS events(
+    name text NOT NULL,
+    user_id text NOT NULL,
+    session_id text NOT NULL,
+    timestamp timestamp with time zone,
+    properties json not null
+);

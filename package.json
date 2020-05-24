@@ -7,14 +7,16 @@
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.5",
     "@types/pg": "^7.14.3",
-    "@types/react": "16.9.19",
+    "@types/react": "16.9.35",
     "@types/react-dom": "^16.9.7",
     "@types/react-router": "^5.1.7",
     "@types/react-router-dom": "^5.1.5",
+    "@types/uuid": "^8.0.0",
     "dotenv": "^8.2.0",
     "draft-js": "^0.11.5",
     "fast-memoize": "^2.5.2",
     "firebase": "^7.14.3",
+    "firebase-tools": "^8.4.0",
     "immutable": "^4.0.0-rc.12",
     "pg": "^8.2.0",
     "react": "^16.13.1",
@@ -23,7 +25,11 @@
     "react-scripts": "3.4.1",
     "source-map-explorer": "^2.4.2",
     "typescript": "^3.8.3",
+    "uuid": "^8.1.0",
     "wordsearch-algo": "^2.1.2"
+  },
+  "resolutions": {
+    "chokidar": "^3.3.1"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",

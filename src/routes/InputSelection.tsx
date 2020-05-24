@@ -6,8 +6,11 @@ import sharedStyles from "../components/shared.module.css";
 import styles from "./InputSelection.module.css";
 import { puzzles } from "wordsearch-algo";
 import { join } from "../utils";
+import { useTrack, useTrackFn, useTrackViewed } from "../clientAnalyticsEvents";
 
 const InputSelection = () => {
+  useTrackViewed("landing:view", {});
+
   return (
     <div className={styles.component}>
       <header className={styles.header}>
@@ -17,6 +20,7 @@ const InputSelection = () => {
       <main className={styles.content}>
         <div className={styles.buttonContainer}>
           <Link
+            onClick={useTrackFn("landing:clickEnterPuzzle", {})}
             className={[styles.button, buttonStyles.button].join(" ")}
             to="/input/text"
           >
@@ -40,9 +44,12 @@ const InputSelection = () => {
 export default InputSelection;
 
 const DemoPuzzles = () => {
+  const track = useTrack();
+
   const commaElem = <span>, </span>;
   const textArr = puzzles.map((puzzle) => (
     <Link
+      onClick={() => track("landing:clickExample", { name: puzzle.name })}
       className={sharedStyles.clickable}
       key={puzzle.name}
       to={`/view/${puzzle.name}`}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Editor,
   EditorState,
@@ -7,12 +7,22 @@ import {
   ContentBlock,
 } from "draft-js";
 import styles from "./TextEntry.module.css";
+import { useTrack } from "../clientAnalyticsEvents";
 
 interface Props {
   value: string;
   onChange: (newText: string) => void;
   placeholder: string;
 }
+
+type FocusState =
+  | {
+      focused: true;
+      startingPuzzleLength: number;
+    }
+  | {
+      focused: false;
+    };
 
 const TextEntry = React.memo((props: Props) => {
   const [editorState, setEditorState] = useState(() => {
@@ -26,11 +36,35 @@ const TextEntry = React.memo((props: Props) => {
     return editorState;
   });
 
-  const [focused, setFocused] = useState(false);
+  const track = useTrack();
+
+  const [focusedState, setFocusedState] = useState<FocusState>({
+    focused: false,
+  });
+  const setFocused = useCallback(() => {
+    setFocusedState({
+      focused: true,
+      startingPuzzleLength: editorState.getCurrentContent().getPlainText()
+        .length,
+    });
+  }, [setFocusedState, editorState]);
+
+  const setUnfocused = useCallback(() => {
+    if (focusedState.focused) {
+      track("input:editPuzzle", {
+        beforeLength: focusedState.startingPuzzleLength,
+        afterLength: editorState.getCurrentContent().getPlainText().length,
+      });
+    }
+
+    setFocusedState({
+      focused: false,
+    });
+  }, [focusedState, setFocusedState, track, editorState]);
 
   return (
     <div
-      className={[styles.editor, focused && styles.hidePlaceholder]
+      className={[styles.editor, focusedState.focused && styles.hidePlaceholder]
         .filter((e) => !!e)
         .join(" ")}
     >
@@ -38,8 +72,8 @@ const TextEntry = React.memo((props: Props) => {
         placeholder={props.placeholder}
         stripPastedStyles={true}
         editorState={editorState}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={() => setFocused()}
+        onBlur={() => setUnfocused()}
         onChange={(editorState) => {
           const contentState = editorState.getCurrentContent();
           props.onChange(contentState.getPlainText());
