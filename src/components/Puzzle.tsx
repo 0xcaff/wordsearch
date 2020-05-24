@@ -43,7 +43,7 @@ const getSize = memoize((rows: string[]) => {
   return { rowsCount: rows.length, colsCount };
 });
 
-const getMatches = memoize((rows: string[], words: string[]) =>
+export const getMatches = memoize((rows: string[], words: string[]) =>
   findMatches(rows, words)
 );
 

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import TextEntry from "../components/TextEntry";
 import MutableList from "../components/MutableList";
 import Button from "../components/Button";
 
 import styles from "./TextInput.module.css";
-import { useTrack, useTrackViewed } from "../clientAnalyticsEvents";
+import { useTrack } from "../clientAnalyticsEvents";
+import { puzzleLengthForRows } from "../analyticsEvents";
 
 interface Props {
   startingRows: string[];
@@ -16,10 +17,17 @@ interface Props {
 const TextInput = (props: Props) => {
   const track = useTrack();
 
-  useTrackViewed("input:view", {});
-
   const startingRows = props.startingRows || [];
   const startingWords = props.startingWords || [];
+
+  useEffect(() => {
+    track("input:view", {
+      totalWordsCount: startingWords.length,
+      puzzleLength: puzzleLengthForRows(startingRows),
+      puzzleRows: startingRows.length,
+    });
+  }, [track, startingRows, startingWords]);
+
   const [text, setText] = useState(startingRows.join("\n"));
   const [words, setWords] = useState(startingWords);
 
@@ -40,12 +48,15 @@ const TextInput = (props: Props) => {
       <footer className={styles.footer}>
         <Button
           onClick={() => {
+            const rows = text.split("\n");
+
             track("input:clickSolvePuzzle", {
-              puzzleLength: text.length,
               totalWordsCount: words.length,
+              puzzleLength: text.length,
+              puzzleRows: rows.length,
             });
 
-            props.solvePuzzle(text.split("\n"), words);
+            props.solvePuzzle(rows, words);
           }}
         >
           Solve Puzzle!
