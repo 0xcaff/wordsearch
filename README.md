@@ -1,5 +1,5 @@
 <h1 align='center'>
-  <a href='https://solver.0xcaff.me'>
+  <a href='https://wordsearch.0xcaff.xyz'>
     <img src='./public/favicon.png' height='128' />
   </a>
 
@@ -18,7 +18,7 @@
     <img src='https://circleci.com/gh/0xcaff/wordsearch.svg?style=svg' />
   </a>
 
-  <a href='https://solver.0xcaff.me'>
+  <a href='https://wordsearch.0xcaff.xyz'>
     <img src='https://img.shields.io/badge/view-live-brightgreen.svg' />
   </a>
 </p>

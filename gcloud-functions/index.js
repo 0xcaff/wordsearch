@@ -8,7 +8,7 @@ exports.eventsIngest = async (req, res) => {
   const origin = req.get("origin");
   const isAcceptedCorsOrigin = [
     "http://localhost:3000",
-    "https://solver.0xcaff.me",
+    "https://wordsearch.0xcaff.xyz",
   ].includes(origin);
   if (isAcceptedCorsOrigin) {
     res.set("access-control-allow-origin", origin);
