@@ -14,13 +14,9 @@
 </h3>
 
 <p align='center'>
-  <a href='https://circleci.com/gh/0xcaff/wordsearch'>
-    <img src='https://circleci.com/gh/0xcaff/wordsearch.svg?style=svg' />
-  </a>
-
-  <a href='https://wordsearch.0xcaff.xyz'>
-    <img src='https://img.shields.io/badge/view-live-brightgreen.svg' />
-  </a>
+<a href='https://wordsearch.0xcaff.xyz'><b>Live Site</b></a>
+|
+<a href="https://medium.com/@0xcaff/word-search-solver-e8c5854c888">Launch Blog Post</a>
 </p>
 
 Solving a wordsearch is basically two dimensional string search. This wordsearch
