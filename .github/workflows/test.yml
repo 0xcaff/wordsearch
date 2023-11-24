@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: yarn
+
+      - name: Install Deps
+        run: yarn install
+
+      - name: Test
+        run: yarn test
+
+      - name: Check Formatting
+        run: yarn check-formatting
+
+      - name: Build
+        run: yarn build
+
+      - name: Analyze Bundle
+        run: yarn analyze -- --html bundle-explorer.html
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bundle-explorer
+          path: bundle-explorer.html
